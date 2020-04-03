@@ -2,7 +2,7 @@
 A Dashboard for the coronavirus pandemic.
 
 ## Dependencies
-The following are the detailed instructions to setting up your python environment and running this code. We assume Python 3.7 is installed in a Ubuntu 18.04 system.
+The following are detailed instructions to setting up your python environment and running the code in this repo. We assume Python 3.7 is installed in a Ubuntu 18.04 system.
 
 1. Install required system packages
 
