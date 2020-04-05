@@ -8,6 +8,8 @@ The following are detailed instructions to setting up your python environment an
 
     ```bash
     sudo apt-get install python3.7-dev
+    sudo apt-get install libproj-dev proj-data proj-bin
+    sudo apt-get install libgeos-dev
     ```
 
 2. Clone the repository
