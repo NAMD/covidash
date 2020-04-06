@@ -33,3 +33,18 @@ The following are detailed instructions to setting up your python environment an
 
 
 
+## Configuração Heroku
+
+```bash
+git remote add heroku <heroku-remote>
+```
+
+### Adiciona buildpack no heroku
+
+```bash
+heroku buildpacks:add --index 1 heroku-community/apt
+```
+
+```bash
+git push heroku master
+```
