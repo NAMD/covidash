@@ -32,19 +32,31 @@ The following are detailed instructions to setting up your python environment an
     ```
 
 
+## Rodando Streamlit no ambiente local
+
+Endereço para documentação do [Streamlit](https://docs.streamlit.io/).
+
+```bash
+streamlit run dashboard/app.py
+```
+
 
 ## Configuração Heroku
 
+## Adiciona endereço do Heroku
 ```bash
 git remote add heroku <heroku-remote>
 ```
 
-### Adiciona buildpack no heroku
+### Adiciona buildpack APT no Heroku
+
+https://elements.heroku.com/buildpacks/ivahero/heroku-buildpack-apt
 
 ```bash
 heroku buildpacks:add --index 1 heroku-community/apt
 ```
 
+## Deploy
 ```bash
 git push heroku master
 ```
