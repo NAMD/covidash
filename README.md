@@ -44,6 +44,7 @@ streamlit run dashboard/app.py
 ## Configuração Heroku
 
 ## Adiciona endereço do Heroku
+
 ```bash
 git remote add heroku <heroku-remote>
 ```
@@ -57,6 +58,7 @@ heroku buildpacks:add --index 1 heroku-community/apt
 ```
 
 ## Deploy
+
 ```bash
 git push heroku master
 ```
