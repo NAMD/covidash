@@ -32,4 +32,39 @@ The following are detailed instructions to setting up your python environment an
     ```
 
 
+## Running Streamlit in the development enviroment
 
+Link to the [Streamlit](https://docs.streamlit.io/) Documentation.
+
+```bash
+streamlit run dashboard/app.py
+```
+
+## Heroku configuration
+
+### Add Heroku git URL
+
+```bash
+git remote add heroku <heroku-remote>
+```
+
+### Add Heroku buildpack for APT
+
+Buildpack [documentation](https://elements.heroku.com/buildpacks/ivahero/heroku-buildpack-apt).
+
+
+To avoid the instalation of apt packages in every build:
+
+```bash
+heroku config:set APT_CACHING=yes
+```
+
+```bash
+heroku buildpacks:add --index 1 heroku-community/apt
+```
+
+### Deploy
+
+```bash
+git push heroku master
+```
