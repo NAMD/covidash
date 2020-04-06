@@ -53,6 +53,12 @@ git remote add heroku <heroku-remote>
 
 https://elements.heroku.com/buildpacks/ivahero/heroku-buildpack-apt
 
+Para evitar instalação dos pacotes via apt em todos os builds:
+
+```bash
+heroku config:set APT_CACHING=yes
+```
+
 ```bash
 heroku buildpacks:add --index 1 heroku-community/apt
 ```
