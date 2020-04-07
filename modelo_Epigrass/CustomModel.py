@@ -29,7 +29,7 @@ def Model(inits, simstep, totpop, theta=0, npass=0, bi={}, bp={}, values=(), mod
 
     ##### Get state variables' current values
     if simstep == 1:  # get initial values
-        E, I, S = (bi['e'], bi['i'], bi['s'])
+        E, I,A,H, S = (bi['e'], bi['i'], bi['a'], bi['h'], bi['s'])
     else:  # get last value
         E, I, S = inits
 
@@ -37,22 +37,25 @@ def Model(inits, simstep, totpop, theta=0, npass=0, bi={}, bp={}, values=(), mod
     N = totpop
 
     ##### Getting values for the model parameters
-    beta, alpha, e, r, delta, B, w, p = (
-    bp['beta'], bp['alpha'], bp['e'], bp['r'], bp['delta'], bp['b'], bp['w'], bp['p'])
+    beta, alpha, chi, phi, delta, rho, q, p = (
+        bp['beta'], bp['alpha'], bp['chi'], bp['phi'], bp['delta'], bp['rho'], bp['q'], bp['p'])
 
     ##### Defining a Vacination event (optional)
     if bp['vaccineNow']:
         S -= bp['vaccov'] * S
 
     ##### Modeling the number of new cases (incidence function)
-    Lpos = beta * S * ((I + theta) / (N + npass)) ** alpha  # Number of new cases
+    Lpos = beta * S * (I + A + (1 - rho) * H)  # Number of new cases
 
     ##### Epidemiological model (SIR)
-    Ipos = (1 - r) * I + Lpos
-    Spos = S + B - Lpos
-    Rpos = N - (Spos + Ipos)
+    Epos = E + Lpos - alpha * E
+    Ipos = I + (1 - p) * alpha * E - (phi + delta) * I
+    Apos = A + p * alpha * E - delta * A
+    Hpos = H + phi * I - delta * H
+    Spos = S - Lpos
+    Rpos = R + delta * (I + A + H)
 
     # Number of infectious individuals commuting.
-    migInf = Ipos
+    migInf = Ipos+Apos
 
-    return [0, Ipos, Spos], Lpos, migInf
+    return [0, Ipos, Apos, Hpos, Spos], Lpos, migInf

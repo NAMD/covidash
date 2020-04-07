@@ -35,7 +35,7 @@ encoding = utf-8
 #==============================================================#
 #model types available: SIS, SIS_s ,SIR, SIR_s, SEIS, SEIS_s, SEIR, SEIR_s,
 # SIpRpS, SIpRpS_s,SIpR,SIpR_s,Influenza or Custom (see documentation for description).
-modtype = SIR
+modtype = Custom
 
 #==============================================================#
 [MODEL PARAMETERS]
@@ -52,14 +52,14 @@ modtype = SIR
 #   beta=values[0] #assigns the first element of values to beta
 #   beta=0.001*values[1]
 
-beta = 2   #transmission coefficient (contact rate * transmissibility)
-alpha = 1   # clumping parameter
-e = 0.2           # inverse of incubation period
-r = 0.5         # inverse of infectious period
-delta = 0       # probability of acquiring full immunity [0,1]
-B = 0           # Birth rate
-w = 0           # probability of immunity waning [0,1]
-p = 0           # Probability of a recovered become infected per time step [0,1]
+beta = .5   #transmission coefficient (contact rate * transmissibility)
+alpha = 2   # incubation rate parameter
+chi = 0.3           # fraction quarantined
+phi = 0.5         # rate of hospitalization
+delta = 0.1       # recovery rate
+rho = 1           # Transmissibility reduction factor when hospitalized
+q = 0           # day of start of quarantine
+p = .75           # Probability being asymptomatic
 
 
 #==============================================================#
@@ -75,9 +75,11 @@ p = 0           # Probability of a recovered become infected per time step [0,1]
 #   S,E,I = 0.8*N, 10, 0.5*E
 #   S,E,I = 0.5*N, 0.01*N, 0.05*N
 #   S,E,I = N-1, 1, 0
-S = N
+S = N-1
 E = 0
-I = 0
+I = 1
+A = 0
+H = 0
 
 #=============================================================#
 [EPIDEMIC EVENTS]
