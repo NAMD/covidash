@@ -11,25 +11,37 @@ def main():
         st.write("Escolha um painel à esquerda")
     elif page == 'Modelos':
         st.title("Explore a dinâmica da COVID-19")
-        traces = pd.DataFrame(data=run_model())
+        st.sidebar.markdown("### Parâmetros do modelo")
+        chi = st.sidebar.slider('chi', 0.0, 1.0, 0.3)
+        phi = st.sidebar.slider('phi', 0.0, 0.5, 0.01)
+        beta = st.sidebar.slider('beta', 0.0, 1.0, 0.5)
+        rho = st.sidebar.slider('rho', 0.0, 1.0, 1.0)
+        delta  = st.sidebar.slider('delta', 0.0, 1.0, 0.01)
+        alpha  = st.sidebar.slider('alpha', 0.0, 10.0, 2.0)
+        p  = st.slider('p', 0.0, 1.0, 0.75)
+        q  = st.slider('q', 0, 120, 30)
+        params = {
+            'chi': chi,
+            'phi': phi,
+            'beta': beta,
+            'rho': rho,
+            'delta': delta,
+            'alpha': alpha,
+            'p': p,
+            'q': q
+        }
+        traces = pd.DataFrame(data=run_model(params=params))
         traces.set_index('time', inplace=True)
 
-        st.line_chart(traces)
+        st.line_chart(traces, height=400)
     elif page == "Dados":
         pass
 
 
 @st.cache
-def run_model(inits=[97.3e6, 0, 1, 0, 0, 0, 0], trange=[0, 365], N=97.3e6,
-              params={'chi': .3, 'phi': .01, 'beta': .5,
-                      'rho': 1, 'delta': .1, 'alpha': 2,
-                      'p': .75, 'q': 30
-                      }):
+def run_model(inits=[97.3e6, 0, 1, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
     model = SEQIAHR()
-    model(inits=inits, trange=trange, totpop=N, params={'chi': .3, 'phi': .01, 'beta': .5,
-                                                        'rho': 1, 'delta': .1, 'alpha': 2,
-                                                        'p': .75, 'q': 30
-                                                        })
+    model(inits=inits, trange=trange, totpop=N, params=params)
     return model.traces
 
 
