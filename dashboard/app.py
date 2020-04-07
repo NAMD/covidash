@@ -6,10 +6,11 @@ st.title('Cenarios de Controle da Covid-19')
 
 
 WHOLE_BRASIL = "Brasil inteiro"
+PAGE_CASE_NUMBER = "Evolução do Número de Casos"
 
 
 def main():
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados"])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -19,7 +20,11 @@ def main():
         traces.set_index('time', inplace=True)
 
         st.line_chart(traces)
+
     elif page == "Dados":
+        pass
+
+    elif page == PAGE_CASE_NUMBER:
         st.title("Casos Confirmados no Brasil")
         data = get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
