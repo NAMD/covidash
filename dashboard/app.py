@@ -16,8 +16,14 @@ def main():
 
         st.line_chart(traces)
     elif page == "Dados":
-        pass
+        st.title("Casos Confirmados nos Estados do Brasil")
+        data = get_data()
+        ufs = sorted(list(data.state.drop_duplicates().values))
+        uf_option = st.selectbox("Selecione o Estado", ["Todos"] + ufs)
 
+        data_uf = get_data_uf(data, uf_option)
+
+        st.line_chart(data_uf, height=400)
 
 @st.cache
 def run_model(inits=[97.3e6, 0, 1, 0, 0, 0, 0], trange=[0, 365], N=97.3e6,
@@ -31,6 +37,22 @@ def run_model(inits=[97.3e6, 0, 1, 0, 0, 0, 0], trange=[0, 365], N=97.3e6,
                                                         'p': .75, 'q': 30
                                                         })
     return model.traces
+
+@st.cache
+def get_data():
+    brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
+    cases = pd.read_csv(brasil_io_url).rename(
+        columns={"confirmed": "Casos Confirmados"})
+
+    return cases
+
+
+@st.cache
+def get_data_uf(data, uf):
+    if uf != "Todos":
+        data = data.loc[data.state == uf]
+
+    return data.groupby("date")["Casos Confirmados"].sum()
 
 
 @st.cache
