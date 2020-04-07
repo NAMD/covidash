@@ -11,7 +11,7 @@ WHOLE_BRASIL = "Brasil inteiro"
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
 
 COLUMNS = {
-    "A": "Asintomáticos",
+    "A": "Assintomáticos",
     "S": "Suscetíveis",
     "E": "Expostos",
     "I": "Infectados",
@@ -20,7 +20,7 @@ COLUMNS = {
     "C": "Hospitalizações Acumuladas",
 }
 
-DESCRPTION = {
+DESCRIPTION = {
     "chi": "Proporção da população Quarentenada",
     "phi": "Taxa de evolução para hospitalização",
     "beta": "Taxa de Transmissão",
@@ -29,6 +29,7 @@ DESCRPTION = {
     "alpha": "Taxa de incubação",
     "p": "Proporção de assintomáticos",
     "q": "Dia de início da quarentena",
+    'N': "População em Risco"
 }
 
 
@@ -41,23 +42,24 @@ def main():
     elif page == 'Modelos':
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
-        st.sidebar.markdown(f"<p>&chi;<span style='color:#b2b2b2;'> {DESCRPTION['chi']}</span></p>", unsafe_allow_html=True)
-        chi = st.sidebar.slider('', 0.0, 1.0, 0.3)
-        st.sidebar.markdown(f"<p>&phi;<span style='color:#b2b2b2;'> {DESCRPTION['phi']}</span></p>", unsafe_allow_html=True)
-        phi = st.sidebar.slider('', 0.0, 0.5, 0.01)
-        st.sidebar.markdown(f"<p>&beta;<span style='color:#b2b2b2;'> {DESCRPTION['beta']}</span></p>", unsafe_allow_html=True)
-        beta = st.sidebar.slider('', 0.0, 1.0, 0.5)
-        st.sidebar.markdown(f"<p>&rho;<span style='color:#b2b2b2;'> {DESCRPTION['rho']}</span></p>", unsafe_allow_html=True)
-        rho = st.sidebar.slider('', 0.0, 1.0, 1.0)
-        st.sidebar.markdown(f"<p>&delta;<span style='color:#b2b2b2;'> {DESCRPTION['delta']}</span></p>", unsafe_allow_html=True)
-        delta  = st.sidebar.slider('', 0.0, 1.0, 0.01)
-        st.sidebar.markdown(f"<p>&alpha;<span style='color:#b2b2b2;'> {DESCRPTION['alpha']}</span></p>", unsafe_allow_html=True)
-        alpha  = st.sidebar.slider('', 0.0, 10.0, 2.0)
 
-        st.markdown(f"<p>p<span style='color:#b2b2b2;'> {DESCRPTION['p']}</span></p>", unsafe_allow_html=True)
-        p  = st.slider('', 0.0, 1.0, 0.75)
-        st.markdown(f"<p>q<span style='color:#b2b2b2;'> {DESCRPTION['q']}</span></p>", unsafe_allow_html=True)
-        q  = st.slider('', 0, 120, 30)
+        chi = st.sidebar.slider('χ, Fração de asintomáticos', 0.0, 1.0, 0.3)
+
+        phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.01)
+
+        beta = st.sidebar.slider('β, Taxa de transmissão', 0.0, 1.0, 0.5)
+
+        rho = st.sidebar.slider('ρ, Atenuação da Transmissão em hospitalizados:', 0.0, 1.0, 1.0)
+
+        delta  = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.01)
+        alpha  = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, 2.0)
+
+
+        p  = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
+
+        q  = st.slider('Dia de início da Quarentena:', 0, 120, 30)
+
+        N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
         params = {
             'chi': chi,
             'phi': phi,
@@ -69,7 +71,9 @@ def main():
             'q': q
         }
         traces = pd.DataFrame(data=run_model(params=params)).rename(columns=COLUMNS)
+        traces = traces[['time', 'Expostos', 'Infectados', 'Assintomáticos', 'Hospitalizados', 'Hospitalizações Acumuladas']]
         traces.set_index('time', inplace=True)
+        traces *= N #Ajusta para a escala da População em risco
 
         st.line_chart(traces, height=400)
 
@@ -95,8 +99,9 @@ def main():
         st.line_chart(data_uf, height=400)
 
 
-@st.cache
-def run_model(inits=[97.3e6, 0, 1, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
+@st.cache(suppress_st_warning=True)
+def run_model(inits=[.99, 0, 1e-6, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
+    # st.write("Cache miss: model ran")
     model = SEQIAHR()
     model(inits=inits, trange=trange, totpop=N, params=params)
     return model.traces
