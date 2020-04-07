@@ -4,6 +4,10 @@ import numpy as np
 from epimodels.continuous.models import SEQIAHR
 st.title('Cenarios de Controle da Covid-19')
 
+
+WHOLE_BRASIL = "Brasil inteiro"
+
+
 def main():
     page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados"])
     if page == "Home":
@@ -16,14 +20,20 @@ def main():
 
         st.line_chart(traces)
     elif page == "Dados":
-        st.title("Casos Confirmados nos Estados do Brasil")
+        st.title("Casos Confirmados no Brasil")
         data = get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
-        uf_option = st.selectbox("Selecione o Estado", ["Todos"] + ufs)
+        uf_option = st.selectbox("Selecione o Estado", [WHOLE_BRASIL] + ufs)
 
-        data_uf = get_data_uf(data, uf_option)
+        city_option = None
+        if uf_option != WHOLE_BRASIL:
+            cities = get_city_list(data, uf_option)
+            city_option = st.selectbox("Selecione o Município", ["Todos"] + cities)
+
+        data_uf = get_data_uf(data, uf_option, city_option)
 
         st.line_chart(data_uf, height=400)
+
 
 @st.cache
 def run_model(inits=[97.3e6, 0, 1, 0, 0, 0, 0], trange=[0, 365], N=97.3e6,
@@ -48,11 +58,18 @@ def get_data():
 
 
 @st.cache
-def get_data_uf(data, uf):
-    if uf != "Todos":
+def get_data_uf(data, uf, city_option):
+    if uf != WHOLE_BRASIL:
         data = data.loc[data.state == uf]
+        if city_option and city_option != "Todos":
+            data = data.loc[data.city == city_option]
 
     return data.groupby("date")["Casos Confirmados"].sum()
+
+
+@st.cache
+def get_city_list(data, uf):
+    return sorted(list(data.loc[(data.state==uf) & (~data.city.isnull())].city.drop_duplicates()))
 
 
 @st.cache
