@@ -21,14 +21,14 @@ COLUMNS = {
 }
 
 DESCRPTION = {
-    "chi": "Descrição chi",
-    "phi": "Descrição phi",
-    "beta": "Descrição beta",
-    "rho": "Descrição rho",
-    "delta": "Descrição delta",
-    "alpha": "Descrição alpha",
-    "p": "Descrição p",
-    "q": "Descrição q",
+    "chi": "Proporção da população Quarentenada",
+    "phi": "Taxa de evolução para hospitalização",
+    "beta": "Taxa de Transmissão",
+    "rho": "Atenuação da transmissão de hospitalizados",
+    "delta": "Taxa de recuperação",
+    "alpha": "Taxa de incubação",
+    "p": "Proporção de assintomáticos",
+    "q": "Dia de início da quarentena",
 }
 
 

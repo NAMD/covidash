@@ -60,7 +60,10 @@ delta = 0.1       # recovery rate
 rho = 1           # Transmissibility reduction factor when hospitalized
 q = 0           # day of start of quarantine
 p = .75           # Probability being asymptomatic
-
+e=0
+r=0
+b=0
+w=0
 
 #==============================================================#
 [INITIAL CONDITIONS]

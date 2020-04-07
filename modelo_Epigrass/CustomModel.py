@@ -26,23 +26,23 @@ def Model(inits, simstep, totpop, theta=0, npass=0, bi={}, bp={}, values=(), mod
     :param model: reference to model instance
     :return:
     """
-
+    # print(bi)
     ##### Get state variables' current values
     if simstep == 1:  # get initial values
-        E, I,A,H, S = (bi['e'], bi['i'], bi['a'], bi['h'], bi['s'])
-    else:  # get last value
-        E, I, S = inits
+        E, I, A, H, S = (bi[b'e'], bi[b'i'], bi[b'a'], bi[b'h'], bi[b's'])
+    else:  # get last step value, in the order returned by this function
+        E, I, A, H, S = inits
 
     ##### Defining N, the total population
     N = totpop
 
     ##### Getting values for the model parameters
     beta, alpha, chi, phi, delta, rho, q, p = (
-        bp['beta'], bp['alpha'], bp['chi'], bp['phi'], bp['delta'], bp['rho'], bp['q'], bp['p'])
+        bp[b'beta'], bp[b'alpha'], bp[b'chi'], bp[b'phi'], bp[b'delta'], bp[b'rho'], bp[b'q'], bp[b'p'])
 
     ##### Defining a Vacination event (optional)
-    if bp['vaccineNow']:
-        S -= bp['vaccov'] * S
+    if bp[b'vaccineNow']:
+        S -= bp[b'vaccov'] * S
 
     ##### Modeling the number of new cases (incidence function)
     Lpos = beta * S * (I + A + (1 - rho) * H)  # Number of new cases
@@ -53,9 +53,9 @@ def Model(inits, simstep, totpop, theta=0, npass=0, bi={}, bp={}, values=(), mod
     Apos = A + p * alpha * E - delta * A
     Hpos = H + phi * I - delta * H
     Spos = S - Lpos
-    Rpos = R + delta * (I + A + H)
+    Rpos = N - S + E + I + A + H
 
     # Number of infectious individuals commuting.
-    migInf = Ipos+Apos
+    migInf = Ipos + Apos
 
-    return [0, Ipos, Apos, Hpos, Spos], Lpos, migInf
+    return [Epos, Ipos, Apos, Hpos, Spos], Lpos, migInf
