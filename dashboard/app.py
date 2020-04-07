@@ -2,13 +2,21 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from epimodels.continuous.models import SEQIAHR
-
+st.title('Cenarios de Controle da Covid-19')
 
 def main():
-    traces = pd.DataFrame(data=run_model())
-    traces.set_index('time', inplace=True)
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados"])
+    if page == "Home":
+        st.header("Dashboard COVID-19")
+        st.write("Escolha um painel à esquerda")
+    elif page == 'Modelos':
+        st.title("Explore a dinâmica da COVID-19")
+        traces = pd.DataFrame(data=run_model())
+        traces.set_index('time', inplace=True)
 
-    st.line_chart(traces)
+        st.line_chart(traces)
+    elif page == "Dados":
+        pass
 
 
 @st.cache
