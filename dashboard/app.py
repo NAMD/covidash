@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from PIL import Image
 from epimodels.continuous.models import SEQIAHR
 st.title('Cenarios de Controle da Covid-19')
 
@@ -16,7 +17,10 @@ def main():
 
         st.line_chart(traces)
     elif page == "Dados":
-        pass
+        st.title('Probabilidade de Epidemia por Município')
+        probmap = Image.open('dashboard/Outbreak_probability_full_mun_2020-04-06.png')
+        st.image(probmap, caption='Probabilidade de Epidemia em 6 de abril',
+        use_column_width = True)
 
 
 @st.cache
