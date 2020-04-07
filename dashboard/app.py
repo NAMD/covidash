@@ -4,6 +4,18 @@ import numpy as np
 from epimodels.continuous.models import SEQIAHR
 st.title('Cenarios de Controle da Covid-19')
 
+
+COLUMNS = {
+    "A": "Asintomáticos",
+    "S": "Suscetíveis",
+    "E": "Expostos",
+    "I": "Infectados",
+    "H": "Hospitalizados",
+    "R": "Recuperados",
+    "C": "Hospitalizações Acumuladas",
+}
+
+
 def main():
     page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados"])
     if page == "Home":
@@ -30,7 +42,7 @@ def main():
             'p': p,
             'q': q
         }
-        traces = pd.DataFrame(data=run_model(params=params))
+        traces = pd.DataFrame(data=run_model(params=params)).rename(columns=COLUMNS)
         traces.set_index('time', inplace=True)
 
         st.line_chart(traces, height=400)
