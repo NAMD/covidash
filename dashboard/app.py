@@ -3,7 +3,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-from epimodels.continuous.models import SEQIAHR
+from models import seqiahr_model
+
 st.title('Cenarios de Controle da Covid-19')
 
 
@@ -68,17 +69,33 @@ def main():
             'p': p,
             'q': q
         }
-        traces = pd.DataFrame(data=run_model(params=params)).rename(columns=COLUMNS)
+        traces = pd.DataFrame(data=seqiahr_model(params=params)).rename(columns=COLUMNS)
         traces = traces[['time'] + VARIABLES]
         #traces.set_index('time', inplace=True)
         traces[VARIABLES] *= N #Ajusta para a escala da População em risco
         melted_traces = pd.melt(
             traces,
             id_vars=['time'],
-            var_name='Grupos',
-            value_name="Número de Casos Estimados"
+            var_name='Estado',
+            value_name="Indivíduos"
         )
         plot_model(melted_traces, q)
+        st.markdown('### Formulação do modelo')
+        st.write(r"""
+$\frac{dS}{dt}=-\lambda[(1-\chi) S]$
+
+$\frac{dE}{dt}= \lambda [(1-\chi) S] -\alpha E$
+
+$\frac{dI}{dt}= (1-p)\alpha E - (\phi+\delta)I$
+
+$\frac{dA}{dt}= p\alpha E -\delta A$
+
+$\frac{dH}{dt}= \phi I -\delta H$
+
+$\frac{dR}{dt}= \delta I +\delta H + \delta A$
+
+$\lambda=\beta(I+A+(1-\rho)H)$
+        """)
 
     elif page == "Dados":
         st.title('Probabilidade de Epidemia por Município')
@@ -107,8 +124,9 @@ def main():
 def plot_model(melted_traces, q):
     lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
         x="time",
-        y='Número de Casos Estimados',
-        color='Grupos',
+        y='Indivíduos',
+        color='Estado',
+        tooltip=['time', 'Estado', 'Indivíduos'],
     ).encode(
         x=alt.X('time', axis=alt.Axis(title='Dias'))
     )
@@ -124,12 +142,7 @@ def plot_model(melted_traces, q):
     st.altair_chart(la)
 
 
-@st.cache(suppress_st_warning=True)
-def run_model(inits=[.99, 0, 1e-6, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
-    # st.write("Cache miss: model ran")
-    model = SEQIAHR()
-    model(inits=inits, trange=trange, totpop=N, params=params)
-    return model.traces
+
 
 @st.cache
 def get_data():
