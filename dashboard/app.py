@@ -95,7 +95,9 @@ def main():
             cities = get_city_list(data, uf_option)
             city_options = st.multiselect("Selecione os Municípios", cities)
 
+        is_log = st.checkbox('Escala Logarítmica', value=False)
         data_uf = get_data_uf(data, uf_option, city_options)
+        data_uf = np.log(data_uf + 1) if is_log else data_uf
 
         st.line_chart(data_uf, height=400)
 
