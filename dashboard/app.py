@@ -8,6 +8,10 @@ st.title('Cenarios de Controle da Covid-19')
 
 
 WHOLE_BRASIL = "Brasil inteiro"
+#REGIONS = ["Sudeste", "Nordeste", "Sul", "Centro-Oeste", "Norte"]
+REGIONS_DICT = {"Sudeste":["SP","RJ","MG","ES"], "Nordeste":["BA","PE","CE","RN","PB","AL","SE","PI","MA"],
+               "Sul":["RS","SC","PR"], "Centro-Oeste":["GO","MT","MS","DF"], "Norte":["PA","AM","RO","RR","TO","AC","AP"]}
+
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
 
 COLUMNS = {
@@ -88,15 +92,17 @@ def main():
         st.title("Casos Confirmados no Brasil")
         data = get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
-        uf_option = st.selectbox("Selecione o Estado", [WHOLE_BRASIL] + ufs)
-
+        uf_option = st.selectbox("Selecione o Estado", [WHOLE_BRASIL] + list(REGIONS_DICT.keys()) + ufs)
         city_option = None
-        if uf_option != WHOLE_BRASIL:
+        if uf_option == WHOLE_BRASIL or uf_option in REGIONS_DICT.keys():
+            data_uf = get_data_uf(data, uf_option, False)
+        else:
+            #if uf_option in REGIONS_DICT.keys():
+            #    data_uf = get_data_uf(data, uf_option, city_option,False)
+            #else:
             cities = get_city_list(data, uf_option)
             city_option = st.selectbox("Selecione o Município", ["Todos"] + cities)
-
-        data_uf = get_data_uf(data, uf_option, city_option)
-
+            data_uf = get_data_uf(data, uf_option, city_option)
         st.line_chart(data_uf, height=400)
 
 
@@ -118,10 +124,15 @@ def get_data():
 
 @st.cache
 def get_data_uf(data, uf, city_option):
-    if uf != WHOLE_BRASIL:
-        data = data.loc[data.state == uf]
-        if city_option and city_option != "Todos":
-            data = data.loc[data.city == city_option]
+    if uf == WHOLE_BRASIL:
+        data = data.loc[data.place_type =="state",:]
+    else:
+        if uf in REGIONS_DICT.keys():
+            data = data.loc[(data.place_type=="state")&(data.state.isin(REGIONS_DICT[uf])),:]
+        else:
+            data = data.loc[(data.state == uf)&(data.place_type =="city"),:]
+            if city_option and city_option != "Todos":
+                data = data.loc[(data.city == city_option),:]
 
     return data.groupby("date")["Casos Confirmados"].sum()
 
