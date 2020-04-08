@@ -2,7 +2,7 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 from streamlit import cache
-#from epimodels.continuous.models import SEQIAHR
+from epimodels.continuous.models import SEQIAHR
 
 
 @cache(suppress_st_warning=True)

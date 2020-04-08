@@ -2,12 +2,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-#from models import seqiahr_model
 
 import dashboard_data
 import dashboard_models
-st.title('Cenarios de Controle da Covid-19')
+from dashboard_models import seqiahr_model
 
+st.title('Cenarios de Controle da Covid-19')
 
 WHOLE_BRASIL = "Brasil inteiro"
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
@@ -31,12 +31,12 @@ VARIABLES = [
     'Hospitalizações Acumuladas'
 ]
 
-
 logo = Image.open('dashboard/logo_peq.png')
+
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER, CUM_CASE_COUNT])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, CUM_CASE_COUNT])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -47,11 +47,11 @@ def main():
         phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.01)
         beta = st.sidebar.slider('β, Taxa de transmissão', 0.0, 1.0, 0.5)
         rho = st.sidebar.slider('ρ, Atenuação da Transmissão em hospitalizados:', 0.0, 1.0, 1.0)
-        delta  = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.01)
-        alpha  = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, 2.0)
+        delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.01)
+        alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, 2.0)
 
-        p  = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
-        q  = st.slider('Dia de início da Quarentena:', 0, 120, 30)
+        p = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
+        q = st.slider('Dia de início da Quarentena:', 0, 120, 30)
         N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
 
         params = {
@@ -89,7 +89,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         st.title('Probabilidade de Epidemia por Município')
         probmap = Image.open('dashboard/Outbreak_probability_full_mun_2020-04-06.png')
         st.image(probmap, caption='Probabilidade de Epidemia em 6 de abril',
-        use_column_width=True)
+                 use_column_width=True)
 
     elif page == PAGE_CASE_NUMBER:
         st.title("Casos Confirmados no Brasil")
@@ -108,12 +108,11 @@ $\lambda=\beta(I+A+(1-\rho)H)$
 
         st.line_chart(data_uf, height=400)
 
+        y = 'Indivíduos',
+        color = 'Estado',
+        tooltip = ['time', 'Estado', 'Indivíduos'],
 
-        y='Indivíduos',
-        color='Estado',
-        tooltip=['time', 'Estado', 'Indivíduos'],
-     
-    elif page==CUM_CASE_COUNT:
+    elif page == CUM_CASE_COUNT:
         st.title("Casos acumulados a partir do centésimo")
         data = dashboard_data.get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
@@ -124,13 +123,14 @@ $\lambda=\beta(I+A+(1-\rho)H)$
             cities = dashboard_data.get_city_list(data, uf_option)
             city_options = st.multiselect("Selecione os Municípios", cities)
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        #is_aligned = st.checkbox("Alinhar por primeiros 100 casos",value=False)
+        # is_aligned = st.checkbox("Alinhar por primeiros 100 casos",value=False)
         data_uf = dashboard_data.get_data_uf(data, uf_option, city_options)
-        #print(data_uf)
-        data_uf = dashboard_data.get_aligned_data(data_uf,align=100)
-        #data_uf = data_uf[data_uf>=100] if is_aligned else data_uf
+        # print(data_uf)
+        data_uf = dashboard_data.get_aligned_data(data_uf, align=100)
+        # data_uf = data_uf[data_uf>=100] if is_aligned else data_uf
         data_uf = np.log(data_uf + 1) if is_log else data_uf
         st.line_chart(data_uf, height=400)
+
 
 if __name__ == "__main__":
     main()
