@@ -7,7 +7,6 @@ from epimodels.continuous.models import SEQIAHR
 st.title('Cenarios de Controle da Covid-19')
 
 
-
 WHOLE_BRASIL = "Brasil inteiro"
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
 
@@ -29,17 +28,6 @@ VARIABLES = [
     'Hospitalizações Acumuladas'
 ]
 
-DESCRIPTION = {
-    "chi": "Proporção da população Quarentenada",
-    "phi": "Taxa de evolução para hospitalização",
-    "beta": "Taxa de Transmissão",
-    "rho": "Atenuação da transmissão de hospitalizados",
-    "delta": "Taxa de recuperação",
-    "alpha": "Taxa de incubação",
-    "p": "Proporção de assintomáticos",
-    "q": "Dia de início da quarentena",
-    'N': "População em Risco"
-}
 
 logo = Image.open('dashboard/logo_peq.png')
 
@@ -125,7 +113,7 @@ def plot_model(melted_traces, q):
         x=alt.X('time', axis=alt.Axis(title='Dias'))
     )
     vertline = alt.Chart().mark_rule(strokeWidth=2).encode(
-        x='a:Q'
+        x='a:Q',
     )
     la = alt.layer(
         lc, vertline,
