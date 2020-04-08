@@ -28,10 +28,18 @@ def get_data_uf(data, uf, city_options):
             data = pd.DataFrame(pivot_data.to_records())
 
     else:
-        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
+        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum().to_frame()
 
     return data.set_index("date")
 
+@cache
+def get_aligned_data(df,align=100):
+    align_dfs = [df.loc[df[c]>=100,[c]].values.reshape(-1,) for c in df.columns] 
+    columns = [c for c in df.columns] 
+    aligned_df = pd.DataFrame(align_dfs,index=columns).T                           
+    #align_dfs = [d.reset_index() for d in align_dfs]
+    #aligned = pd.concat([d for d in align_dfs],ignore_index=True)
+    return aligned_df
 
 @cache
 def get_city_list(data, uf):
