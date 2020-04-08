@@ -1,10 +1,10 @@
+import altair as alt
 import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
 from epimodels.continuous.models import SEQIAHR
 st.title('Cenarios de Controle da Covid-19')
-
 
 
 WHOLE_BRASIL = "Brasil inteiro"
@@ -20,17 +20,14 @@ COLUMNS = {
     "C": "Hospitalizações Acumuladas",
 }
 
-DESCRIPTION = {
-    "chi": "Proporção da população Quarentenada",
-    "phi": "Taxa de evolução para hospitalização",
-    "beta": "Taxa de Transmissão",
-    "rho": "Atenuação da transmissão de hospitalizados",
-    "delta": "Taxa de recuperação",
-    "alpha": "Taxa de incubação",
-    "p": "Proporção de assintomáticos",
-    "q": "Dia de início da quarentena",
-    'N': "População em Risco"
-}
+VARIABLES = [
+    'Expostos',
+    'Infectados',
+    'Assintomáticos',
+    'Hospitalizados',
+    'Hospitalizações Acumuladas'
+]
+
 
 logo = Image.open('dashboard/logo_peq.png')
 
@@ -72,11 +69,16 @@ def main():
             'q': q
         }
         traces = pd.DataFrame(data=run_model(params=params)).rename(columns=COLUMNS)
-        traces = traces[['time', 'Expostos', 'Infectados', 'Assintomáticos', 'Hospitalizados', 'Hospitalizações Acumuladas']]
-        traces.set_index('time', inplace=True)
-        traces *= N #Ajusta para a escala da População em risco
-
-        st.line_chart(traces, height=400)
+        traces = traces[['time'] + VARIABLES]
+        #traces.set_index('time', inplace=True)
+        traces[VARIABLES] *= N #Ajusta para a escala da População em risco
+        melted_traces = pd.melt(
+            traces,
+            id_vars=['time'],
+            var_name='Grupos',
+            value_name="Número de Casos Estimados"
+        )
+        plot_model(melted_traces, q)
 
     elif page == "Dados":
         st.title('Probabilidade de Epidemia por Município')
@@ -100,6 +102,26 @@ def main():
         data_uf = np.log(data_uf + 1) if is_log else data_uf
 
         st.line_chart(data_uf, height=400)
+
+
+def plot_model(melted_traces, q):
+    lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
+        x="time",
+        y='Número de Casos Estimados',
+        color='Grupos',
+    ).encode(
+        x=alt.X('time', axis=alt.Axis(title='Dias'))
+    )
+    vertline = alt.Chart().mark_rule(strokeWidth=2).encode(
+        x='a:Q',
+    )
+    la = alt.layer(
+        lc, vertline,
+        data=melted_traces
+    ).transform_calculate(
+        a="%d" % q
+    )
+    st.altair_chart(la)
 
 
 @st.cache(suppress_st_warning=True)
