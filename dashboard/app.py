@@ -64,11 +64,8 @@ def main():
             'q': q
         }
         traces = pd.DataFrame(data=seqiahr_model(params=params)).rename(columns=COLUMNS)
-        final_traces = dashboard_models.prepare_model_data(
-            model_data, VARIABLES, COLUMNS, N
-            var_name='Estado',
-            value_name="Indivíduos"
-        )
+        final_traces = dashboard_models.prepare_model_data(traces, VARIABLES, COLUMNS, N)
+
         dashboard_models.plot_model(final_traces, q)
         st.markdown('### Formulação do modelo')
         st.write(r"""

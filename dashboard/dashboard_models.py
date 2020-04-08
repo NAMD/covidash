@@ -6,7 +6,7 @@ from epimodels.continuous.models import SEQIAHR
 
 
 @cache(suppress_st_warning=True)
-def run_model(inits=None, trange=None, N=97.3e6, params=None):
+def seqiahr_model(inits=None, trange=None, N=97.3e6, params=None):
     if inits is None:
         inits = [.99, 0, 1e-6, 0, 0, 0, 0]
 
@@ -21,13 +21,13 @@ def run_model(inits=None, trange=None, N=97.3e6, params=None):
 def prepare_model_data(model_data, variables, column_names, N):
     traces = pd.DataFrame(data=model_data).rename(columns=column_names)
     traces = traces[['time'] + variables]
-    #traces.set_index('time', inplace=True)
+
     traces[variables] *= N #Ajusta para a escala da População em risco
     melted_traces = pd.melt(
         traces,
         id_vars=['time'],
-        var_name='Grupos',
-        value_name="Número de Casos Estimados"
+        var_name='Estado',
+        value_name="Indivíduos"
     )
     return melted_traces
 
@@ -35,8 +35,9 @@ def prepare_model_data(model_data, variables, column_names, N):
 def plot_model(melted_traces, q):
     lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
         x="time",
-        y='Número de Casos Estimados',
-        color='Grupos',
+        y='Indivíduos',
+        color='Estado',
+        tooltip=['time', 'Estado', 'Indivíduos'],
     ).encode(
         x=alt.X('time', axis=alt.Axis(title='Dias'))
     )
