@@ -4,11 +4,13 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 from epimodels.continuous.models import SEQIAHR
-st.title('Cenarios de Controle da Covid-19')
+import pydeck as pdk
 
+st.title('Cenarios de Controle da Covid-19')
 
 WHOLE_BRASIL = "Brasil inteiro"
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
+MAPA = "Visualização da Distribuição Geográfica"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -33,7 +35,7 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -103,6 +105,44 @@ def main():
 
         st.line_chart(data_uf, height=400)
 
+    elif page == MAPA:
+        #Precisa refatorar
+        st.title("Distribuição Geográfica de Casos")
+        cases = get_data()
+        estados = load_lat_long()
+        estados['casos'] = 0
+        cases = cases[cases.place_type!='state'].groupby(['date','state']).sum()
+        cases.reset_index(inplace=True)
+
+        for i, row in estados.iterrows():
+            if row.Estados in list(cases.state):
+                estados.loc[estados.Estados == row.Estados, 'casos'] += cases[(cases.state==row.Estados)&(cases.is_last)]['Casos Confirmados'].iloc[0]
+        
+        estados = estados.set_index('Estados')
+        midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
+        
+        layer = pdk.Layer(
+                    "HexagonLayer",
+                    data=estados,
+                    get_position=["Longitude","Latitude"],
+                    radius=1000,
+                    elevation_scale=4,
+                    elevation_range=[0, 1000],
+                    pickable=True,
+                    extruded=True,
+                )
+
+        st.write(pdk.Deck(
+            map_style= "mapbox://styles/mapbox/light-v9",
+            initial_view_state={
+                "latitude": midpoint[0],
+                "longitude": midpoint[1],
+                "zoom": 3,
+                "pitch": 20,
+            },
+            layers=[layer]
+            ,
+        ))
 
 def plot_model(melted_traces, q):
     lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
@@ -167,6 +207,11 @@ def get_city_list(data, uf):
     data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
     data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
     return sorted(list(data_filt.state_city.drop_duplicates().values))
+
+@st.cache(persist=True)
+def load_lat_long():
+    path_mapas = 'mapas/Estados.csv'     
+    return pd.read_csv(path_mapas)
 
 
 @st.cache
