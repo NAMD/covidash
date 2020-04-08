@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-from models import seqiahr_model
+#from models import seqiahr_model
 
 import dashboard_data
 import dashboard_models
@@ -11,6 +11,7 @@ st.title('Cenarios de Controle da Covid-19')
 
 WHOLE_BRASIL = "Brasil inteiro"
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
+CUM_CASE_COUNT = "Casos acumulados a partir de 100"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -35,7 +36,7 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER, CUM_CASE_COUNT])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -111,6 +112,25 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         y='Indivíduos',
         color='Estado',
         tooltip=['time', 'Estado', 'Indivíduos'],
+     
+    elif page==CUM_CASE_COUNT:
+        st.title("Casos acumulados a partir do centésimo")
+        data = dashboard_data.get_data()
+        ufs = sorted(list(data.state.drop_duplicates().values))
+        uf_option = st.multiselect("Selecione o Estado", ufs)
+
+        city_options = None
+        if uf_option:
+            cities = dashboard_data.get_city_list(data, uf_option)
+            city_options = st.multiselect("Selecione os Municípios", cities)
+        is_log = st.checkbox('Escala Logarítmica', value=False)
+        #is_aligned = st.checkbox("Alinhar por primeiros 100 casos",value=False)
+        data_uf = dashboard_data.get_data_uf(data, uf_option, city_options)
+        #print(data_uf)
+        data_uf = dashboard_data.get_aligned_data(data_uf,align=100)
+        #data_uf = data_uf[data_uf>=100] if is_aligned else data_uf
+        data_uf = np.log(data_uf + 1) if is_log else data_uf
+        st.line_chart(data_uf, height=400)
 
 if __name__ == "__main__":
     main()
