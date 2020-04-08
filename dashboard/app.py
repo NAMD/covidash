@@ -90,12 +90,12 @@ def main():
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.selectbox("Selecione o Estado", [WHOLE_BRASIL] + ufs)
 
-        city_option = None
+        city_options = None
         if uf_option != WHOLE_BRASIL:
             cities = get_city_list(data, uf_option)
-            city_option = st.selectbox("Selecione o Município", ["Todos"] + cities)
+            city_options = st.multiselect("Selecione os Municípios", cities)
 
-        data_uf = get_data_uf(data, uf_option, city_option)
+        data_uf = get_data_uf(data, uf_option, city_options)
 
         st.line_chart(data_uf, height=400)
 
@@ -117,13 +117,22 @@ def get_data():
 
 
 @st.cache
-def get_data_uf(data, uf, city_option):
+def get_data_uf(data, uf, city_options):
     if uf != WHOLE_BRASIL:
         data = data.loc[data.state == uf]
-        if city_option and city_option != "Todos":
-            data = data.loc[data.city == city_option]
+        if city_options:
+            data = data.loc[
+                (data.city.isin(city_options)) & (data.place_type == "city")
+            ][["date", "state", "city", "Casos Confirmados"]]
+            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
+            data = pd.DataFrame(pivot_data.to_records())
+        else:
+            data = data.loc[data.place_type == "state"][["date", "Casos Confirmados"]]
 
-    return data.groupby("date")["Casos Confirmados"].sum()
+    else:
+        data = data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
+
+    return data.set_index("date")
 
 
 @st.cache
