@@ -88,14 +88,16 @@ def main():
         st.title("Casos Confirmados no Brasil")
         data = get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
-        uf_option = st.selectbox("Selecione o Estado", [WHOLE_BRASIL] + ufs)
+        uf_option = st.multiselect("Selecione o Estado", ufs)
 
-        city_option = None
-        if uf_option != WHOLE_BRASIL:
+        city_options = None
+        if uf_option:
             cities = get_city_list(data, uf_option)
-            city_option = st.selectbox("Selecione o Município", ["Todos"] + cities)
+            city_options = st.multiselect("Selecione os Municípios", cities)
 
-        data_uf = get_data_uf(data, uf_option, city_option)
+        is_log = st.checkbox('Escala Logarítmica', value=False)
+        data_uf = get_data_uf(data, uf_option, city_options)
+        data_uf = np.log(data_uf + 1) if is_log else data_uf
 
         st.line_chart(data_uf, height=400)
 
@@ -117,18 +119,32 @@ def get_data():
 
 
 @st.cache
-def get_data_uf(data, uf, city_option):
-    if uf != WHOLE_BRASIL:
-        data = data.loc[data.state == uf]
-        if city_option and city_option != "Todos":
-            data = data.loc[data.city == city_option]
+def get_data_uf(data, uf, city_options):
+    if uf:
+        data = data.loc[data.state.isin(uf)]
+        if city_options:
+            city_options = [c.split(" - ")[1] for c in city_options]
+            data = data.loc[
+                (data.city.isin(city_options)) & (data.place_type == "city")
+            ][["date", "state", "city", "Casos Confirmados"]]
+            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
+            data = pd.DataFrame(pivot_data.to_records())
+        else:
+            data = data.loc[data.place_type == "state"][["date", "state", "Casos Confirmados"]]
+            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="state")
+            data = pd.DataFrame(pivot_data.to_records())
 
-    return data.groupby("date")["Casos Confirmados"].sum()
+    else:
+        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
+
+    return data.set_index("date")
 
 
 @st.cache
 def get_city_list(data, uf):
-    return sorted(list(data.loc[(data.state==uf) & (~data.city.isnull())].city.drop_duplicates()))
+    data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
+    data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
+    return sorted(list(data_filt.state_city.drop_duplicates().values))
 
 
 @st.cache
