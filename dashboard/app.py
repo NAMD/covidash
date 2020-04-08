@@ -42,23 +42,17 @@ def main():
     elif page == 'Modelos':
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
-
         chi = st.sidebar.slider('χ, Fração de asintomáticos', 0.0, 1.0, 0.3)
-
         phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.01)
-
         beta = st.sidebar.slider('β, Taxa de transmissão', 0.0, 1.0, 0.5)
-
         rho = st.sidebar.slider('ρ, Atenuação da Transmissão em hospitalizados:', 0.0, 1.0, 1.0)
-
         delta  = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.01)
         alpha  = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, 2.0)
 
         p  = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
-
         q  = st.slider('Dia de início da Quarentena:', 0, 120, 30)
-
         N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
+
         params = {
             'chi': chi,
             'phi': phi,
