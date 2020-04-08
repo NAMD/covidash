@@ -7,7 +7,7 @@
 
 ##### Defining variable names to appear in the database
 # Must be listed in the same order of variables they are returned by the model
-vnames = ['Exposed', 'Infectious', 'Susceptible']
+vnames = ['Exposed', 'Infectious','Asymptomatic','Hospitalized', 'Susceptible']
 
 
 def Model(inits, simstep, totpop, theta=0, npass=0, bi={}, bp={}, values=(), model=None):

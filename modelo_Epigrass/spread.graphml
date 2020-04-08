@@ -1,30 +1,2236 @@
 <?xml version='1.0' encoding='utf-8'?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d2" for="edge" attr.name="weight" attr.type="double"/>
-<key id="d1" for="node" attr.name="time" attr.type="long"/>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d1" for="node" attr.name="time" attr.type="long"/>
 <key id="d0" for="node" attr.name="name" attr.type="string"/>
-<graph edgedefault="directed"><node id="33018">
-  <data key="d0">RIO DE JANEIRO</data>
+<graph edgedefault="directed"><node id="35035">
+  <data key="d0">ADAMANTINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="21002">
+  <data key="d0">AGLOMERAÇÃO URBANA DE SÃO LUÍS</data>
+  <data key="d1">1</data>
+</node>
+<node id="32007">
+  <data key="d0">AFONSO CLÁUDIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="28004">
+  <data key="d0">AGRESTE DE ITABAIANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="28006">
+  <data key="d0">AGRESTE DE LAGARTO</data>
+  <data key="d1">1</data>
+</node>
+<node id="24015">
+  <data key="d0">AGRESTE POTIGUAR</data>
+  <data key="d1">1</data>
+</node>
+<node id="29017">
+  <data key="d0">ALAGOINHAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31041">
+  <data key="d0">AIMORÉS</data>
+  <data key="d1">1</data>
+</node>
+<node id="27002">
+  <data key="d0">ALAGOANA DO SERTÃO DO SÃO FRANCISCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="32011">
+  <data key="d0">ALEGRE</data>
+  <data key="d1">1</data>
+</node>
+<node id="31049">
+  <data key="d0">ALFENAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31014">
+  <data key="d0">ALMENARA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15003">
+  <data key="d0">ALMEIRIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="51002">
+  <data key="d0">ALTA FLORESTA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15015">
+  <data key="d0">ALTAMIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="51022">
+  <data key="d0">ALTO ARAGUAIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26009">
+  <data key="d0">ALTO CAPIBARIBE</data>
+  <data key="d1">1</data>
+</node>
+<node id="51012">
+  <data key="d0">ALTO GUAPORÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="22015">
+  <data key="d0">ALTO MÉDIO CANINDÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="21011">
+  <data key="d0">ALTO MEARIM E GRAJAÚ</data>
+  <data key="d1">1</data>
+</node>
+<node id="22010">
+  <data key="d0">ALTO MÉDIO GURGUÉIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="51018">
+  <data key="d0">ALTO PANTANAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="51015">
+  <data key="d0">ALTO PARAGUAI</data>
+  <data key="d1">1</data>
+</node>
+<node id="22007">
+  <data key="d0">ALTO PARNAÍBA PIAUIENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="50003">
+  <data key="d0">ALTO TAQUARI</data>
+  <data key="d1">1</data>
+</node>
+<node id="51006">
+  <data key="d0">ALTO TELES PIRES</data>
+  <data key="d1">1</data>
+</node>
+<node id="16002">
+  <data key="d0">AMAPÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35033">
+  <data key="d0">AMPARO</data>
+  <data key="d1">1</data>
+</node>
+<node id="52007">
+  <data key="d0">ANÁPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35016">
+  <data key="d0">ANDRADINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31055">
+  <data key="d0">ANDRELÂNDIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="24009">
+  <data key="d0">ANGICOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="52009">
+  <data key="d0">ANICUNS</data>
+  <data key="d1">1</data>
+</node>
+<node id="50002">
+  <data key="d0">AQUIDAUANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="28011">
+  <data key="d0">ARACAJU</data>
+  <data key="d1">1</data>
+</node>
+<node id="35017">
+  <data key="d0">ARAÇATUBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31012">
+  <data key="d0">ARAÇUAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="52003">
+  <data key="d0">ARAGARÇAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="17002">
+  <data key="d0">ARAGUAÍNA</data>
+  <data key="d1">1</data>
+</node>
+<node id="27006">
+  <data key="d0">ARAPIRACA</data>
+  <data key="d1">1</data>
+</node>
+<node id="42020">
+  <data key="d0">ARARANGUÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35024">
+  <data key="d0">ARARAQUARA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15006">
+  <data key="d0">ARARI</data>
+  <data key="d1">1</data>
+</node>
+<node id="26001">
+  <data key="d0">ARARIPINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31023">
+  <data key="d0">ARAXÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="51005">
+  <data key="d0">ARINOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="51001">
+  <data key="d0">ARIPUANÃ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35039">
+  <data key="d0">ASSIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35006">
+  <data key="d0">AURIFLAMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35022">
+  <data key="d0">AVARÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="33009">
+  <data key="d0">BACIA DE SÃO JOÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="33013">
+  <data key="d0">BAÍA DA ILHA GRANDE</data>
+  <data key="d1">1</data>
+</node>
+<node id="24013">
+  <data key="d0">BAIXA VERDE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21005">
+  <data key="d0">BAIXADA MARANHENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="28010">
+  <data key="d0">BAIXO COTINGUIBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23009">
+  <data key="d0">BAIXO CURU</data>
+  <data key="d1">1</data>
+</node>
+<node id="23023">
+  <data key="d0">BAIXO JAGUARIBE</data>
+  <data key="d1">1</data>
+</node>
+<node id="50001">
+  <data key="d0">BAIXO PANTANAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="21013">
+  <data key="d0">BAIXO PARNAÍBA MARANHENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="22001">
+  <data key="d0">BAIXO PARNAÍBA PIAUIENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="35052">
+  <data key="d0">BANANAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="31059">
+  <data key="d0">BARBACENA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29006">
+  <data key="d0">BARRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="32001">
+  <data key="d0">BARRA DE SÃO FRANCISCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="33012">
+  <data key="d0">BARRA DO PIRAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="29001">
+  <data key="d0">BARREIRAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35009">
+  <data key="d0">BARRETOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="23031">
+  <data key="d0">BARRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="27004">
+  <data key="d0">BATALHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35015">
+  <data key="d0">BATATAIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="23013">
+  <data key="d0">BATURITÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35020">
+  <data key="d0">BAURU</data>
+  <data key="d1">1</data>
+</node>
+<node id="15007">
+  <data key="d0">BELÉM</data>
+  <data key="d1">1</data>
+</node>
+<node id="22008">
+  <data key="d0">BERTOLÍNIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="17001">
+  <data key="d0">BICO DO PAPAGAIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31030">
+  <data key="d0">BELO HORIZONTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="35018">
+  <data key="d0">BIRIGUI</data>
+  <data key="d1">1</data>
+</node>
+<node id="42012">
+  <data key="d0">BLUMENAU</data>
+  <data key="d1">1</data>
+</node>
+<node id="14001">
+  <data key="d0">BOA VISTA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31009">
+  <data key="d0">BOCAIÚVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="50009">
+  <data key="d0">BODOQUENA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31026">
+  <data key="d0">BOM DESPACHO</data>
+  <data key="d1">1</data>
+</node>
+<node id="29007">
+  <data key="d0">BOM JESUS DA LAPA</data>
+  <data key="d1">1</data>
+</node>
+<node id="28012">
+  <data key="d0">BOQUIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="29022">
+  <data key="d0">BOQUIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="24014">
+  <data key="d0">BORBOREMA POTIGUAR</data>
+  <data key="d1">1</data>
+</node>
+<node id="35023">
+  <data key="d0">BOTUCATU</data>
+  <data key="d1">1</data>
+</node>
+<node id="35048">
+  <data key="d0">BRAGANÇA PAULISTA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15010">
+  <data key="d0">BRAGANTINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="12005">
+  <data key="d0">BRASILÉIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="53001">
+  <data key="d0">BRASÍLIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="25015">
+  <data key="d0">BREJO PARAIBANO</data>
+  <data key="d1">1</data>
+</node>
+<node id="26012">
+  <data key="d0">BREJO PERNAMBUCANO</data>
+  <data key="d1">1</data>
+</node>
+<node id="23033">
+  <data key="d0">BREJO SANTO</data>
+  <data key="d1">1</data>
+</node>
+<node id="43022">
+  <data key="d0">CACHOEIRA DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="29027">
+  <data key="d0">BRUMADO</data>
+  <data key="d1">1</data>
+</node>
+<node id="32012">
+  <data key="d0">CACHOEIRO DE ITAPEMIRIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="25002">
+  <data key="d0">CAJAZEIRAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="43028">
+  <data key="d0">CAMAQUÃ</data>
+  <data key="d1">1</data>
+</node>
+<node id="15011">
+  <data key="d0">CAMETÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="43030">
+  <data key="d0">CAMPANHA CENTRAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="43031">
+  <data key="d0">CAMPANHA MERIDIONAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="43029">
+  <data key="d0">CAMPANHA OCIDENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25017">
+  <data key="d0">CAMPINA GRANDE</data>
+  <data key="d1">1</data>
+</node>
+<node id="35032">
+  <data key="d0">CAMPINAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31045">
+  <data key="d0">CAMPO BELO</data>
+  <data key="d1">1</data>
+</node>
+<node id="50004">
+  <data key="d0">CAMPO GRANDE</data>
+  <data key="d1">1</data>
+</node>
+<node id="22004">
+  <data key="d0">CAMPO MAIOR</data>
+  <data key="d1">1</data>
+</node>
+<node id="42010">
+  <data key="d0">CAMPOS DE LAGES</data>
+  <data key="d1">1</data>
+</node>
+<node id="35049">
+  <data key="d0">CAMPOS DO JORDÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="33003">
+  <data key="d0">CAMPOS DOS GOYTACAZES</data>
+  <data key="d1">1</data>
+</node>
+<node id="51010">
+  <data key="d0">CANARANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23012">
+  <data key="d0">CANINDÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="42006">
+  <data key="d0">CANOINHAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="33006">
+  <data key="d0">CANTAGALO-CORDEIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35044">
+  <data key="d0">CAPÃO BONITO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31011">
+  <data key="d0">CAPELINHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="14003">
+  <data key="d0">CARACARAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35054">
+  <data key="d0">CARAGUATATUBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31040">
+  <data key="d0">CARATINGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43009">
+  <data key="d0">CARAZINHO</data>
+  <data key="d1">1</data>
+</node>
+<node id="28002">
+  <data key="d0">CARIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23032">
+  <data key="d0">CARIRI</data>
+  <data key="d1">1</data>
+</node>
+<node id="25010">
+  <data key="d0">CARIRI OCIDENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25011">
+  <data key="d0">CARIRI ORIENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="23030">
+  <data key="d0">CARIRIAÇU</data>
+  <data key="d1">1</data>
+</node>
+<node id="23015">
+  <data key="d0">CASCAVEL</data>
+  <data key="d1">1</data>
+</node>
+<node id="50005">
+  <data key="d0">CASSILÂNDIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15008">
+  <data key="d0">CASTANHAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="31066">
+  <data key="d0">CATAGUASES</data>
+  <data key="d1">1</data>
+</node>
+<node id="52017">
+  <data key="d0">CATALÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35005">
+  <data key="d0">CATANDUVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="25001">
+  <data key="d0">CATOLÉ DO ROCHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29019">
+  <data key="d0">CATU</data>
+  <data key="d1">1</data>
+</node>
+<node id="21017">
+  <data key="d0">CAXIAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="43016">
+  <data key="d0">CAXIAS DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="52006">
+  <data key="d0">CERES</data>
+  <data key="d1">1</data>
+</node>
+<node id="43006">
+  <data key="d0">CERRO LARGO</data>
+  <data key="d1">1</data>
+</node>
+<node id="24002">
+  <data key="d0">CHAPADA DO APODI</data>
+  <data key="d1">1</data>
+</node>
+<node id="23029">
+  <data key="d0">CHAPADA DO ARARIPE</data>
+  <data key="d1">1</data>
+</node>
+<node id="52005">
+  <data key="d0">CHAPADA DOS VEADEIROS</data>
+  <data key="d1">1</data>
+</node>
+<node id="21021">
+  <data key="d0">CHAPADAS DAS MANGABEIRAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="21018">
+  <data key="d0">CHAPADAS DO ALTO ITAPECURU</data>
+  <data key="d1">1</data>
+</node>
+<node id="22012">
+  <data key="d0">CHAPADAS DO EXTREMO SUL PIAUIENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21014">
+  <data key="d0">CHAPADINHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="42002">
+  <data key="d0">CHAPECÓ</data>
+  <data key="d1">1</data>
+</node>
+<node id="21015">
+  <data key="d0">CODÓ</data>
+  <data key="d1">1</data>
+</node>
+<node id="23014">
+  <data key="d0">CHOROZINHO</data>
+  <data key="d1">1</data>
+</node>
+<node id="21016">
+  <data key="d0">COELHO NETO</data>
+  <data key="d1">1</data>
+</node>
+<node id="32003">
+  <data key="d0">COLATINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="51003">
+  <data key="d0">COLÍDER</data>
+  <data key="d1">1</data>
+</node>
+<node id="15022">
+  <data key="d0">CONCEIÇÃO DO ARAGUAIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31028">
+  <data key="d0">CONCEIÇÃO DO MATO DENTRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42005">
+  <data key="d0">CONCÓRDIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31034">
+  <data key="d0">CONSELHEIRO LAFAIETE</data>
+  <data key="d1">1</data>
+</node>
+<node id="23003">
+  <data key="d0">COREAÚ</data>
+  <data key="d1">1</data>
+</node>
+<node id="29002">
+  <data key="d0">COTEGIPE</data>
+  <data key="d1">1</data>
+</node>
+<node id="28008">
+  <data key="d0">COTINGUIBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43011">
+  <data key="d0">CRUZ ALTA</data>
+  <data key="d1">1</data>
+</node>
+<node id="42019">
+  <data key="d0">CRICIÚMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="12001">
+  <data key="d0">CRUZEIRO DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="51017">
+  <data key="d0">CUIABÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="25012">
+  <data key="d0">CURIMATAÚ OCIDENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25013">
+  <data key="d0">CURIMATAÚ ORIENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="42009">
+  <data key="d0">CURITIBANOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31025">
+  <data key="d0">CURVELO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31010">
+  <data key="d0">DIAMANTINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="17008">
+  <data key="d0">DIANÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31043">
+  <data key="d0">DIVINÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="50010">
+  <data key="d0">DOURADOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35034">
+  <data key="d0">DRACENA</data>
+  <data key="d1">1</data>
+</node>
+<node id="52012">
+  <data key="d0">ENTORNO DE BRASÍLIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43004">
+  <data key="d0">ERECHIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="29018">
+  <data key="d0">ENTRE RIOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="25014">
+  <data key="d0">ESPERANÇA</data>
+  <data key="d1">1</data>
+</node>
+<node id="28013">
+  <data key="d0">ESTÂNCIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29012">
+  <data key="d0">FEIRA DE SANTANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29014">
+  <data key="d0">EUCLIDES DA CUNHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26019">
+  <data key="d0">FERNANDO DE NORONHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35002">
+  <data key="d0">FERNANDÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="22009">
+  <data key="d0">FLORIANO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42016">
+  <data key="d0">FLORIANÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31044">
+  <data key="d0">FORMIGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23016">
+  <data key="d0">FORTALEZA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35012">
+  <data key="d0">FRANCA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35058">
+  <data key="d0">FRANCO DA ROCHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43003">
+  <data key="d0">FREDERICO WESTPHALEN</data>
+  <data key="d1">1</data>
+</node>
+<node id="31021">
+  <data key="d0">FRUTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="15005">
+  <data key="d0">FUROS DE BREVES</data>
+  <data key="d1">1</data>
+</node>
+<node id="21020">
+  <data key="d0">GERAIS DE BALSAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="26011">
+  <data key="d0">GARANHUNS</data>
+  <data key="d1">1</data>
+</node>
+<node id="52010">
+  <data key="d0">GOIÂNIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31037">
+  <data key="d0">GOVERNADOR VALADARES</data>
+  <data key="d1">1</data>
+</node>
+<node id="43024">
+  <data key="d0">GRAMADO-CANELA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31008">
+  <data key="d0">GRÃO MOGOL</data>
+  <data key="d1">1</data>
+</node>
+<node id="15013">
+  <data key="d0">GUAMÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="29026">
+  <data key="d0">GUANAMBI</data>
+  <data key="d1">1</data>
+</node>
+<node id="31035">
+  <data key="d0">GUANHÃES</data>
+  <data key="d1">1</data>
+</node>
+<node id="43014">
+  <data key="d0">GUAPORÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="25016">
+  <data key="d0">GUARABIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="32010">
+  <data key="d0">GUARAPARI</data>
+  <data key="d1">1</data>
+</node>
+<node id="35051">
+  <data key="d0">GUARATINGUETÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35059">
+  <data key="d0">GUARULHOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="17005">
+  <data key="d0">GURUPI</data>
+  <data key="d1">1</data>
+</node>
+<node id="21007">
+  <data key="d0">GURUPI</data>
+  <data key="d1">1</data>
+</node>
+<node id="23002">
+  <data key="d0">IBIAPABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="50011">
+  <data key="d0">IGUATEMI</data>
+  <data key="d1">1</data>
+</node>
+<node id="23026">
+  <data key="d0">IGUATU</data>
+  <data key="d1">1</data>
+</node>
+<node id="43008">
+  <data key="d0">IJUÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="29031">
+  <data key="d0">ILHÉUS-ITABUNA</data>
+  <data key="d1">1</data>
+</node>
+<node id="21009">
+  <data key="d0">IMPERATRIZ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31039">
+  <data key="d0">IPATINGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="52008">
+  <data key="d0">IPORÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="23006">
+  <data key="d0">IPU</data>
+  <data key="d1">1</data>
+</node>
+<node id="29009">
+  <data key="d0">IRECÊ</data>
+  <data key="d1">1</data>
+</node>
+<node id="25018">
+  <data key="d0">ITABAIANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29011">
+  <data key="d0">ITABERABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="33017">
+  <data key="d0">ITAGUAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31031">
+  <data key="d0">ITABIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31032">
+  <data key="d0">ITAGUARA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15014">
+  <data key="d0">ITAITUBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="42013">
+  <data key="d0">ITAJAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31056">
+  <data key="d0">ITAJUBÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="26016">
+  <data key="d0">ITAMARACÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35056">
+  <data key="d0">ITANHAÉM</data>
+  <data key="d1">1</data>
+</node>
+<node id="26006">
+  <data key="d0">ITAPARICA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35060">
+  <data key="d0">ITAPECERICA DA SERRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="21006">
+  <data key="d0">ITAPECURU MIRIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="32013">
+  <data key="d0">ITAPEMIRIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="33001">
+  <data key="d0">ITAPERUNA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29029">
+  <data key="d0">ITAPETINGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35041">
+  <data key="d0">ITAPEVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35042">
+  <data key="d0">ITAPETININGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23008">
+  <data key="d0">ITAPIPOCA</data>
+  <data key="d1">1</data>
+</node>
+<node id="25006">
+  <data key="d0">ITAPORANGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31017">
+  <data key="d0">ITUIUTABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="42014">
+  <data key="d0">ITUPORANGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35011">
+  <data key="d0">ITUVERAVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35013">
+  <data key="d0">JABOTICABAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="29010">
+  <data key="d0">JACOBINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43034">
+  <data key="d0">JAGUARÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="17007">
+  <data key="d0">JALAPÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35001">
+  <data key="d0">JALES</data>
+  <data key="d1">1</data>
+</node>
+<node id="31004">
+  <data key="d0">JANAÚBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31003">
+  <data key="d0">JANUÁRIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="28009">
+  <data key="d0">JAPARATUBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35021">
+  <data key="d0">JAÚ</data>
+  <data key="d1">1</data>
+</node>
+<node id="51014">
+  <data key="d0">JAURU</data>
+  <data key="d1">1</data>
+</node>
+<node id="29024">
+  <data key="d0">JEQUIÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="29013">
+  <data key="d0">JEREMOABO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42004">
+  <data key="d0">JOAÇABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="25022">
+  <data key="d0">JOÃO PESSOA</data>
+  <data key="d1">1</data>
+</node>
+<node id="42008">
+  <data key="d0">JOINVILLE</data>
+  <data key="d1">1</data>
+</node>
+<node id="31065">
+  <data key="d0">JUIZ DE FORA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35047">
+  <data key="d0">JUNDIAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="29004">
+  <data key="d0">JUAZEIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="33010">
+  <data key="d0">LAGOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="43021">
+  <data key="d0">LAJEADO-ESTRELA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31057">
+  <data key="d0">LAVRAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="23028">
+  <data key="d0">LAVRAS DA MANGABEIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="21004">
+  <data key="d0">LENÇÓIS MARANHENSES</data>
+  <data key="d1">1</data>
+</node>
+<node id="35027">
+  <data key="d0">LIMEIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="32006">
+  <data key="d0">LINHARES</data>
+  <data key="d1">1</data>
+</node>
+<node id="35019">
+  <data key="d0">LINS</data>
+  <data key="d1">1</data>
+</node>
+<node id="23022">
+  <data key="d0">LITORAL DE ARACATI</data>
+  <data key="d1">1</data>
+</node>
+<node id="23001">
+  <data key="d0">LITORAL DE CAMOCIM E ACARAÚ</data>
+  <data key="d1">1</data>
+</node>
+<node id="43035">
+  <data key="d0">LITORAL LAGUNAR</data>
+  <data key="d1">1</data>
+</node>
+<node id="24016">
+  <data key="d0">LITORAL NORDESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="25020">
+  <data key="d0">LITORAL NORTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="27010">
+  <data key="d0">LITORAL NORTE ALAGOANO</data>
+  <data key="d1">1</data>
+</node>
+<node id="22002">
+  <data key="d0">LITORAL PIAUIENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21001">
+  <data key="d0">LITORAL OCIDENTAL MARANHENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="24019">
+  <data key="d0">LITORAL SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25023">
+  <data key="d0">LITORAL SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="33016">
+  <data key="d0">MACACU-CACERIBU</data>
+  <data key="d1">1</data>
+</node>
+<node id="29025">
+  <data key="d0">LIVRAMENTO DO BRUMADO</data>
+  <data key="d1">1</data>
+</node>
+<node id="33004">
+  <data key="d0">MACAÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="24017">
+  <data key="d0">MACAÍBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="16003">
+  <data key="d0">MACAPÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="24008">
+  <data key="d0">MACAU</data>
+  <data key="d1">1</data>
+</node>
+<node id="27011">
+  <data key="d0">MACEIÓ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31061">
+  <data key="d0">MANHUAÇU</data>
+  <data key="d1">1</data>
+</node>
+<node id="31038">
+  <data key="d0">MANTENA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15020">
+  <data key="d0">MARABÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35038">
+  <data key="d0">MARÍLIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="27009">
+  <data key="d0">MATA ALAGOANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26015">
+  <data key="d0">MATA MERIDIONAL PERNAMBUCANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26013">
+  <data key="d0">MATA SETENTRIONAL PERNAMBUCANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="16004">
+  <data key="d0">MAZAGÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="51011">
+  <data key="d0">MÉDIO ARAGUAIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26010">
+  <data key="d0">MÉDIO CAPIBARIBE</data>
+  <data key="d1">1</data>
+</node>
+<node id="23011">
+  <data key="d0">MÉDIO CURU</data>
+  <data key="d1">1</data>
+</node>
+<node id="23024">
+  <data key="d0">MÉDIO JAGUARIBE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21010">
+  <data key="d0">MÉDIO MEARIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="24003">
+  <data key="d0">MÉDIO OESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="22005">
+  <data key="d0">MÉDIO PARNAÍBA PIAUIENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="52015">
+  <data key="d0">MEIA PONTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="23004">
+  <data key="d0">MERUOCA</data>
+  <data key="d1">1</data>
+</node>
+<node id="17003">
+  <data key="d0">MIRACEMA DO TOCANTINS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35062">
+  <data key="d0">MOGI DAS CRUZES</data>
+  <data key="d1">1</data>
+</node>
+<node id="35031">
+  <data key="d0">MOJI MIRIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="32004">
+  <data key="d0">MONTANHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43023">
+  <data key="d0">MONTENEGRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31007">
+  <data key="d0">MONTES CLAROS</data>
+  <data key="d1">1</data>
+</node>
+<node id="24001">
+  <data key="d0">MOSSORÓ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31063">
+  <data key="d0">MURIAÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31016">
+  <data key="d0">NANUQUE</data>
+  <data key="d1">1</data>
+</node>
+<node id="43012">
+  <data key="d0">NÃO-ME-TOQUE</data>
+  <data key="d1">1</data>
+</node>
+<node id="24018">
+  <data key="d0">NATAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="35007">
+  <data key="d0">NHANDEARA</data>
+  <data key="d1">1</data>
+</node>
+<node id="14002">
+  <data key="d0">NORDESTE DE RORAIMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="51009">
+  <data key="d0">NORTE ARAGUAIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="28003">
+  <data key="d0">NOSSA SENHORA DAS DORES</data>
+  <data key="d1">1</data>
+</node>
+<node id="50008">
+  <data key="d0">NOVA ANDRADINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="33007">
+  <data key="d0">NOVA FRIBURGO</data>
+  <data key="d1">1</data>
+</node>
+<node id="32002">
+  <data key="d0">NOVA VENÉCIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35008">
+  <data key="d0">NOVO HORIZONTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="15001">
+  <data key="d0">ÓBIDOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="16001">
+  <data key="d0">OIAPOQUE</data>
+  <data key="d1">1</data>
+</node>
+<node id="31046">
+  <data key="d0">OLIVEIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35057">
+  <data key="d0">OSASCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="43027">
+  <data key="d0">OSÓRIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35040">
+  <data key="d0">OURINHOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31033">
+  <data key="d0">OURO PRETO</data>
+  <data key="d1">1</data>
+</node>
+<node id="23017">
+  <data key="d0">PACAJUS</data>
+  <data key="d1">1</data>
+</node>
+<node id="26003">
+  <data key="d0">PAJEÚ</data>
+  <data key="d1">1</data>
+</node>
+<node id="27005">
+  <data key="d0">PALMEIRA DOS ÍNDIOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31029">
+  <data key="d0">PARÁ DE MINAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31002">
+  <data key="d0">PARACATU</data>
+  <data key="d1">1</data>
+</node>
+<node id="15017">
+  <data key="d0">PARAGOMINAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35053">
+  <data key="d0">PARAIBUNA/PARAITINGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="50006">
+  <data key="d0">PARANAÍBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="51008">
+  <data key="d0">PARANATINGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15019">
+  <data key="d0">PARAUAPEBAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="51004">
+  <data key="d0">PARECIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="43010">
+  <data key="d0">PASSO FUNDO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31047">
+  <data key="d0">PASSOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="25004">
+  <data key="d0">PATOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31020">
+  <data key="d0">PATOS DE MINAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="24006">
+  <data key="d0">PAU DOS FERROS</data>
+  <data key="d1">1</data>
+</node>
+<node id="29005">
+  <data key="d0">PAULO AFONSO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31019">
+  <data key="d0">PATROCÍNIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31036">
+  <data key="d0">PEÇANHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31013">
+  <data key="d0">PEDRA AZUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="43033">
+  <data key="d0">PELOTAS</data>
   <data key="d1">1</data>
 </node>
 <node id="27013">
   <data key="d0">PENEDO</data>
-  <data key="d1">9</data>
+  <data key="d1">1</data>
+</node>
+<node id="26005">
+  <data key="d0">PETROLINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="25005">
+  <data key="d0">PIANCÓ</data>
+  <data key="d1">1</data>
+</node>
+<node id="22013">
+  <data key="d0">PICOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35045">
+  <data key="d0">PIEDADE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21008">
+  <data key="d0">PINDARÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="22014">
+  <data key="d0">PIO IX</data>
+  <data key="d1">1</data>
+</node>
+<node id="35028">
+  <data key="d0">PIRACICABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31006">
+  <data key="d0">PIRAPORA</data>
+  <data key="d1">1</data>
+</node>
+<node id="52016">
+  <data key="d0">PIRES DO RIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35029">
+  <data key="d0">PIRASSUNUNGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31042">
+  <data key="d0">PIUÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31051">
+  <data key="d0">POÇOS DE CALDAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31060">
+  <data key="d0">PONTE NOVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="52004">
+  <data key="d0">PORANGATU</data>
+  <data key="d1">1</data>
+</node>
+<node id="15004">
+  <data key="d0">PORTEL</data>
+  <data key="d1">1</data>
+</node>
+<node id="43026">
+  <data key="d0">PORTO ALEGRE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21019">
+  <data key="d0">PORTO FRANCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="17006">
+  <data key="d0">PORTO NACIONAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="29032">
+  <data key="d0">PORTO SEGURO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31052">
+  <data key="d0">POUSO ALEGRE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21012">
+  <data key="d0">PRESIDENTE DUTRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35036">
+  <data key="d0">PRESIDENTE PRUDENTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="51019">
+  <data key="d0">PRIMAVERA DO LESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="28007">
+  <data key="d0">PROPRIÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="52018">
+  <data key="d0">QUIRINÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="26017">
+  <data key="d0">RECIFE</data>
+  <data key="d1">1</data>
+</node>
+<node id="15021">
+  <data key="d0">REDENÇÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35055">
+  <data key="d0">REGISTRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="43019">
+  <data key="d0">RESTINGA SECA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35014">
+  <data key="d0">RIBEIRÃO PRETO</data>
+  <data key="d1">1</data>
+</node>
+<node id="29015">
+  <data key="d0">RIBEIRA DO POMBAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="12004">
+  <data key="d0">RIO BRANCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35026">
+  <data key="d0">RIO CLARO</data>
+  <data key="d1">1</data>
+</node>
+<node id="33018">
+  <data key="d0">RIO DE JANEIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42011">
+  <data key="d0">RIO DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="17004">
+  <data key="d0">RIO FORMOSO</data>
+  <data key="d1">1</data>
+</node>
+<node id="52002">
+  <data key="d0">RIO VERMELHO</data>
+  <data key="d1">1</data>
+</node>
+<node id="51021">
+  <data key="d0">RONDONÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="51016">
+  <data key="d0">ROSÁRIO OESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="21003">
+  <data key="d0">ROSÁRIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="26002">
+  <data key="d0">SALGUEIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31005">
+  <data key="d0">SALINAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="15009">
+  <data key="d0">SALGADO</data>
+  <data key="d1">1</data>
+</node>
+<node id="29021">
+  <data key="d0">SALVADOR</data>
+  <data key="d1">1</data>
+</node>
+<node id="43005">
+  <data key="d0">SANANDUVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43020">
+  <data key="d0">SANTA CRUZ DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="43018">
+  <data key="d0">SANTA MARIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29003">
+  <data key="d0">SANTA MARIA DA VITÓRIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="33008">
+  <data key="d0">SANTA MARIA MADALENA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23007">
+  <data key="d0">SANTA QUITÉRIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31053">
+  <data key="d0">SANTA RITA DO SAPUCAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="43001">
+  <data key="d0">SANTA ROSA</data>
+  <data key="d1">1</data>
+</node>
+<node id="32008">
+  <data key="d0">SANTA TERESA</data>
+  <data key="d1">1</data>
+</node>
+<node id="27003">
+  <data key="d0">SANTANA DO IPANEMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="15002">
+  <data key="d0">SANTARÉM</data>
+  <data key="d1">1</data>
+</node>
+<node id="43017">
+  <data key="d0">SANTIAGO</data>
+  <data key="d1">1</data>
+</node>
+<node id="43007">
+  <data key="d0">SANTO ÂNGELO</data>
+  <data key="d1">1</data>
+</node>
+<node id="29020">
+  <data key="d0">SANTO ANTÔNIO DE JESUS</data>
+  <data key="d1">1</data>
+</node>
+<node id="33002">
+  <data key="d0">SANTO ANTÔNIO DE PÁDUA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35063">
+  <data key="d0">SANTOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="42007">
+  <data key="d0">SÃO BENTO DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="35025">
+  <data key="d0">SÃO CARLOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="15018">
+  <data key="d0">SÃO FÉLIX DO XINGU</data>
+  <data key="d1">1</data>
+</node>
+<node id="43025">
+  <data key="d0">SÃO JERÔNIMO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35030">
+  <data key="d0">SÃO JOÃO DA BOA VISTA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31058">
+  <data key="d0">SÃO JOÃO DEL REI</data>
+  <data key="d1">1</data>
+</node>
+<node id="35010">
+  <data key="d0">SÃO JOAQUIM DA BARRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35004">
+  <data key="d0">SÃO JOSÉ DO RIO PRETO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31054">
+  <data key="d0">SÃO LOURENÇO</data>
+  <data key="d1">1</data>
+</node>
+<node id="35050">
+  <data key="d0">SÃO JOSÉ DOS CAMPOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="32005">
+  <data key="d0">SÃO MATEUS</data>
+  <data key="d1">1</data>
+</node>
+<node id="52001">
+  <data key="d0">SÃO MIGUEL DO ARAGUAIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="27012">
+  <data key="d0">SÃO MIGUEL DOS CAMPOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="35061">
+  <data key="d0">SÃO PAULO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42001">
+  <data key="d0">SÃO MIGUEL DO OESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="31048">
+  <data key="d0">SÃO SEBASTIÃO DO PARAÍSO</data>
+  <data key="d1">1</data>
+</node>
+<node id="22011">
+  <data key="d0">SÃO RAIMUNDO NONATO</data>
+  <data key="d1">1</data>
+</node>
+<node id="25021">
+  <data key="d0">SAPÉ</data>
+  <data key="d1">1</data>
+</node>
+<node id="12003">
+  <data key="d0">SENA MADUREIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29023">
+  <data key="d0">SEABRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29008">
+  <data key="d0">SENHOR DO BONFIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="24011">
+  <data key="d0">SERIDÓ OCIDENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25008">
+  <data key="d0">SERIDÓ OCIDENTAL PARAIBANO</data>
+  <data key="d1">1</data>
+</node>
+<node id="28001">
+  <data key="d0">SERGIPANA DO SERTÃO DO SÃO FRANCISCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="24012">
+  <data key="d0">SERIDÓ ORIENTAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25009">
+  <data key="d0">SERIDÓ ORIENTAL PARAIBANO</data>
+  <data key="d1">1</data>
+</node>
+<node id="24005">
+  <data key="d0">SERRA DE SÃO MIGUEL</data>
+  <data key="d1">1</data>
+</node>
+<node id="24010">
+  <data key="d0">SERRA DE SANTANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23025">
+  <data key="d0">SERRA DO PEREIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="25007">
+  <data key="d0">SERRA DO TEIXEIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="33015">
+  <data key="d0">SERRANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="27008">
+  <data key="d0">SERRANA DOS QUILOMBOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="27001">
+  <data key="d0">SERRANA DO SERTÃO ALAGOANO</data>
+  <data key="d1">1</data>
 </node>
 <node id="43032">
   <data key="d0">SERRAS DE SUDESTE</data>
-  <data key="d1">10</data>
+  <data key="d1">1</data>
+</node>
+<node id="29016">
+  <data key="d0">SERRINHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23018">
+  <data key="d0">SERTÃO DE CRATÉUS</data>
+  <data key="d1">1</data>
+</node>
+<node id="23020">
+  <data key="d0">SERTÃO DE INHAMUNS</data>
+  <data key="d1">1</data>
+</node>
+<node id="23019">
+  <data key="d0">SERTÃO DE QUIXERAMOBIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="23021">
+  <data key="d0">SERTÃO DE SENADOR POMPEU</data>
+  <data key="d1">1</data>
+</node>
+<node id="26004">
+  <data key="d0">SERTÃO DO MOXOTÓ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31027">
+  <data key="d0">SETE LAGOAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="51007">
+  <data key="d0">SINOP</data>
+  <data key="d1">1</data>
+</node>
+<node id="43013">
+  <data key="d0">SOLEDADE</data>
+  <data key="d1">1</data>
+</node>
+<node id="23005">
+  <data key="d0">SOBRAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="35046">
+  <data key="d0">SOROCABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="25003">
+  <data key="d0">SOUSA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26018">
+  <data key="d0">SUAPE</data>
+  <data key="d1">1</data>
+</node>
+<node id="14004">
+  <data key="d0">SUDESTE DE RORAIMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="52013">
+  <data key="d0">SUDOESTE DE GOIÁS</data>
+  <data key="d1">1</data>
+</node>
+<node id="42017">
+  <data key="d0">TABULEIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="51013">
+  <data key="d0">TANGARÁ DA SERRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="12002">
+  <data key="d0">TARAUACÁ</data>
+  <data key="d1">1</data>
 </node>
 <node id="35043">
   <data key="d0">TATUÍ</data>
-  <data key="d1">10</data>
+  <data key="d1">1</data>
 </node>
-<edge source="27013" target="33018" id="0">
-  <data key="d2">1.0</data>
-</edge>
-<edge source="43032" target="33018" id="0">
-  <data key="d2">1.0</data>
-</edge>
-<edge source="35043" target="33018" id="0">
-  <data key="d2">1.0</data>
-</edge>
+<node id="31015">
+  <data key="d0">TEÓFILO OTONI</data>
+  <data key="d1">1</data>
+</node>
+<node id="22003">
+  <data key="d0">TERESINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="51020">
+  <data key="d0">TESOURO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42015">
+  <data key="d0">TIJUCAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="28005">
+  <data key="d0">TOBIAS BARRETO</data>
+  <data key="d1">1</data>
+</node>
+<node id="15012">
+  <data key="d0">TOMÉ-AÇU</data>
+  <data key="d1">1</data>
+</node>
+<node id="27007">
+  <data key="d0">TRAIPU</data>
+  <data key="d1">1</data>
+</node>
+<node id="50007">
+  <data key="d0">TRÊS LAGOAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31024">
+  <data key="d0">TRÊS MARIAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="43002">
+  <data key="d0">TRÊS PASSOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="33005">
+  <data key="d0">TRÊS RIOS</data>
+  <data key="d1">1</data>
+</node>
+<node id="42018">
+  <data key="d0">TUBARÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="15016">
+  <data key="d0">TUCURUÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="35037">
+  <data key="d0">TUPÃ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31064">
+  <data key="d0">UBÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31022">
+  <data key="d0">UBERABA</data>
+  <data key="d1">1</data>
+</node>
+<node id="31018">
+  <data key="d0">UBERLÂNDIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="24007">
+  <data key="d0">UMARIZAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="25019">
+  <data key="d0">UMBUZEIRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="31001">
+  <data key="d0">UNAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="23010">
+  <data key="d0">URUBURETAMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="43015">
+  <data key="d0">VACARIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="24004">
+  <data key="d0">VALE DO AÇU</data>
+  <data key="d1">1</data>
+</node>
+<node id="26007">
+  <data key="d0">VALE DO IPANEMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26008">
+  <data key="d0">VALE DO IPOJUCA</data>
+  <data key="d1">1</data>
+</node>
+<node id="33011">
+  <data key="d0">VALE DO PARAÍBA FLUMINENSE</data>
+  <data key="d1">1</data>
+</node>
+<node id="52014">
+  <data key="d0">VALE DO RIO DOS BOIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="29030">
+  <data key="d0">VALENÇA</data>
+  <data key="d1">1</data>
+</node>
+<node id="22006">
+  <data key="d0">VALENÇA DO PIAUÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="52011">
+  <data key="d0">VÃO DO PARANÃ</data>
+  <data key="d1">1</data>
+</node>
+<node id="31050">
+  <data key="d0">VARGINHA</data>
+  <data key="d1">1</data>
+</node>
+<node id="23027">
+  <data key="d0">VÁRZEA ALEGRE</data>
+  <data key="d1">1</data>
+</node>
+<node id="33014">
+  <data key="d0">VASSOURAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="31062">
+  <data key="d0">VIÇOSA</data>
+  <data key="d1">1</data>
+</node>
+<node id="32009">
+  <data key="d0">VITÓRIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="29028">
+  <data key="d0">VITÓRIA DA CONQUISTA</data>
+  <data key="d1">1</data>
+</node>
+<node id="35003">
+  <data key="d0">VOTUPORANGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="26014">
+  <data key="d0">VITÓRIA DE SANTO ANTÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="42003">
+  <data key="d0">XANXERÊ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41010">
+  <data key="d0">APUCARANA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41014">
+  <data key="d0">ASSAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41005">
+  <data key="d0">CAMPO MOURÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41006">
+  <data key="d0">ASTORGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41025">
+  <data key="d0">CAPANEMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41023">
+  <data key="d0">CASCAVEL</data>
+  <data key="d1">1</data>
+</node>
+<node id="41035">
+  <data key="d0">CERRO AZUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="41003">
+  <data key="d0">CIANORTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="41037">
+  <data key="d0">CURITIBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41015">
+  <data key="d0">CORNÉLIO PROCÓPIO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41008">
+  <data key="d0">FLORAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41012">
+  <data key="d0">FAXINAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="41024">
+  <data key="d0">FOZ DO IGUAÇU</data>
+  <data key="d1">1</data>
+</node>
+<node id="41026">
+  <data key="d0">FRANCISCO BELTRÃO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41004">
+  <data key="d0">GOIOERÊ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41029">
+  <data key="d0">GUARAPUAVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41017">
+  <data key="d0">IBAITI</data>
+  <data key="d1">1</data>
+</node>
+<node id="41032">
+  <data key="d0">IRATI</data>
+  <data key="d1">1</data>
+</node>
+<node id="41013">
+  <data key="d0">IVAIPORÃ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41016">
+  <data key="d0">JACAREZINHO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41020">
+  <data key="d0">JAGUARIAÍVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41036">
+  <data key="d0">LAPA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41011">
+  <data key="d0">LONDRINA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41009">
+  <data key="d0">MARINGÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41030">
+  <data key="d0">PALMAS</data>
+  <data key="d1">1</data>
+</node>
+<node id="41038">
+  <data key="d0">PARANAGUÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41001">
+  <data key="d0">PARANAVAÍ</data>
+  <data key="d1">1</data>
+</node>
+<node id="41027">
+  <data key="d0">PATO BRANCO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41028">
+  <data key="d0">PITANGA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41021">
+  <data key="d0">PONTA GROSSA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41007">
+  <data key="d0">PORECATU</data>
+  <data key="d1">1</data>
+</node>
+<node id="41031">
+  <data key="d0">PRUDENTÓPOLIS</data>
+  <data key="d1">1</data>
+</node>
+<node id="41039">
+  <data key="d0">RIO NEGRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41034">
+  <data key="d0">SÃO MATEUS DO SUL</data>
+  <data key="d1">1</data>
+</node>
+<node id="41019">
+  <data key="d0">TELÊMACO BORBA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41022">
+  <data key="d0">TOLEDO</data>
+  <data key="d1">1</data>
+</node>
+<node id="41002">
+  <data key="d0">UMUARAMA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41033">
+  <data key="d0">UNIÃO DA VITÓRIA</data>
+  <data key="d1">1</data>
+</node>
+<node id="41018">
+  <data key="d0">WENCESLAU BRAZ</data>
+  <data key="d1">1</data>
+</node>
+<node id="11005">
+  <data key="d0">ALVORADA D'OESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="11003">
+  <data key="d0">ARIQUEMES</data>
+  <data key="d1">1</data>
+</node>
+<node id="11006">
+  <data key="d0">CACOAL</data>
+  <data key="d1">1</data>
+</node>
+<node id="11008">
+  <data key="d0">COLORADO DO OESTE</data>
+  <data key="d1">1</data>
+</node>
+<node id="11002">
+  <data key="d0">GUAJARÁ-MIRIM</data>
+  <data key="d1">1</data>
+</node>
+<node id="11004">
+  <data key="d0">JI-PARANÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="11001">
+  <data key="d0">PORTO VELHO</data>
+  <data key="d1">1</data>
+</node>
+<node id="11007">
+  <data key="d0">VILHENA</data>
+  <data key="d1">1</data>
+</node>
+<node id="13003">
+  <data key="d0">ALTO SOLIMÕES</data>
+  <data key="d1">1</data>
+</node>
+<node id="13006">
+  <data key="d0">COARI</data>
+  <data key="d1">1</data>
+</node>
+<node id="13011">
+  <data key="d0">BOCA DO ACRE</data>
+  <data key="d1">1</data>
+</node>
+<node id="13009">
+  <data key="d0">ITACOATIARA</data>
+  <data key="d1">1</data>
+</node>
+<node id="13002">
+  <data key="d0">JAPURÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="13004">
+  <data key="d0">JURUÁ</data>
+  <data key="d1">1</data>
+</node>
+<node id="13013">
+  <data key="d0">MADEIRA</data>
+  <data key="d1">1</data>
+</node>
+<node id="13007">
+  <data key="d0">MANAUS</data>
+  <data key="d1">1</data>
+</node>
+<node id="13010">
+  <data key="d0">PARINTINS</data>
+  <data key="d1">1</data>
+</node>
+<node id="13012">
+  <data key="d0">PURUS</data>
+  <data key="d1">1</data>
+</node>
+<node id="13001">
+  <data key="d0">RIO NEGRO</data>
+  <data key="d1">1</data>
+</node>
+<node id="13008">
+  <data key="d0">RIO PRETO DA EVA</data>
+  <data key="d1">1</data>
+</node>
+<node id="13005">
+  <data key="d0">TEFÉ</data>
+  <data key="d1">1</data>
+</node>
 </graph></graphml>
