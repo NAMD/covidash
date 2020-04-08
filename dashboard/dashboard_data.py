@@ -46,3 +46,13 @@ def get_city_list(data, uf):
     data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
     data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
     return sorted(list(data_filt.state_city.drop_duplicates().values))
+
+
+@cache
+def get_global_cases():
+    url = (
+        "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/"
+        "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_"
+        "confirmed_global.csv"
+    )
+    return pd.read_csv(url)

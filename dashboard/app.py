@@ -11,10 +11,10 @@ import altair as alt
 
 st.title('Cenarios de Controle da Covid-19')
 
-WHOLE_BRASIL = "Brasil inteiro"
-PAGE_CASE_NUMBER = "Evolução No Brasil"
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
+PAGE_CASE_NUMBER = "Evolução No Brasil"
+PAGE_GLOBAL_CASES = "Casos no Mundo todo"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -39,7 +39,10 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA, CREDITOS])
+    page = st.sidebar.selectbox(
+        "Escolha um Painel",
+        ["Home", "Modelos", "Dados",
+         PAGE_CASE_NUMBER, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -152,6 +155,17 @@ $\lambda=\beta(I+A+(1-\rho)H)$
             layers=[layer]
             ,
         ))
+
+    elif PAGE_GLOBAL_CASES:
+        global_cases = dashboard_data.get_global_cases()\
+            .drop(["Province/State", "Lat", "Long"], axis="columns")
+        melted_global_cases = pd.melt(
+            global_cases,
+            id_vars=["Country/Region"],
+            var_name="Países",
+            value_name="Data"
+        )
+
     elif page == CREDITOS:
         st.markdown('''# Equipe do Dashboard
         Este é um esforço voluntário de várias pessoas. Saiba mais sobre nós:
