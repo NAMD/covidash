@@ -78,3 +78,9 @@ def get_countries_data(data, countries):
     else:
         result = data.groupby("Data").sum()
     return result
+
+
+@cache(persist=True, allow_output_mutation=True)
+def load_lat_long():
+    path_mapas = 'mapas/Estados.csv'
+    return pd.read_csv(path_mapas)

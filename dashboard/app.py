@@ -120,7 +120,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         # Precisa refatorar
         st.title("Distribuição Geográfica de Casos")
         cases = get_data()
-        estados = load_lat_long()
+        estados = dashboard_data.load_lat_long()
         estados['casos'] = 0
         cases = cases[cases.place_type != 'state'].groupby(['date', 'state']).sum()
         cases.reset_index(inplace=True)
@@ -157,7 +157,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
             ,
         ))
 
-    elif PAGE_GLOBAL_CASES:
+    elif page == PAGE_GLOBAL_CASES:
         global_cases = dashboard_data.get_global_cases()\
             .drop(["Province/State", "Lat", "Long"], axis="columns")
         melted_global_cases = pd.melt(
@@ -242,19 +242,6 @@ def get_data_uf(data, uf, city_options):
         return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
 
     return data.set_index("date")
-
-
-@st.cache
-def get_city_list(data, uf):
-    data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
-    data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
-    return sorted(list(data_filt.state_city.drop_duplicates().values))
-
-
-@st.cache(persist=True, allow_output_mutation=True)
-def load_lat_long():
-    path_mapas = 'mapas/Estados.csv'
-    return pd.read_csv(path_mapas)
 
 
 @st.cache
