@@ -11,10 +11,10 @@ import altair as alt
 
 st.title('Cenarios de Controle da Covid-19')
 
-WHOLE_BRASIL = "Brasil inteiro"
-PAGE_CASE_NUMBER = "Evolução No Brasil"
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
+PAGE_CASE_NUMBER = "Casos no Brasil"
+PAGE_GLOBAL_CASES = "Casos no Mundo"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -39,7 +39,10 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA, CREDITOS])
+    page = st.sidebar.selectbox(
+        "Escolha um Painel",
+        ["Home", "Modelos", "Dados",
+         PAGE_CASE_NUMBER, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -110,13 +113,14 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         data_uf = np.log(data_uf + 1) if is_log else data_uf
 
         st.line_chart(data_uf, height=400)
+        st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == MAPA:
 
         # Precisa refatorar
         st.title("Distribuição Geográfica de Casos")
-        cases = get_data()
-        estados = load_lat_long()
+        cases = dashboard_data.get_data()
+        estados = dashboard_data.load_lat_long()
         estados['casos'] = 0
         cases = cases[cases.place_type != 'state'].groupby(['date', 'state']).sum()
         cases.reset_index(inplace=True)
@@ -152,87 +156,33 @@ $\lambda=\beta(I+A+(1-\rho)H)$
             layers=[layer]
             ,
         ))
+
+    elif page == PAGE_GLOBAL_CASES:
+        global_cases = dashboard_data.get_global_cases()\
+            .drop(["Province/State", "Lat", "Long"], axis="columns")
+        melted_global_cases = pd.melt(
+            global_cases,
+            id_vars=["Country/Region"],
+            var_name="Data",
+            value_name="Casos"
+        )
+        melted_global_cases["Data"] = pd.to_datetime(melted_global_cases["Data"])
+        countries = dashboard_data.get_countries_list(melted_global_cases)
+        countries_options = st.multiselect("Selecione os Países", countries)
+
+        countries_data = dashboard_data.get_countries_data(
+            melted_global_cases,
+            countries_options
+        )
+        is_log = st.checkbox('Escala Logarítmica', value=False)
+        countries_data = np.log(countries_data + 1) if is_log else countries_data
+        st.line_chart(countries_data, height=400)
+        st.markdown("**Fonte**: [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)")
+
     elif page == CREDITOS:
         st.markdown('''# Equipe do Dashboard
         Este é um esforço voluntário de várias pessoas. Saiba mais sobre nós:
         ''')
-
-
-def plot_model(melted_traces, q):
-    lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
-        x="time",
-        y='Número de Casos Estimados',
-        color='Grupos',
-    ).encode(
-        x=alt.X('time', axis=alt.Axis(title='Dias'))
-    )
-    vertline = alt.Chart().mark_rule(strokeWidth=2).encode(
-        x='a:Q',
-    )
-    la = alt.layer(
-        lc, vertline,
-        data=melted_traces
-    ).transform_calculate(
-        a="%d" % q
-    )
-    st.altair_chart(la)
-
-
-@st.cache(suppress_st_warning=True)
-def run_model(inits=[.99, 0, 1e-6, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
-    # st.write("Cache miss: model ran")
-    model = SEQIAHR()
-    model(inits=inits, trange=trange, totpop=N, params=params)
-    return model.traces
-
-
-@st.cache
-def get_data():
-    brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
-    cases = pd.read_csv(brasil_io_url).rename(
-        columns={"confirmed": "Casos Confirmados"})
-
-    return cases
-
-
-@st.cache
-def get_data_uf(data, uf, city_options):
-    if uf:
-        data = data.loc[data.state.isin(uf)]
-        if city_options:
-            city_options = [c.split(" - ")[1] for c in city_options]
-            data = data.loc[
-                (data.city.isin(city_options)) & (data.place_type == "city")
-                ][["date", "state", "city", "Casos Confirmados"]]
-            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
-            data = pd.DataFrame(pivot_data.to_records())
-        else:
-            data = data.loc[data.place_type == "state"][["date", "state", "Casos Confirmados"]]
-            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="state")
-            data = pd.DataFrame(pivot_data.to_records())
-
-    else:
-        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
-
-    return data.set_index("date")
-
-
-@st.cache
-def get_city_list(data, uf):
-    data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
-    data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
-    return sorted(list(data_filt.state_city.drop_duplicates().values))
-
-
-@st.cache(persist=True, allow_output_mutation=True)
-def load_lat_long():
-    path_mapas = 'mapas/Estados.csv'
-    return pd.read_csv(path_mapas)
-
-
-@st.cache
-def load_data():
-    pass
 
 
 if __name__ == "__main__":
