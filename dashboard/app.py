@@ -14,7 +14,7 @@ st.title('Cenarios de Controle da Covid-19')
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
 PAGE_CASE_NUMBER = "Evolução No Brasil"
-PAGE_GLOBAL_CASES = "Casos no Mundo todo"
+PAGE_GLOBAL_CASES = "Casos no Mundo"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -162,9 +162,22 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         melted_global_cases = pd.melt(
             global_cases,
             id_vars=["Country/Region"],
-            var_name="Países",
-            value_name="Data"
+            var_name="Data",
+            value_name="Casos"
         )
+        melted_global_cases["Data"] = pd.to_datetime(melted_global_cases["Data"])
+        countries = dashboard_data.get_countries_list(melted_global_cases)
+        countries_options = st.multiselect("Selecione os Países", countries)
+
+        countries_data = dashboard_data.get_countries_data(
+            melted_global_cases,
+            countries_options
+        )
+        is_log = st.checkbox('Escala Logarítmica', value=False)
+        countries_data = np.log(countries_data + 1) if is_log else countries_data
+        st.line_chart(countries_data, height=400)
+        st.markdown("**Fonte**: [Johns Hopkins CSSE](https://systems.jhu.edu/research/public-health/ncov/)")
+        st.markdown("**Dados**: [Johns Hopkins CSSE - Dados](https://github.com/CSSEGISandData/COVID-19)")
 
     elif page == CREDITOS:
         st.markdown('''# Equipe do Dashboard

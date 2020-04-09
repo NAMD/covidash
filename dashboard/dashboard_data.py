@@ -56,3 +56,23 @@ def get_global_cases():
         "confirmed_global.csv"
     )
     return pd.read_csv(url)
+
+
+@cache
+def get_countries_list(data):
+    return sorted(list(data["Country/Region"].drop_duplicates()))
+
+
+def get_countries_data(data, countries):
+    if countries:
+        result = data.loc[data["Country/Region"].isin(countries)]
+        result = pd.DataFrame(
+            pd.pivot_table(
+                result,
+                index="Data",
+                columns="Country/Region",
+                values="Casos").to_records()
+        ).set_index("Data")
+    else:
+        result = data.groupby("Data").sum()
+    return result
