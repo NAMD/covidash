@@ -35,7 +35,7 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -108,35 +108,37 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         st.line_chart(data_uf, height=400)
 
     elif page == MAPA:
-        
-        #Precisa refatorar
+
+        # Precisa refatorar
         st.title("Distribuição Geográfica de Casos")
         cases = get_data()
         estados = load_lat_long()
         estados['casos'] = 0
-        cases = cases[cases.place_type!='state'].groupby(['date','state']).sum()
+        cases = cases[cases.place_type != 'state'].groupby(['date', 'state']).sum()
         cases.reset_index(inplace=True)
 
         for i, row in estados.iterrows():
             if row.Estados in list(cases.state):
-                estados.loc[estados.Estados == row.Estados, 'casos'] += cases[(cases.state==row.Estados)&(cases.is_last)]['Casos Confirmados'].iloc[0]
-        
+                estados.loc[estados.Estados == row.Estados, 'casos'] += \
+                cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]
+
         estados = estados.set_index('Estados')
         midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
-        
+
         layer = pdk.Layer(
-                    "HexagonLayer",
-                    data=estados,
-                    get_position=["Longitude","Latitude"],
-                    radius=1000,
-                    elevation_scale=10,
-                    elevation_range=[0, 2000],
-                    pickable=True,
-                    extruded=True,
-                )
+            "HexagonLayer",
+            data=estados,
+            get_position=["Longitude", "Latitude"],
+            radius=1000,
+            elevation_scale=10,
+            elevation_range=[0, 2000],
+            pickable=True,
+            extruded=True,
+        )
 
         st.write(pdk.Deck(
-            map_style= "mapbox://styles/mapbox/light-v9",
+            map_style="mapbox://styles/mapbox/light-v9",
+            mapbox_key='pk.eyJ1IjoiZmNjb2VsaG8iLCJhIjoiY2s4c293dzc3MGJodzNmcGEweTgxdGpudyJ9.UmSRs3e4EqTOte6jYWoaxg',
             initial_view_state={
                 "latitude": midpoint[0],
                 "longitude": midpoint[1],
@@ -146,6 +148,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
             layers=[layer]
             ,
         ))
+
 
 def plot_model(melted_traces, q):
     lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
@@ -174,6 +177,7 @@ def run_model(inits=[.99, 0, 1e-6, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, param
     model(inits=inits, trange=trange, totpop=N, params=params)
     return model.traces
 
+
 @st.cache
 def get_data():
     brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
@@ -191,7 +195,7 @@ def get_data_uf(data, uf, city_options):
             city_options = [c.split(" - ")[1] for c in city_options]
             data = data.loc[
                 (data.city.isin(city_options)) & (data.place_type == "city")
-            ][["date", "state", "city", "Casos Confirmados"]]
+                ][["date", "state", "city", "Casos Confirmados"]]
             pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
             data = pd.DataFrame(pivot_data.to_records())
         else:
@@ -211,9 +215,10 @@ def get_city_list(data, uf):
     data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
     return sorted(list(data_filt.state_city.drop_duplicates().values))
 
-@st.cache(persist=True)
+
+@st.cache(persist=True, allow_output_mutation=True)
 def load_lat_long():
-    path_mapas = 'mapas/Estados.csv'     
+    path_mapas = 'mapas/Estados.csv'
     return pd.read_csv(path_mapas)
 
 
