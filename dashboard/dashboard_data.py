@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 from streamlit import cache
 
@@ -49,6 +51,13 @@ def get_city_list(data, uf):
     return sorted(list(data_filt.state_city.drop_duplicates().values))
 
 
+def _translate(country_name, names):
+    if country_name in names:
+        return names[country_name]
+    else:
+        return country_name
+
+
 @cache
 def get_global_cases():
     url = (
@@ -56,7 +65,11 @@ def get_global_cases():
         "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_"
         "confirmed_global.csv"
     )
-    return pd.read_csv(url)
+    country_names = json.load(open("dashboard/nomes-paises.json"))
+    global_cases = pd.read_csv(url)
+    global_cases["Country/Region"] = global_cases["Country/Region"]\
+        .map(lambda x: _translate(x, country_names))
+    return global_cases
 
 
 @cache
