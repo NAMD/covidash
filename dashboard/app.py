@@ -113,6 +113,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         data_uf = np.log(data_uf + 1) if is_log else data_uf
 
         st.line_chart(data_uf, height=400)
+        st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == MAPA:
 
@@ -176,8 +177,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         is_log = st.checkbox('Escala Logarítmica', value=False)
         countries_data = np.log(countries_data + 1) if is_log else countries_data
         st.line_chart(countries_data, height=400)
-        st.markdown("**Fonte**: [Johns Hopkins CSSE](https://systems.jhu.edu/research/public-health/ncov/)")
-        st.markdown("**Dados**: [Johns Hopkins CSSE - Dados](https://github.com/CSSEGISandData/COVID-19)")
+        st.markdown("**Fonte**: [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)")
 
     elif page == CREDITOS:
         st.markdown('''# Equipe do Dashboard
