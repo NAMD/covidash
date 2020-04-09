@@ -7,6 +7,7 @@ def get_data():
     brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
     cases = pd.read_csv(brasil_io_url).rename(
         columns={"confirmed": "Casos Confirmados"})
+    cases["date"] = pd.to_datetime(cases["date"])
 
     return cases
 
