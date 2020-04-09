@@ -13,7 +13,7 @@ st.title('Cenarios de Controle da Covid-19')
 
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
-PAGE_CASE_NUMBER = "Evolução No Brasil"
+PAGE_CASE_NUMBER = "Casos no Brasil"
 PAGE_GLOBAL_CASES = "Casos no Mundo"
 
 COLUMNS = {
