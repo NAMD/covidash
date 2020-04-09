@@ -180,9 +180,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         st.markdown("**Fonte**: [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)")
 
     elif page == CREDITOS:
-        st.markdown('''# Equipe do Dashboard
-        Este é um esforço voluntário de várias pessoas. Saiba mais sobre nós:
-        ''')
+        st.markdown(open('creditos.md', 'r').read())
 
 
 if __name__ == "__main__":
