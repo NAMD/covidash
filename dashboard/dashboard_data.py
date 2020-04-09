@@ -63,6 +63,7 @@ def get_countries_list(data):
     return sorted(list(data["Country/Region"].drop_duplicates()))
 
 
+@cache
 def get_countries_data(data, countries):
     if countries:
         result = data.loc[data["Country/Region"].isin(countries)]\
