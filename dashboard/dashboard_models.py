@@ -56,10 +56,10 @@ def plot_model(melted_traces, q, r):
     ])
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
-        showline=True, linewidth=2, linecolor='black',
+        showline=True, linewidth=1, linecolor='black',
     )
     fig.update_yaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
-        showline=True, linewidth=2, linecolor='black',
+        showline=True, linewidth=1, linecolor='black',
     )
     st.plotly_chart(fig)
