@@ -65,7 +65,8 @@ def get_countries_list(data):
 
 def get_countries_data(data, countries):
     if countries:
-        result = data.loc[data["Country/Region"].isin(countries)]
+        result = data.loc[data["Country/Region"].isin(countries)]\
+            .groupby(["Country/Region", "Data"]).sum().reset_index()
         result = pd.DataFrame(
             pd.pivot_table(
                 result,
