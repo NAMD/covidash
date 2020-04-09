@@ -38,6 +38,7 @@ def plot_model(melted_traces, q, r):
     fig.update_layout(
         xaxis_title="Dias",
         yaxis_title="Indivíduos",
+        plot_bgcolor='rgba(0,0,0,0)',
         shapes=[
         dict(
             type= 'line',
@@ -53,4 +54,6 @@ def plot_model(melted_traces, q, r):
             ),
         )
     ])
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)')
     st.plotly_chart(fig)
