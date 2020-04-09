@@ -2,16 +2,15 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-
-import dashboard_data
-import dashboard_models
-from dashboard_models import seqiahr_model
+from epimodels.continuous.models import SEQIAHR
+import pydeck as pdk
+import altair as alt
 
 st.title('Cenarios de Controle da Covid-19')
 
 WHOLE_BRASIL = "Brasil inteiro"
 PAGE_CASE_NUMBER = "Evolução do Número de Casos"
-CUM_CASE_COUNT = "Casos acumulados a partir de 100"
+MAPA = "Visualização da Distribuição Geográfica"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -36,7 +35,7 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, CUM_CASE_COUNT])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home",  "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
@@ -108,28 +107,119 @@ $\lambda=\beta(I+A+(1-\rho)H)$
 
         st.line_chart(data_uf, height=400)
 
-        y = 'Indivíduos',
-        color = 'Estado',
-        tooltip = ['time', 'Estado', 'Indivíduos'],
+    elif page == MAPA:
+        
+        #Precisa refatorar
+        st.title("Distribuição Geográfica de Casos")
+        cases = get_data()
+        estados = load_lat_long()
+        estados['casos'] = 0
+        cases = cases[cases.place_type!='state'].groupby(['date','state']).sum()
+        cases.reset_index(inplace=True)
 
-    elif page == CUM_CASE_COUNT:
-        st.title("Casos acumulados a partir do centésimo")
-        data = dashboard_data.get_data()
-        ufs = sorted(list(data.state.drop_duplicates().values))
-        uf_option = st.multiselect("Selecione o Estado", ufs)
+        for i, row in estados.iterrows():
+            if row.Estados in list(cases.state):
+                estados.loc[estados.Estados == row.Estados, 'casos'] += cases[(cases.state==row.Estados)&(cases.is_last)]['Casos Confirmados'].iloc[0]
+        
+        estados = estados.set_index('Estados')
+        midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
+        
+        layer = pdk.Layer(
+                    "HexagonLayer",
+                    data=estados,
+                    get_position=["Longitude","Latitude"],
+                    radius=1000,
+                    elevation_scale=10,
+                    elevation_range=[0, 2000],
+                    pickable=True,
+                    extruded=True,
+                )
 
-        city_options = None
-        if uf_option:
-            cities = dashboard_data.get_city_list(data, uf_option)
-            city_options = st.multiselect("Selecione os Municípios", cities)
-        is_log = st.checkbox('Escala Logarítmica', value=False)
-        # is_aligned = st.checkbox("Alinhar por primeiros 100 casos",value=False)
-        data_uf = dashboard_data.get_data_uf(data, uf_option, city_options)
-        # print(data_uf)
-        data_uf = dashboard_data.get_aligned_data(data_uf, align=100)
-        # data_uf = data_uf[data_uf>=100] if is_aligned else data_uf
-        data_uf = np.log(data_uf + 1) if is_log else data_uf
-        st.line_chart(data_uf, height=400)
+        st.write(pdk.Deck(
+            map_style= "mapbox://styles/mapbox/light-v9",
+            initial_view_state={
+                "latitude": midpoint[0],
+                "longitude": midpoint[1],
+                "zoom": 3,
+                "pitch": 20,
+            },
+            layers=[layer]
+            ,
+        ))
+
+def plot_model(melted_traces, q):
+    lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
+        x="time",
+        y='Número de Casos Estimados',
+        color='Grupos',
+    ).encode(
+        x=alt.X('time', axis=alt.Axis(title='Dias'))
+    )
+    vertline = alt.Chart().mark_rule(strokeWidth=2).encode(
+        x='a:Q',
+    )
+    la = alt.layer(
+        lc, vertline,
+        data=melted_traces
+    ).transform_calculate(
+        a="%d" % q
+    )
+    st.altair_chart(la)
+
+
+@st.cache(suppress_st_warning=True)
+def run_model(inits=[.99, 0, 1e-6, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
+    # st.write("Cache miss: model ran")
+    model = SEQIAHR()
+    model(inits=inits, trange=trange, totpop=N, params=params)
+    return model.traces
+
+@st.cache
+def get_data():
+    brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
+    cases = pd.read_csv(brasil_io_url).rename(
+        columns={"confirmed": "Casos Confirmados"})
+
+    return cases
+
+
+@st.cache
+def get_data_uf(data, uf, city_options):
+    if uf:
+        data = data.loc[data.state.isin(uf)]
+        if city_options:
+            city_options = [c.split(" - ")[1] for c in city_options]
+            data = data.loc[
+                (data.city.isin(city_options)) & (data.place_type == "city")
+            ][["date", "state", "city", "Casos Confirmados"]]
+            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
+            data = pd.DataFrame(pivot_data.to_records())
+        else:
+            data = data.loc[data.place_type == "state"][["date", "state", "Casos Confirmados"]]
+            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="state")
+            data = pd.DataFrame(pivot_data.to_records())
+
+    else:
+        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
+
+    return data.set_index("date")
+
+
+@st.cache
+def get_city_list(data, uf):
+    data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
+    data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
+    return sorted(list(data_filt.state_city.drop_duplicates().values))
+
+@st.cache(persist=True)
+def load_lat_long():
+    path_mapas = 'mapas/Estados.csv'     
+    return pd.read_csv(path_mapas)
+
+
+@st.cache
+def load_data():
+    pass
 
 
 if __name__ == "__main__":
