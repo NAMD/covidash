@@ -12,8 +12,9 @@ import altair as alt
 st.title('Cenarios de Controle da Covid-19')
 
 WHOLE_BRASIL = "Brasil inteiro"
-PAGE_CASE_NUMBER = "Evolução do Número de Casos"
-MAPA = "Visualização da Distribuição Geográfica"
+PAGE_CASE_NUMBER = "Evolução No Brasil"
+MAPA = "Distribuição Geográfica"
+CREDITOS = "Equipe"
 
 COLUMNS = {
     "A": "Assintomáticos",
@@ -151,6 +152,10 @@ $\lambda=\beta(I+A+(1-\rho)H)$
             layers=[layer]
             ,
         ))
+    elif page == CREDITOS:
+        st.markdown('''# Equipe do Dashboard
+        Este é um esforço voluntário de várias pessoas. Saiba mais sobre nós:
+        ''')
 
 
 def plot_model(melted_traces, q):
