@@ -119,7 +119,7 @@ $\lambda=\beta(I+A+(1-\rho)H)$
 
         # Precisa refatorar
         st.title("Distribuição Geográfica de Casos")
-        cases = get_data()
+        cases = dashboard_data.get_data()
         estados = dashboard_data.load_lat_long()
         estados['casos'] = 0
         cases = cases[cases.place_type != 'state'].groupby(['date', 'state']).sum()
@@ -183,70 +183,6 @@ $\lambda=\beta(I+A+(1-\rho)H)$
         st.markdown('''# Equipe do Dashboard
         Este é um esforço voluntário de várias pessoas. Saiba mais sobre nós:
         ''')
-
-
-def plot_model(melted_traces, q):
-    lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
-        x="time",
-        y='Número de Casos Estimados',
-        color='Grupos',
-    ).encode(
-        x=alt.X('time', axis=alt.Axis(title='Dias'))
-    )
-    vertline = alt.Chart().mark_rule(strokeWidth=2).encode(
-        x='a:Q',
-    )
-    la = alt.layer(
-        lc, vertline,
-        data=melted_traces
-    ).transform_calculate(
-        a="%d" % q
-    )
-    st.altair_chart(la)
-
-
-@st.cache(suppress_st_warning=True)
-def run_model(inits=[.99, 0, 1e-6, 0, 0, 0, 0], trange=[0, 365], N=97.3e6, params=None):
-    # st.write("Cache miss: model ran")
-    model = SEQIAHR()
-    model(inits=inits, trange=trange, totpop=N, params=params)
-    return model.traces
-
-
-@st.cache
-def get_data():
-    brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
-    cases = pd.read_csv(brasil_io_url).rename(
-        columns={"confirmed": "Casos Confirmados"})
-
-    return cases
-
-
-@st.cache
-def get_data_uf(data, uf, city_options):
-    if uf:
-        data = data.loc[data.state.isin(uf)]
-        if city_options:
-            city_options = [c.split(" - ")[1] for c in city_options]
-            data = data.loc[
-                (data.city.isin(city_options)) & (data.place_type == "city")
-                ][["date", "state", "city", "Casos Confirmados"]]
-            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
-            data = pd.DataFrame(pivot_data.to_records())
-        else:
-            data = data.loc[data.place_type == "state"][["date", "state", "Casos Confirmados"]]
-            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="state")
-            data = pd.DataFrame(pivot_data.to_records())
-
-    else:
-        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum()
-
-    return data.set_index("date")
-
-
-@st.cache
-def load_data():
-    pass
 
 
 if __name__ == "__main__":
