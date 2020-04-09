@@ -39,7 +39,7 @@ logo = Image.open('dashboard/logo_peq.png')
 
 def main():
     st.sidebar.image(logo, use_column_width=True)
-    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA])
+    page = st.sidebar.selectbox("Escolha um Painel", ["Home", "Modelos", "Dados", PAGE_CASE_NUMBER, MAPA, CREDITOS])
     if page == "Home":
         st.header("Dashboard COVID-19")
         st.write("Escolha um painel à esquerda")
