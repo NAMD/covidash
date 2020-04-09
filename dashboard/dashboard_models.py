@@ -32,7 +32,7 @@ def prepare_model_data(model_data, variables, column_names, N):
     return melted_traces
 
 
-def plot_model(melted_traces, q):
+def plot_model(melted_traces, q, r):
     lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
         x="time",
         y='Indivíduos',
@@ -41,13 +41,18 @@ def plot_model(melted_traces, q):
     ).encode(
         x=alt.X('time', axis=alt.Axis(title='Dias'))
     )
-    vertline = alt.Chart().mark_rule(strokeWidth=2).encode(
+    startline = alt.Chart().mark_rule(strokeWidth=1.5).encode(
         x='a:Q',
     )
+    endline = alt.Chart().mark_rule(strokeWidth=1.5, color='red').encode(
+        x='b:Q',
+    )
     la = alt.layer(
-        lc, vertline,
+        lc, startline, endline,
         data=melted_traces
     ).transform_calculate(
-        a="%d" % q
+        a="%d" % q,
+        b="%d" % (q+r)
     )
+
     st.altair_chart(la)

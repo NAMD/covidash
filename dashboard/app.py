@@ -52,12 +52,14 @@ def main():
         chi = st.sidebar.slider('χ, Fração de quarentenados', 0.0, 1.0, 0.3)
         phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.01)
         beta = st.sidebar.slider('β, Taxa de transmissão', 0.0, 1.0, 0.5)
-        rho = st.sidebar.slider('ρ, Atenuação da Transmissão em hospitalizados:', 0.0, 1.0, 1.0)
+        rho = st.sidebar.slider('ρ, Taxa de alta dos hospitalizados:', 0.0, 1.0, 0.02)
         delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.01)
         alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, 2.0)
+        mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19')
 
         p = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
         q = st.slider('Dia de início da Quarentena:', 0, 120, 30)
+        r = st.slider('duração em dias da Quarentena:', 0, 120, 10)
         N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
 
         params = {
@@ -67,13 +69,15 @@ def main():
             'rho': rho,
             'delta': delta,
             'alpha': alpha,
+            'mu': mu,
             'p': p,
-            'q': q
+            'q': q,
+            'r': r
         }
         traces = pd.DataFrame(data=seqiahr_model(params=params)).rename(columns=COLUMNS)
         final_traces = dashboard_models.prepare_model_data(traces, VARIABLES, COLUMNS, N)
 
-        dashboard_models.plot_model(final_traces, q)
+        dashboard_models.plot_model(final_traces, q, r)
         st.markdown('### Formulação do modelo')
         st.write(r"""
 $\frac{dS}{dt}=-\lambda[(1-\chi) S]$
@@ -84,11 +88,11 @@ $\frac{dI}{dt}= (1-p)\alpha E - (\phi+\delta)I$
 
 $\frac{dA}{dt}= p\alpha E -\delta A$
 
-$\frac{dH}{dt}= \phi I -\delta H$
+$\frac{dH}{dt}= \phi I -(\rho+\mu) H$
 
-$\frac{dR}{dt}= \delta I +\delta H + \delta A$
+$\frac{dR}{dt}= \delta I +\rho H + \delta A$
 
-$\lambda=\beta(I+A+(1-\rho)H)$
+$\lambda=\beta(I+A)$
         """)
 
     elif page == "Dados":
