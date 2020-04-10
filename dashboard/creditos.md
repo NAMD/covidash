@@ -16,6 +16,8 @@ Professor de Epidemiologia Matemática da Escola de matemática Aplicada da FGV.
 ![Nahum](https://s.gravatar.com/avatar/67b5ec10d65881513332fb437c8b7bf9)
 **Nahum Sá** 
 
+Estudante de Doutorado no Centro Brasileiro de Pesquisas Físicas.
+
 ![turicas](https://www.gravatar.com/avatar/2139983a9baaabded6905b2970a036cb)
 **Alvaro Justen**
 
