@@ -1,13 +1,15 @@
-import streamlit as st
-import pandas as pd
+import altair as alt
 import numpy as np
+import pandas as pd
+import streamlit as st
+import pydeck as pdk
 from PIL import Image
 from epimodels.continuous.models import SEQIAHR
+
 import dashboard_models
 import dashboard_data
 from dashboard_models import seqiahr_model
-import pydeck as pdk
-import altair as alt
+
 
 st.title('Cenarios de Controle da Covid-19')
 
@@ -38,6 +40,7 @@ VARIABLES = [
     'Hospitalizados',
     'Hospitalizações Acumuladas'
 ]
+
 
 logo = Image.open('dashboard/logo_peq.png')
 
@@ -111,8 +114,9 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
                  use_column_width=True)
 
     elif page == PAGE_CASE_NUMBER_BR:
-        st.title("Casos Confirmados no Brasil")
-        variable = "Casos Confirmados"
+        st.title(PAGE_CASE_NUMBER_BR)
+        x_variable = "date"
+        y_variable = "Casos Confirmados"
         data = dashboard_data.get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.multiselect("Selecione o Estado", ufs)
@@ -123,15 +127,14 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             city_options = st.multiselect("Selecione os Municípios", cities)
 
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        data_uf = dashboard_data.get_data_uf(data, uf_option, city_options,variable)
-        data_uf = np.log(data_uf + 1) if is_log else data_uf
+        region_name, data_uf = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable)
 
-        st.line_chart(data_uf, height=400)
+        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
-        
     elif page == CUM_DEATH_COUNT_BR:
         st.title(CUM_DEATH_COUNT_BR)
-        variable = "deaths"
+        x_variable = "date"
+        y_variable = "Mortes Acumuladas"
         data = dashboard_data.get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.multiselect("Selecione o Estado", ufs)
@@ -142,10 +145,14 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             city_options = st.multiselect("Selecione os Municípios", cities)
 
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        data_uf = dashboard_data.get_data_uf(data, uf_option, city_options,variable)
-        data_uf = np.log(data_uf + 1) if is_log else data_uf
+        region_name, data_uf = dashboard_data.get_data_uf(
+            data,
+            uf_option,
+            city_options,
+            y_variable
+        )
 
-        st.line_chart(data_uf, height=400)
+        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == MAPA:
@@ -203,25 +210,29 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == PAGE_GLOBAL_CASES:
+        st.title(PAGE_GLOBAL_CASES)
+        x_variable = "Data"
+        y_variable = "Casos"
         global_cases = dashboard_data.get_global_cases()\
             .drop(["Province/State", "Lat", "Long"], axis="columns")
+
         melted_global_cases = pd.melt(
             global_cases,
-            id_vars=["Country/Region"],
-            var_name="Data",
-            value_name="Casos"
+            id_vars=["País/Região"],
+            var_name=x_variable,
+            value_name=y_variable
         )
         melted_global_cases["Data"] = pd.to_datetime(melted_global_cases["Data"])
         countries = dashboard_data.get_countries_list(melted_global_cases)
         countries_options = st.multiselect("Selecione os Países", countries)
 
-        countries_data = dashboard_data.get_countries_data(
+        region_name, countries_data = dashboard_data.get_countries_data(
             melted_global_cases,
             countries_options
         )
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        countries_data = np.log(countries_data + 1) if is_log else countries_data
-        st.line_chart(countries_data, height=400)
+
+        dashboard_data.plot_series(countries_data, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)")
 
     elif page == CREDITOS:
