@@ -57,7 +57,14 @@ def plot_model(melted_traces, q, r):
             line=dict(
                 color="Red",
             ),
-        )
+        ),
+        dict(type='rect',
+             yref='paper', y0=0, y1=1,
+             ysizemode='scaled',
+             xref='x', x0=q , x1=q + r,
+             opacity=0.3,
+             fillcolor='gray',
+             ),
     ])
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',

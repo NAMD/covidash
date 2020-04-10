@@ -54,18 +54,20 @@ def main():
     elif page == MODELS:
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
-        chi = st.sidebar.slider('χ, Fração de quarentenados', 0.0, 1.0, 0.3)
+        chi = st.sidebar.slider('χ, Fração de quarentenados', 0.0, 1.0, 0.7)
         phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.01)
         beta = st.sidebar.slider('β, Taxa de transmissão', 0.0, 1.0, 0.5)
         rho = st.sidebar.slider('ρ, Taxa de alta dos hospitalizados:', 0.0, 1.0, 0.02)
-        delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.01)
-        alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, 2.0)
+        delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.1)
+        alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, .33)
         mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19')
 
         p = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
-        q = st.slider('Dia de início da Quarentena:', 0, 120, 30)
-        r = st.slider('duração em dias da Quarentena:', 0, 120, 10)
+        q = st.slider('Dia de início da Quarentena:', 0, 120, 50)
+        r = st.slider('duração em dias da Quarentena:', 0, 200, 10)
         N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
+        st.markdown(f"$R_0={-(beta*chi-beta)/delta:.2f}$, durante a quarentena.")
+        st.markdown(f"$R_0={-(beta * 0 - beta) / delta:.2f}$, fora da quarentena.")
 
         params = {
             'chi': chi,
@@ -89,15 +91,17 @@ $\frac{dS}{dt}=-\lambda[(1-\chi) S]$
 
 $\frac{dE}{dt}= \lambda [(1-\chi) S] -\alpha E$
 
-$\frac{dI}{dt}= (1-p)\alpha E - (\phi+\delta)I$
+$\frac{dI}{dt}= (1-p)\alpha E - \delta I$
 
 $\frac{dA}{dt}= p\alpha E -\delta A$
 
-$\frac{dH}{dt}= \phi I -(\rho+\mu) H$
+$\frac{dH}{dt}= \phi \delta I -(\rho+\mu) H$
 
-$\frac{dR}{dt}= \delta I +\rho H + \delta A$
+$\frac{dR}{dt}= (1-\phi)\delta I +\rho H + \delta A$
 
 $\lambda=\beta(I+A)$
+
+$R_0 = -\frac{\beta \chi -\beta}{\delta}$
         """)
 
     elif page == DATA:
