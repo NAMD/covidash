@@ -9,6 +9,7 @@ from dashboard_models import seqiahr_model
 import pydeck as pdk
 import altair as alt
 
+
 st.title('Cenarios de Controle da Covid-19')
 
 ### Main menu goes here
