@@ -47,8 +47,8 @@ def get_data_uf(data, uf, city_options, variable):
     return region_name, melted_data
 
 
-def plot_series(data, variable, region_name):
-    fig = px.scatter(data, x="date", y=variable, color=region_name)
+def plot_series(data, x_variable, y_variable, region_name):
+    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)
     fig.update_traces(mode='lines+markers')
     fig.update_layout(
         xaxis_title="Data",
@@ -102,6 +102,7 @@ def get_global_cases():
     global_cases = pd.read_csv(url)
     global_cases["Country/Region"] = global_cases["Country/Region"]\
         .map(lambda x: _translate(x, country_names))
+    global_cases = global_cases.rename(columns={"Country/Region": "País/Região"})
     return global_cases
 
 
@@ -113,18 +114,13 @@ def get_countries_list(data):
 @cache
 def get_countries_data(data, countries):
     if countries:
-        result = data.loc[data["Country/Region"].isin(countries)]\
-            .groupby(["Country/Region", "Data"]).sum().reset_index()
-        result = pd.DataFrame(
-            pd.pivot_table(
-                result,
-                index="Data",
-                columns="Country/Region",
-                values="Casos").to_records()
-        ).set_index("Data")
+        region_name = "País/Região"
+        result = data.loc[data[region_name].isin(countries)]\
+            .groupby([region_name, "Data"]).sum().reset_index()
     else:
-        result = data.groupby("Data").sum()
-    return result
+        region_name = None
+        result = data.groupby("Data").sum().reset_index()
+    return region_name, result
 
 
 @cache(persist=True, allow_output_mutation=True)
