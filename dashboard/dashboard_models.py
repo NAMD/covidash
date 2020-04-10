@@ -34,11 +34,16 @@ def prepare_model_data(model_data, variables, column_names, N):
 
 
 def plot_model(melted_traces, q, r):
-    fig = px.line(melted_traces, x="time", y="Indivíduos", color='Estado')
+    fig = px.line(melted_traces, x="time", y="Indivíduos", color='Estado', height=500)
     fig.update_layout(
         xaxis_title="Dias",
         yaxis_title="Indivíduos",
         plot_bgcolor='rgba(0,0,0,0)',
+        legend_orientation="h",
+        legend_title="",
+        legend=dict(
+            y=-0.15,
+        ),
         shapes=[
         dict(
             type= 'line',
