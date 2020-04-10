@@ -126,10 +126,8 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
 
         is_log = st.checkbox('Escala Logarítmica', value=False)
         region_name, data_uf = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable)
-        data_uf[y_variable] = np.log(data_uf[y_variable] + 1)\
-            if is_log else data_uf[y_variable]
 
-        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name)
+        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
     elif page == CUM_DEATH_COUNT_BR:
         st.title(CUM_DEATH_COUNT_BR)
@@ -151,9 +149,8 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             city_options,
             y_variable
         )
-        data_uf[y_variable] = np.log(data_uf[y_variable] + 1) if is_log else data_uf[y_variable]
 
-        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name)
+        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == MAPA:
@@ -219,9 +216,8 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             countries_options
         )
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        countries_data[y_variable] = np.log(countries_data[y_variable] + 1) if is_log else countries_data[y_variable]
 
-        dashboard_data.plot_series(countries_data, x_variable, y_variable, region_name)
+        dashboard_data.plot_series(countries_data, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)")
 
     elif page == CREDITOS:

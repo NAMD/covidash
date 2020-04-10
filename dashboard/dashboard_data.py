@@ -1,5 +1,6 @@
 import json
 
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
@@ -16,7 +17,7 @@ def get_data():
     return cases
 
 
-@cache(allow_output_mutation=True)
+@cache(suppress_st_warning=True)
 def get_data_uf(data, uf, city_options, variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
@@ -47,7 +48,13 @@ def get_data_uf(data, uf, city_options, variable):
     return region_name, melted_data
 
 
-def plot_series(data, x_variable, y_variable, region_name):
+def plot_series(data, x_variable, y_variable, region_name, is_log):
+    if is_log:
+        data = data.copy()
+        log_y_variable = "Log[{}]".format(y_variable)
+        data[log_y_variable] = np.log(data[y_variable] + 1)
+        y_variable = log_y_variable
+
     fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)
     fig.update_traces(mode='lines+markers')
     fig.update_layout(
@@ -111,7 +118,7 @@ def get_countries_list(data):
     return sorted(list(data["País/Região"].drop_duplicates()))
 
 
-@cache(allow_output_mutation=True)
+@cache(suppress_st_warning=True)
 def get_countries_data(data, countries):
     if countries:
         region_name = "País/Região"
