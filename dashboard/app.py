@@ -163,23 +163,9 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
                 estados.loc[estados.Estados == row.Estados, 'casos'] += \
                 cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]
         
-        midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))                
-        
+        midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
+                        
         geojson_url = "https://data.brasil.io/dataset/shapefiles-brasil/0.01/BR-UF.geojson"
-
-        geojson = pdk.Layer(
-            "GeoJsonLayer",
-            geojson_url,
-            opacity=0.8,
-            stroked=False,
-            filled=True,
-            extruded=True,
-            wireframe=True,
-            get_elevation='properties.valuePerSqm / 20',
-            #get_fill_color='[255, 255, properties.growth * 255]',
-            get_line_color=[255, 255, 255],
-            pickable=True
-                )
 
         layer = pdk.Layer(
             "ColumnLayer",
