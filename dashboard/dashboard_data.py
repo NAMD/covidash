@@ -15,23 +15,23 @@ def get_data():
 
 
 @cache
-def get_data_uf(data, uf, city_options):
+def get_data_uf(data, uf, city_options,variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
         if city_options:
             city_options = [c.split(" - ")[1] for c in city_options]
             data = data.loc[
                 (data.city.isin(city_options)) & (data.place_type == "city")
-            ][["date", "state", "city", "Casos Confirmados"]]
-            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="city")
+            ][["date", "state", "city", variable]]
+            pivot_data = data.pivot_table(values=variable, index="date", columns="city")
             data = pd.DataFrame(pivot_data.to_records())
         else:
-            data = data.loc[data.place_type == "state"][["date", "state", "Casos Confirmados"]]
-            pivot_data = data.pivot_table(values="Casos Confirmados", index="date", columns="state")
+            data = data.loc[data.place_type == "state"][["date", "state", variable]]
+            pivot_data = data.pivot_table(values=variable, index="date", columns="state")
             data = pd.DataFrame(pivot_data.to_records())
 
     else:
-        return data.loc[data.place_type == "city"].groupby("date")["Casos Confirmados"].sum().to_frame()
+        return data.loc[data.place_type == "city"].groupby("date")[variable].sum().to_frame()
 
     return data.set_index("date")
 
