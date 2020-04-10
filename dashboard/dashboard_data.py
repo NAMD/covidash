@@ -10,18 +10,18 @@ from streamlit import cache
 def get_data():
     brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
     cases = pd.read_csv(brasil_io_url).rename(
-        columns={"confirmed": "Casos Confirmados"})
+        columns={"confirmed": "Casos Confirmados", "deaths": "Mortes Acumuladas"})
     cases["date"] = pd.to_datetime(cases["date"])
 
     return cases
 
 
 @cache
-def get_data_uf(data, uf, city_options,variable):
+def get_data_uf(data, uf, city_options, variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
         if city_options:
-            var_name = "Cidade"
+            region_name = "Cidade"
             city_options = [c.split(" - ")[1] for c in city_options]
             data = data.loc[
                 (data.city.isin(city_options)) & (data.place_type == "city")
@@ -29,26 +29,26 @@ def get_data_uf(data, uf, city_options,variable):
             pivot_data = data.pivot_table(values=variable, index="date", columns="city")
             data = pd.DataFrame(pivot_data.to_records())
         else:
-            var_name = "Estado"
+            region_name = "Estado"
             data = data.loc[data.place_type == "state"][["date", "state", variable]]
             pivot_data = data.pivot_table(values=variable, index="date", columns="state")
             data = pd.DataFrame(pivot_data.to_records())
 
     else:
-        var_name = "Brasil"
+        region_name = "Brasil"
         data = data.loc[data.place_type == "city"].groupby("date")[variable].sum().to_frame().reset_index()
 
     melted_data = pd.melt(
         data,
         id_vars=['date'],
-        var_name=var_name,
-        value_name="Casos Confirmados"
+        var_name=region_name,
+        value_name=variable,
     )
-    return var_name, melted_data
+    return region_name, melted_data
 
 
-def plot_series(data, var_name):
-    fig = px.scatter(data, x="date", y='Casos Confirmados', color=var_name)
+def plot_series(data, variable, region_name):
+    fig = px.scatter(data, x="date", y=variable, color=region_name)
     fig.update_traces(mode='lines+markers')
     fig.update_layout(
         xaxis_title="Data",

@@ -39,6 +39,7 @@ VARIABLES = [
     'Hospitalizações Acumuladas'
 ]
 
+
 logo = Image.open('dashboard/logo_peq.png')
 
 
@@ -123,16 +124,15 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             city_options = st.multiselect("Selecione os Municípios", cities)
 
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        var_name, data_uf = dashboard_data.get_data_uf(data, uf_option, city_options,variable)
-        data_uf["Casos Confirmados"] = np.log(data_uf["Casos Confirmados"] + 1)\
-            if is_log else data_uf["Casos Confirmados"]
+        region_name, data_uf = dashboard_data.get_data_uf(data, uf_option, city_options,variable)
+        data_uf[variable] = np.log(data_uf[variable] + 1)\
+            if is_log else data_uf[variable]
 
-        dashboard_data.plot_series(data_uf, var_name)
-
+        dashboard_data.plot_series(data_uf, variable, region_name)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
     elif page == CUM_DEATH_COUNT_BR:
         st.title(CUM_DEATH_COUNT_BR)
-        variable = "deaths"
+        variable = "Mortes Acumuladas"
         data = dashboard_data.get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.multiselect("Selecione o Estado", ufs)
@@ -143,10 +143,15 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             city_options = st.multiselect("Selecione os Municípios", cities)
 
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        data_uf = dashboard_data.get_data_uf(data, uf_option, city_options,variable)
-        data_uf = np.log(data_uf + 1) if is_log else data_uf
+        region_name, data_uf = dashboard_data.get_data_uf(
+            data,
+            uf_option,
+            city_options,
+            variable
+        )
+        data_uf[variable] = np.log(data_uf[variable] + 1) if is_log else data_uf[variable]
 
-        st.line_chart(data_uf, height=400)
+        dashboard_data.plot_series(data_uf, variable, region_name)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == MAPA:
