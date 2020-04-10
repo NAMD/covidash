@@ -63,7 +63,7 @@ def plot_series(data, x_variable, y_variable, region_name, is_log):
         yaxis_title="Indivíduos",
         plot_bgcolor='rgba(0,0,0,0)',
         legend_orientation="h",
-        legend_title="",
+        # legend_title="",
     )
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
