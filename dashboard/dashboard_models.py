@@ -1,5 +1,6 @@
 import altair as alt
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 from streamlit import cache
 from epimodels.continuous.models import SEQIAHR
@@ -33,26 +34,37 @@ def prepare_model_data(model_data, variables, column_names, N):
 
 
 def plot_model(melted_traces, q, r):
-    lc = alt.Chart(melted_traces, width=800, height=400).mark_line().encode(
-        x="time",
-        y='Indivíduos',
-        color='Estado',
-        tooltip=['time', 'Estado', 'Indivíduos'],
-    ).encode(
-        x=alt.X('time', axis=alt.Axis(title='Dias'))
+    fig = px.line(melted_traces, x="time", y="Indivíduos", color='Estado', height=500)
+    fig.update_layout(
+        xaxis_title="Dias",
+        yaxis_title="Indivíduos",
+        plot_bgcolor='rgba(0,0,0,0)',
+        legend_orientation="h",
+        legend_title="",
+        legend=dict(
+            y=-0.15,
+        ),
+        shapes=[
+        dict(
+            type= 'line',
+            yref= 'paper', y0= 0, y1= 1,
+            xref= 'x', x0= q, x1= q
+        ),
+        dict(
+            type= 'line',
+            yref= 'paper', y0= 0, y1= 1,
+            xref= 'x', x0= q+r, x1= q+r,
+            line=dict(
+                color="Red",
+            ),
+        )
+    ])
+    fig.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
     )
-    startline = alt.Chart().mark_rule(strokeWidth=1.5).encode(
-        x='a:Q',
+    fig.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
     )
-    endline = alt.Chart().mark_rule(strokeWidth=1.5, color='red').encode(
-        x='b:Q',
-    )
-    la = alt.layer(
-        lc, startline, endline,
-        data=melted_traces
-    ).transform_calculate(
-        a="%d" % q,
-        b="%d" % (q+r)
-    )
-
-    st.altair_chart(la)
+    st.plotly_chart(fig)
