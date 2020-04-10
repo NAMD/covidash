@@ -169,33 +169,45 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             if row.Estados in list(cases.state):
                 estados.loc[estados.Estados == row.Estados, 'casos'] += \
                 cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]
-
-        estados = estados.set_index('Estados')
+        
         midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
+                        
+        geojson_url = "https://data.brasil.io/dataset/shapefiles-brasil/0.01/BR-UF.geojson"
 
         layer = pdk.Layer(
-            "HexagonLayer",
+            "ColumnLayer",
             data=estados,
             get_position=["Longitude", "Latitude"],
-            radius=1000,
-            elevation_scale=10,
-            elevation_range=[0, 2000],
+            get_elevation=['casos'],
+            auto_highlight=True,
+            radius=50000,
+            elevation_scale=300,
+            get_color=[100, 255, 100, 255],
             pickable=True,
             extruded=True,
+            coverage=1
         )
 
+        view_state = pdk.ViewState(
+                        longitude=midpoint[1],
+                        latitude=midpoint[0],
+                        zoom=3,                        
+                        pitch=20.,
+                        )
+        
+        mapbox_style = 'mapbox://styles/mapbox/light-v9'
+        mapbox_key = 'pk.eyJ1IjoiZmNjb2VsaG8iLCJhIjoiY2s4c293dzc3MGJodzNmcGEweTgxdGpudyJ9.UmSRs3e4EqTOte6jYWoaxg'
+        
+
         st.write(pdk.Deck(
-            map_style="mapbox://styles/mapbox/light-v9",
-            mapbox_key='pk.eyJ1IjoiZmNjb2VsaG8iLCJhIjoiY2s4c293dzc3MGJodzNmcGEweTgxdGpudyJ9.UmSRs3e4EqTOte6jYWoaxg',
-            initial_view_state={
-                "latitude": midpoint[0],
-                "longitude": midpoint[1],
-                "zoom": 3,
-                "pitch": 20,
-            },
-            layers=[layer]
-            ,
+            map_style=mapbox_style,
+            mapbox_key=mapbox_key,
+            initial_view_state=view_state,
+            layers=[layer],
+            tooltip={"html": "<b>Estado:</b> {Estados}<br><b>Número de casos:</b> {casos}", "style": {"color": "white"}},
         ))
+
+        st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == PAGE_GLOBAL_CASES:
         st.title(PAGE_GLOBAL_CASES)
