@@ -1,6 +1,8 @@
 import json
 
 import pandas as pd
+import plotly.express as px
+import streamlit as st
 from streamlit import cache
 
 
@@ -19,6 +21,7 @@ def get_data_uf(data, uf, city_options,variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
         if city_options:
+            var_name = "Cidade"
             city_options = [c.split(" - ")[1] for c in city_options]
             data = data.loc[
                 (data.city.isin(city_options)) & (data.place_type == "city")
@@ -26,20 +29,50 @@ def get_data_uf(data, uf, city_options,variable):
             pivot_data = data.pivot_table(values=variable, index="date", columns="city")
             data = pd.DataFrame(pivot_data.to_records())
         else:
+            var_name = "Estado"
             data = data.loc[data.place_type == "state"][["date", "state", variable]]
             pivot_data = data.pivot_table(values=variable, index="date", columns="state")
             data = pd.DataFrame(pivot_data.to_records())
 
     else:
-        return data.loc[data.place_type == "city"].groupby("date")[variable].sum().to_frame()
+        var_name = "Brasil"
+        data = data.loc[data.place_type == "city"].groupby("date")[variable].sum().to_frame().reset_index()
 
-    return data.set_index("date")
+    melted_data = pd.melt(
+        data,
+        id_vars=['date'],
+        var_name=var_name,
+        value_name="Casos Confirmados"
+    )
+    return var_name, melted_data
+
+
+def plot_series(data, var_name):
+    fig = px.scatter(data, x="date", y='Casos Confirmados', color=var_name)
+    fig.update_traces(mode='lines+markers')
+    fig.update_layout(
+        xaxis_title="Data",
+        yaxis_title="Indivíduos",
+        plot_bgcolor='rgba(0,0,0,0)',
+        legend_orientation="h",
+        legend_title="",
+    )
+    fig.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
+    )
+    fig.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
+    )
+    st.plotly_chart(fig)
+
 
 @cache
 def get_aligned_data(df,align=100):
-    align_dfs = [df.loc[df[c]>=100,[c]].values.reshape(-1,) for c in df.columns] 
-    columns = [c for c in df.columns] 
-    aligned_df = pd.DataFrame(align_dfs,index=columns).T                           
+    align_dfs = [df.loc[df[c]>=100,[c]].values.reshape(-1,) for c in df.columns]
+    columns = [c for c in df.columns]
+    aligned_df = pd.DataFrame(align_dfs,index=columns).T
     #align_dfs = [d.reset_index() for d in align_dfs]
     #aligned = pd.concat([d for d in align_dfs],ignore_index=True)
     return aligned_df
