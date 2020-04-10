@@ -112,7 +112,7 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
                  use_column_width=True)
 
     elif page == PAGE_CASE_NUMBER_BR:
-        st.title("Casos Confirmados no Brasil")
+        st.title(PAGE_CASE_NUMBER_BR)
         x_variable = "date"
         y_variable = "Casos Confirmados"
         data = dashboard_data.get_data()
@@ -196,6 +196,7 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
         ))
 
     elif page == PAGE_GLOBAL_CASES:
+        st.title(PAGE_GLOBAL_CASES)
         x_variable = "Data"
         y_variable = "Casos"
         global_cases = dashboard_data.get_global_cases()\
