@@ -2,14 +2,14 @@ import altair as alt
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from streamlit import cache
+
 from epimodels.continuous.models import SEQIAHR
 
 import settings
 
 
 
-@cache(suppress_st_warning=True, ttl=settings.CACHE_TTL)
+@st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL)
 def seqiahr_model(inits=None, trange=None, N=97.3e6, params=None):
     if inits is None:
         inits = [.99, 0, 1e-6, 0, 0, 0, 0]

@@ -4,12 +4,11 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from streamlit import cache
 
 import settings
 
 
-@cache(ttl=settings.CACHE_TTL)
+@st.cache(ttl=settings.CACHE_TTL)
 def get_data():
     brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
     cases = pd.read_csv(brasil_io_url).rename(
@@ -19,7 +18,7 @@ def get_data():
     return cases
 
 
-@cache(suppress_st_warning=True, ttl=settings.CACHE_TTL)
+@st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL)
 def get_data_uf(data, uf, city_options, variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
@@ -77,7 +76,7 @@ def plot_series(data, x_variable, y_variable, region_name, is_log):
     st.plotly_chart(fig)
 
 
-@cache(ttl=settings.CACHE_TTL)
+@st.cache(ttl=settings.CACHE_TTL)
 def get_aligned_data(df,align=100):
     align_dfs = [df.loc[df[c]>=100,[c]].values.reshape(-1,) for c in df.columns]
     columns = [c for c in df.columns]
@@ -86,7 +85,7 @@ def get_aligned_data(df,align=100):
     #aligned = pd.concat([d for d in align_dfs],ignore_index=True)
     return aligned_df
 
-@cache(ttl=settings.CACHE_TTL)
+@st.cache(ttl=settings.CACHE_TTL)
 def get_city_list(data, uf):
     data_filt = data.loc[(data.state.isin(uf)) & (data.place_type == "city")]
     data_filt["state_city"] = data_filt["state"] + " - " + data_filt["city"]
@@ -100,7 +99,7 @@ def _translate(country_name, names):
         return country_name
 
 
-@cache(ttl=settings.CACHE_TTL)
+@st.cache(ttl=settings.CACHE_TTL)
 def get_global_cases():
     url = (
         "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/"
@@ -115,12 +114,12 @@ def get_global_cases():
     return global_cases
 
 
-@cache(ttl=settings.CACHE_TTL)
+@st.cache(ttl=settings.CACHE_TTL)
 def get_countries_list(data):
     return sorted(list(data["País/Região"].drop_duplicates()))
 
 
-@cache(suppress_st_warning=True)
+@st.cache(suppress_st_warning=True)
 def get_countries_data(data, countries):
     if countries:
         region_name = "País/Região"
@@ -132,7 +131,7 @@ def get_countries_data(data, countries):
     return region_name, result
 
 
-@cache(persist=True, allow_output_mutation=True, ttl=settings.CACHE_TTL)
+@st.cache(persist=True, allow_output_mutation=True, ttl=settings.CACHE_TTL)
 def load_lat_long():
     path_mapas = 'mapas/Estados.csv'
     return pd.read_csv(path_mapas)

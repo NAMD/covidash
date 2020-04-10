@@ -1,13 +1,14 @@
-import streamlit as st
-import pandas as pd
+import altair as alt
 import numpy as np
+import pandas as pd
+import streamlit as st
+import pydeck as pdk
 from PIL import Image
 from epimodels.continuous.models import SEQIAHR
+
 import dashboard_models
 import dashboard_data
 from dashboard_models import seqiahr_model
-import pydeck as pdk
-import altair as alt
 
 
 st.title('Cenarios de Controle da Covid-19')
