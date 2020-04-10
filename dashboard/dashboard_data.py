@@ -16,7 +16,7 @@ def get_data():
     return cases
 
 
-@cache
+@cache(allow_output_mutation=True)
 def get_data_uf(data, uf, city_options, variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
@@ -108,10 +108,10 @@ def get_global_cases():
 
 @cache
 def get_countries_list(data):
-    return sorted(list(data["Country/Region"].drop_duplicates()))
+    return sorted(list(data["País/Região"].drop_duplicates()))
 
 
-@cache
+@cache(allow_output_mutation=True)
 def get_countries_data(data, countries):
     if countries:
         region_name = "País/Região"
