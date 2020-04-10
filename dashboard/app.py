@@ -204,7 +204,7 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
             mapbox_key=mapbox_key,
             initial_view_state=view_state,
             layers=[layer],
-            tooltip={"html": "<b>Número de casos:</b> {casos}", "style": {"color": "white"}},
+            tooltip={"html": "<b>Estado:</b> {Estados}<br><b>Número de casos:</b> {casos}", "style": {"color": "white"}},
         ))
 
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
