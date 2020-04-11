@@ -65,6 +65,19 @@ com os últimos resultados científicos sobre a Pandemia.
 
 * Canal [A Matemática das Epidemias](https://www.youtube.com/channel/UCZFllLoI5kB4o_6w59YVzAA?view_as=subscriber).
 * Grupo MAVE: [Métodos Analíticos em Vigilância Epidemiológica](https://covid-19.procc.fiocruz.br).
+
+## Fontes de Dados
+As sguintes fontes de dados foram usadas neste projeto:
+
+* [Brasil.io](https://brasil.io): Dados de incidência e mortalidade no Brasil
+* [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19: Dados de incidência e mortalidade globais.
+
+## Softwares opensource
+Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
+
+* [Streamlit](streamlit.io): Web framework voltada para ciência de dados.
+* [Epimodels](https://github.com/fccoelho/epimodels): Biblioteca de modelos matemáticos para simulação de epidemias.
+
         """)
     elif page == MODELS:
         st.title("Explore a dinâmica da COVID-19")
@@ -75,7 +88,7 @@ com os últimos resultados científicos sobre a Pandemia.
         rho = st.sidebar.slider('ρ, Taxa de alta dos hospitalizados:', 0.0, 1.0, 0.02)
         delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.1)
         alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, .33)
-        mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19')
+        mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19', 0.0, 1.0, .03)
 
         p = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
         q = st.slider('Dia de início da Quarentena:', 0, 120, 50)
