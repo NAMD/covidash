@@ -6,9 +6,10 @@ Este é um esforço voluntário de várias pessoas. Saiba mais sobre nós:
  
 Professor de Epidemiologia Matemática da Escola de matemática Aplicada da FGV.
 
-![Rhenan](https://www.gravatar.com/avatar/)
+![Rhenan](https://www.gravatar.com/avatar/c60dce2dd00ef6ca8cc549c630c78465)
 **Rhenan Bartels** 
 
+Doutor em Ciências pelo Programa de Engenharia Biomédica da COPPE / UFRJ
 
 ![Linneu](https://www.gravatar.com/avatar/)
 **Nicolaus Linneu** 
