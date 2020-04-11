@@ -57,7 +57,7 @@ def main():
         mas também um olhar analítico, capaz de desvelar a dinâmica do processo de transmissão do vírus SARS-Cov-2
         por meio de modelos matemáticos, análises estatísticas e visualização de informação.
         
-Pelo painel à esquerda você pode navegar entre nossas análises, as quais estaremos atualizando constantemente 
+Pelo *painel à esquerda* você pode ***navegar entre nossas análises***, as quais estaremos atualizando constantemente 
 daqui para frente. 
 ## Outros Recursos de Interesse
 Vamos compilar aqui também outras fontes de informação de confiança para que você possa se manter atualizado 
@@ -70,7 +70,7 @@ com os últimos resultados científicos sobre a Pandemia.
 As sguintes fontes de dados foram usadas neste projeto:
 
 * [Brasil.io](https://brasil.io): Dados de incidência e mortalidade no Brasil
-* [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19: Dados de incidência e mortalidade globais.
+* [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): Dados de incidência e mortalidade globais.
 
 ## Softwares opensource
 Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
