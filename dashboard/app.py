@@ -11,7 +11,7 @@ import dashboard_data
 from dashboard_models import seqiahr_model
 
 
-st.title('Cenarios de Controle da Covid-19')
+st.title('A Matemática da Covid-19')
 
 ### Main menu goes here
 HOME = "Home"
@@ -48,12 +48,24 @@ logo = Image.open('dashboard/logo_peq.png')
 def main():
     st.sidebar.image(logo, use_column_width=True)
     page = st.sidebar.selectbox(
-        "Escolha um Painel",
+        "Escolha uma Análise",
         [HOME, MODELS, DATA,
          PAGE_CASE_NUMBER_BR, CUM_DEATH_COUNT_BR, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
     if page == HOME:
-        st.header("Dashboard COVID-19")
-        st.write("Escolha um painel à esquerda")
+        st.header("Analizando a pandemia")
+        st.markdown("""Neste site buscamos trazer até você os números da epidemia, a medida que se revelam, 
+        mas também um olhar analítico, capaz de desvelar a dinâmica do processo de transmissão do vírus SARS-Cov-2
+        por meio de modelos matemáticos, análises estatísticas e visualização de informação.
+        
+Pelo painel à esquerda você pode navegar entre nossas análises, as quais estaremos atualizando constantemente 
+daqui para frente. 
+## Outros Recursos de Interesse
+Vamos compilar aqui também outras fontes de informação de confiança para que você possa se manter atualizado 
+com os últimos resultados científicos sobre a Pandemia.
+
+* Canal [A Matemática das Epidemias](https://www.youtube.com/channel/UCZFllLoI5kB4o_6w59YVzAA?view_as=subscriber).
+* Grupo MAVE: [Métodos Analíticos em Vigilância Epidemiológica](https://covid-19.procc.fiocruz.br).
+        """)
     elif page == MODELS:
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
