@@ -142,12 +142,14 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
 
         st.video(read_video())
         st.markdown(r'''## Descrição da modelagem:
-O municípios brasileiro são conectados por uma malha de transporte muito bem desenvolvida e através desta,
+Os municípios brasileiros são conectados por uma malha de transporte muito bem desenvolvida e através desta,
 cidadãs e cidadãos viajam diariamente entre as cidades para trabalhar, estudar e realizar outras atividades.
 Considerando o fluxo de indivíduos (infectados) que chega em um município em um determinado dia, caso este município
 ainda não estejam em transmissão comunitária, podemos calcular a probabilidade de uma epidemia se estabelecer.
 Esta probabilidade é dada por esta fórmula:
-$$P_{epi}=1-\left(\frac{1}{R_0}\right)^{I_0}$$
+
+$$P_{epi}=1-\left(\frac{1}{R_0}\right)^{I_0}$$,
+
 onde $I_0$ é o número de infectados chegando diáriamente no município. Neste cenário usamos um $R_0=2.5$.
         ''')
 
