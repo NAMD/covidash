@@ -16,7 +16,7 @@ st.title('A Matemática da Covid-19')
 ### Main menu goes here
 HOME = "Home"
 MODELS = "Modelos"
-DATA = "Dados"
+DATA = "Probabilidade de Espalhamento"
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
 PAGE_CASE_NUMBER_BR = "Casos no Brasil"
@@ -133,10 +133,23 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
         """)
 
     elif page == DATA:
-        st.title('Probabilidade de Epidemia por Município')
-        probmap = Image.open('dashboard/Outbreak_probability_full_mun_2020-04-06.png')
-        st.image(probmap, caption='Probabilidade de Epidemia em 6 de abril',
-                 use_column_width=True)
+        st.title('Probabilidade de Epidemia por Município ao Longo do tempo')
+        @st.cache
+        def read_video():
+            with open('dashboard/video_prob.mp4', 'rb') as v:
+                video = v.read()
+            return video
+
+        st.video(read_video())
+        st.markdown(r'''## Descrição da modelagem:
+O municípios brasileiro são conectados por uma malha de transporte muito bem desenvolvida e através desta,
+cidadãs e cidadãos viajam diariamente entre as cidades para trabalhar, estudar e realizar outras atividades.
+Considerando o fluxo de indivíduos (infectados) que chega em um município em um determinado dia, caso este município
+ainda não estejam em transmissão comunitária, podemos calcular a probabilidade de uma epidemia se estabelecer.
+Esta probabilidade é dada por esta fórmula:
+$$P_{epi}=1-\left(\frac{1}{R_0}\right)^{I_0}$$
+onde $I_0$ é o número de infectados chegando diáriamente no município. Neste cenário usamos um $R_0=2.5$.
+        ''')
 
     elif page == PAGE_CASE_NUMBER_BR:
         st.title(PAGE_CASE_NUMBER_BR)
