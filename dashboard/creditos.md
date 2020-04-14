@@ -11,8 +11,10 @@ Professor de Epidemiologia Matemática da Escola de matemática Aplicada da FGV.
 
 Doutor em Ciências pelo Programa de Engenharia Biomédica da COPPE / UFRJ
 
-![Linneu](https://www.gravatar.com/avatar/)
+![Linneu](https://s.gravatar.com/avatar/0340f8d4f0b27e79494ebf446cd93595?s=80)
 **Nicolaus Linneu** 
+
+Pesquisador de Pós-doutorado no Centro Brasileiro de Pesquisas Físicas
 
 ![Nahum](https://s.gravatar.com/avatar/67b5ec10d65881513332fb437c8b7bf9)
 **Nahum Sá** 
