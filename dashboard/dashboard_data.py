@@ -18,7 +18,7 @@ def get_data():
     return cases
 
 
-@st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL)
+@st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL, allow_output_mutation=True)
 def get_data_uf(data, uf, city_options, variable):
     if uf:
         data = data.loc[data.state.isin(uf)]

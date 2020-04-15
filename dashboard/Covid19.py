@@ -79,6 +79,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
 * [Epimodels](https://github.com/fccoelho/epimodels): Biblioteca de modelos matemáticos para simulação de epidemias.
 
         """)
+        dashboard_data.get_data()
     elif page == MODELS:
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
@@ -113,6 +114,14 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         final_traces = dashboard_models.prepare_model_data(traces, VARIABLES, COLUMNS, N)
 
         dashboard_models.plot_model(final_traces, q, r)
+        st.markdown('''### Comparando Projeções e Dados
+Podemos agora comparar nossa série simulada de Hospitalizações acumuladas com o número de casos acumulados 
+de notificações oficiais.
+        ''')
+        ofs = st.number_input("Atraso no início da notificação (dias)", value=0, min_value=0, max_value=90, step=1)
+        st.markdown('Na caixa acima, você pode mover lateralmente a curva, Assumindo que os primeiro caso '
+                    'notificado não corresponde ao início da transmissão')
+        dashboard_models.plot_predictions(ofs, final_traces, dias=365)
         st.markdown('### Formulação do modelo')
         st.write(r"""
 $\frac{dS}{dt}=-\lambda[(1-\chi) S]$
