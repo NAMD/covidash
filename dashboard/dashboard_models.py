@@ -13,7 +13,7 @@ import settings
 @st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL)
 def seqiahr_model(inits=None, trange=None, N=97.3e6, params=None):
     if inits is None:
-        inits = [.99, 0, 1e-6, 0, 0, 0, 0]
+        inits = [.99, 0, 1e-6, 0, 0, 0, 0, 0]
 
     if trange is None:
         trange = [0, 365]

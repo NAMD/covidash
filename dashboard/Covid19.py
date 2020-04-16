@@ -31,6 +31,7 @@ COLUMNS = {
     "H": "Hospitalizados",
     "R": "Recuperados",
     "C": "Hospitalizações Acumuladas",
+    "D": "Mortes Acumuladas",
 }
 
 VARIABLES = [
@@ -38,7 +39,8 @@ VARIABLES = [
     'Infectados',
     'Assintomáticos',
     'Hospitalizados',
-    'Hospitalizações Acumuladas'
+    'Hospitalizações Acumuladas',
+    "Mortes Acumuladas"
 ]
 
 
