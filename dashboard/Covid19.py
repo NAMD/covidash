@@ -91,7 +91,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         rho = st.sidebar.slider('ρ, Taxa de alta dos hospitalizados:', 0.0, 1.0, 0.02)
         delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.1)
         alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, .33)
-        mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19', 0.0, 1.0, .03)
+        mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19', 0.0, 1.0, .01)
 
         p = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
         q = st.slider('Dia de início da Quarentena:', 0, 120, 50)
@@ -120,7 +120,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
 Podemos agora comparar nossa série simulada de Hospitalizações acumuladas com o número de casos acumulados 
 de notificações oficiais.
         ''')
-        ofs = st.number_input("Atraso no início da notificação (dias)", value=0, min_value=0, max_value=90, step=1)
+        ofs = st.number_input("Atraso no início da notificação (dias)", value=15, min_value=0, max_value=90, step=1)
         st.markdown('Na caixa acima, você pode mover lateralmente a curva, Assumindo que os primeiro caso '
                     'notificado não corresponde ao início da transmissão')
         dashboard_models.plot_predictions(ofs, final_traces, dias=365)

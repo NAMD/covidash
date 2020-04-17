@@ -79,8 +79,8 @@ def plot_model(melted_traces, q, r):
         showline=True, linewidth=1, linecolor='black',
     )
 
-    data = dashboard_data.get_data()
-    region_name, data_uf = dashboard_data.get_data_uf(data, False, [], "Casos Confirmados")
+    # data = dashboard_data.get_data()
+    # region_name, data_uf = dashboard_data.get_data_uf(data, False, [], "Casos Confirmados")
     # fig2 = px.line(melted_traces[melted_traces.Estado=='Hospitalizados'],
     #                x="time", y="Indivíduos", color='Estado', height=500)
     # fig2.update_layout(
@@ -100,20 +100,32 @@ def plot_model(melted_traces, q, r):
 
 def plot_predictions(offset, melted_traces, dias=365):
     htrace = melted_traces[melted_traces.Estado == 'Hospitalizações Acumuladas']
+    mtrace = melted_traces[melted_traces.Estado == 'Mortes Acumuladas']
     htrace.loc[:, 'dtime'] = htrace.time.astype(int)
+    mtrace.loc[:, 'dtime'] = mtrace.time.astype(int)
     htrace = htrace.groupby('dtime').mean()
+    mtrace = mtrace.groupby('dtime').mean()
 
     data = dashboard_data.get_data()
     region_name, data_uf = dashboard_data.get_data_uf(data, False, [], "Casos Confirmados")
+    region_name, m_data_uf = dashboard_data.get_data_uf(data, False, [], "Mortes Acumuladas")
     drange = pd.date_range(data_uf[data_uf['Casos Confirmados'] > 0].date.min() - timedelta(offset),
                            periods=dias,
                            freq='D')
     fig, ax = plt.subplots(1, 1)
     ax.semilogy(drange, htrace['Indivíduos'].values, '-v', label='Casos previstos')
+    ax.semilogy(drange, mtrace['Indivíduos'].values, '-v', label='Mortes previstas')
     data_uf.loc[:, 'date2'] = data_uf.date
     data_uf.set_index('date2', inplace=True)
     data_uf[data_uf['Casos Confirmados'] > 0]['Casos Confirmados'].plot(ax=ax, style='o',
                                                                         label='Dados oficiais',
+                                                                        grid=True,
+                                                                        logy=True)
+    m_data_uf.loc[:, 'date2'] = m_data_uf.date
+    m_data_uf.set_index('date2', inplace=True)
+
+    m_data_uf[m_data_uf['Mortes Acumuladas'] > 0]['Mortes Acumuladas'].plot(ax=ax, style='o',
+                                                                        label='Mortes oficiais',
                                                                         grid=True,
                                                                         logy=True)
     ax.set_xlabel('Data (dias)')
