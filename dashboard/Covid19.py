@@ -5,11 +5,11 @@ import streamlit as st
 import pydeck as pdk
 from PIL import Image
 from epimodels.continuous.models import SEQIAHR
+import humanizer_portugues as hp
 
 import dashboard_models
 import dashboard_data
 from dashboard_models import seqiahr_model
-
 
 st.title('A Matemática da Covid-19')
 
@@ -43,7 +43,6 @@ VARIABLES = [
     'Hospitalizações Acumuladas',
     "Mortes Acumuladas"
 ]
-
 
 logo = Image.open('dashboard/logo_peq.png')
 
@@ -95,12 +94,11 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19', 0.0, 1.0, .01)
 
         p = st.slider('Fração de assintomáticos:', 0.0, 1.0, 0.75)
-        q = st.slider('Dia de início da Quarentena:', 0, 120, 50)
+        q = st.slider('Dia de início da Quarentena:', 1, 165, 50)
         r = st.slider('duração em dias da Quarentena:', 0, 200, 10)
         N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
-        st.markdown(f"""$R_0={-(beta*chi-beta)/delta:.2f}$, durante a quarentena. &nbsp 
+        st.markdown(f"""$R_0={-(beta * chi - beta) / delta:.2f}$, durante a quarentena. &nbsp 
                     $R_0={-(beta * 0 - beta) / delta:.2f}$, fora da quarentena.""")
-        
 
         params = {
             'chi': chi,
@@ -116,29 +114,31 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         }
         traces = pd.DataFrame(data=seqiahr_model(params=params)).rename(columns=COLUMNS)
         final_traces = dashboard_models.prepare_model_data(traces, VARIABLES, COLUMNS, N)
-        
+
         # Dataframes
-        Hospitalizacoes = final_traces[final_traces['Estado'] == 'Hospitalizações Acumuladas']
-        Infectados = final_traces[final_traces['Estado'] == 'Infectados']        
-        
+        Hospitalizacoes = traces['Hospitalizações Acumuladas']
+        Hosp_t = traces['Hospitalizados']
+        Mortes = traces['Mortes Acumuladas']
+        Infectados = traces['Infectados']
+        Recuperados = traces['Recuperados']
+
         # Valores
-        pico_infectados = Infectados.loc[Infectados['Indivíduos'].idxmax()]
-        pico_hosp = Hospitalizacoes[Hospitalizacoes['time'] == pico_infectados['time']]
-        pico_hosp = pico_hosp['Indivíduos'].values[0]
-        Hospitalizacoes_totais = Hospitalizacoes['Indivíduos'].iloc[-1]
-        
-        
-        st.markdown("""### Números importantes da simulação""")
-        st.markdown("""#### Relacionados ao pico""")
-        st.markdown(f""" * **Data**: {pico_infectados['time']:.0f} dias""")
-        st.markdown(f""" * **Número de pessoas infectadas**: 
-                    {pico_infectados['Indivíduos']:.0f} pessoas""")        
-        st.markdown(f""" * **Número de hospitalizações acumuladas**:
-                     {pico_hosp:.0f} pessoas""")            
-        
-        st.markdown("""#### Relacionados ao total""")
-        st.markdown(f""" * **Hospitalizações**: 
-                    {Hospitalizacoes_totais:.0f} pessoas""")
+        pico_infectados = Infectados.iloc[Infectados.idxmax()]
+        pico_hosp = Hosp_t.iloc[Hosp_t.idxmax()]
+        pico_mortes = Mortes.iloc[Mortes.diff().idxmax()]
+        Hospitalizacoes_totais = Hospitalizacoes.iloc[-1]
+        mortes_totais = Mortes.iloc[-1]
+        inf_tot = N - Recuperados.iloc[-1] - mortes_totais
+
+        stats = pd.DataFrame(data={'Pico': [hp.intword(pico_infectados*N), hp.intword(pico_hosp*N), hp.intword(pico_mortes*N)],
+                                   'Total': [hp.intword(inf_tot), hp.intword(Hospitalizacoes_totais*N), hp.intword(mortes_totais*N)]},
+                             index=['Infecções', 'Hospitalizações', 'Mortes'])
+
+        st.markdown(f"""### Números importantes da simulação""")
+        st.dataframe(stats)
+        st.markdown(f"""O pico das hospitalizações ocorrerá após {Hosp_t.idxmax()} dias""")
+        st.markdown(f"""O pico das Mortes ocorrerá após {Mortes.diff().idxmax()} dias""")
+
 
         dashboard_models.plot_model(final_traces, q, r)
         st.markdown('''### Comparando Projeções e Dados
@@ -170,6 +170,7 @@ de notificações oficiais.
 
     elif page == DATA:
         st.title('Probabilidade de Epidemia por Município ao Longo do tempo')
+
         @st.cache
         def read_video():
             with open('dashboard/video_prob.mp4', 'rb') as v:
@@ -200,7 +201,7 @@ de notificações oficiais.
         uf_option = st.multiselect("Selecione o Estado", ufs)
 
         city_options = None
-        
+
         if uf_option:
             cities = dashboard_data.get_city_list(data, uf_option)
             city_options = st.multiselect("Selecione os Municípios", cities)
@@ -208,12 +209,12 @@ de notificações oficiais.
         is_log = st.checkbox('Escala Logarítmica', value=False)
         region_name, data_uf_confirmed = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable)
         region_name, data_uf_deaths = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable2)
-        
+
         figure = dashboard_data.plot_series(data_uf_confirmed, x_variable, y_variable, region_name, is_log)
         figure = dashboard_data.add_series(figure, data_uf_deaths, x_variable, y_variable2, region_name, is_log)
-        
+
         st.plotly_chart(figure)
-        
+
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == CUM_DEATH_COUNT_BR:
@@ -239,21 +240,21 @@ de notificações oficiais.
 
         dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
-        
-    elif page ==CUM_DEATH_CART:
+
+    elif page == CUM_DEATH_CART:
         st.title(CUM_DEATH_CART)
         x_variable = "date"
         y_variable = "deaths_covid19"
-        data = dashboard_data.get_data_from_source(dashboard_data.BRASIL_IO_CART,usecols=None,rename_cols=None)
+        data = dashboard_data.get_data_from_source(dashboard_data.BRASIL_IO_CART, usecols=None, rename_cols=None)
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.multiselect("Selecione o Estado", ufs)
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        city_options=None
-        region_name, data_uf = dashboard_data.get_data_cart(data, uf_option, y_variable)   
+        city_options = None
+        region_name, data_uf = dashboard_data.get_data_cart(data, uf_option, y_variable)
         fig = dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
-        
+
         st.plotly_chart(fig)
-        
+
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/obito_cartorio)")
 
     elif page == MAPA:
@@ -262,15 +263,15 @@ de notificações oficiais.
         st.title("Distribuição Geográfica de Casos")
         cases = dashboard_data.get_data()
         estados = dashboard_data.load_lat_long()
-        estados['casos'] = 0        
+        estados['casos'] = 0
         cases = cases[cases.place_type != 'state'].groupby(['date', 'state']).sum()
         cases.reset_index(inplace=True)
 
         for i, row in estados.iterrows():
             if row.Estados in list(cases.state):
                 estados.loc[estados.Estados == row.Estados, 'casos'] += \
-                cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]                
-        
+                    cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]
+
         midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
 
         layer = pdk.Layer(
@@ -286,24 +287,24 @@ de notificações oficiais.
             extruded=True,
             coverage=1
         )
-        
+
         view_state = pdk.ViewState(
-                        longitude=midpoint[1],
-                        latitude=midpoint[0],
-                        zoom=3,                        
-                        pitch=20.,
-                        )
-        
+            longitude=midpoint[1],
+            latitude=midpoint[0],
+            zoom=3,
+            pitch=20.,
+        )
+
         mapbox_style = 'mapbox://styles/mapbox/light-v9'
         mapbox_key = 'pk.eyJ1IjoiZmNjb2VsaG8iLCJhIjoiY2s4c293dzc3MGJodzNmcGEweTgxdGpudyJ9.UmSRs3e4EqTOte6jYWoaxg'
-        
 
         st.write(pdk.Deck(
             map_style=mapbox_style,
             mapbox_key=mapbox_key,
             initial_view_state=view_state,
             layers=[layer],
-            tooltip={"html": "<b>Estado:</b> {Estados}<br><b>Número de casos:</b> {casos}", "style": {"color": "white"}},
+            tooltip={"html": "<b>Estado:</b> {Estados}<br><b>Número de casos:</b> {casos}",
+                     "style": {"color": "white"}},
         ))
 
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
@@ -312,7 +313,7 @@ de notificações oficiais.
         st.title(PAGE_GLOBAL_CASES)
         x_variable = "Data"
         y_variable = "Casos"
-        global_cases = dashboard_data.get_global_cases()\
+        global_cases = dashboard_data.get_global_cases() \
             .drop(["Province/State", "Lat", "Long"], axis="columns")
 
         melted_global_cases = pd.melt(

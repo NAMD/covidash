@@ -96,4 +96,5 @@ wrapt==1.12.1
 xarray==0.15.1
 zipp==3.1.0
 epimodels==0.3.6
+humanizer-portugues==1.2.2
 
