@@ -130,7 +130,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         
         st.markdown("""### Números importantes da simulação""")
         st.markdown("""#### Relacionados ao pico""")
-        st.markdown(f""" * **Data**: {pico_infectados['time']:.0f}""")
+        st.markdown(f""" * **Data**: {pico_infectados['time']:.0f} dias""")
         st.markdown(f""" * **Número de pessoas infectadas**: 
                     {pico_infectados['Indivíduos']:.0f} pessoas""")        
         st.markdown(f""" * **Número de hospitalizações acumuladas**:
@@ -141,7 +141,14 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
                     {Hospitalizacoes_totais:.0f} pessoas""")
 
         dashboard_models.plot_model(final_traces, q, r)
-        
+        st.markdown('''### Comparando Projeções e Dados
+Podemos agora comparar nossa série simulada de Hospitalizações acumuladas com o número de casos acumulados 
+de notificações oficiais.
+        ''')
+        ofs = st.number_input("Atraso no início da notificação (dias)", value=15, min_value=0, max_value=90, step=1)
+        st.markdown('Na caixa acima, você pode mover lateralmente a curva, Assumindo que os primeiro caso '
+                    'notificado não corresponde ao início da transmissão')
+        dashboard_models.plot_predictions(ofs, final_traces, dias=365)
         st.markdown('### Formulação do modelo')
         st.write(r"""
                 $\frac{dS}{dt}=-\lambda[(1-\chi) S]$
