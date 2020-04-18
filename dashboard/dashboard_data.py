@@ -90,18 +90,18 @@ def get_data_cart(data, uf, variable):
 def plot_series(data, x_variable, y_variable, region_name, is_log):
     if is_log:
         data = data.copy()
-        log_y_variable = "Log[{}]".format(y_variable)
+        log_y_variable = f"Log[{y_variable}]"
         data[log_y_variable] = np.log(data[y_variable] + 1)
         y_variable = log_y_variable
 
-    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)
+    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)    
+    
     fig.update_traces(mode='lines+markers')
     fig.update_layout(
         xaxis_title="Data",
         yaxis_title="Indivíduos",
         plot_bgcolor='rgba(0,0,0,0)',
-        legend_orientation="h",
-        # legend_title="",
+        legend_orientation="h",        
     )
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
@@ -111,7 +111,45 @@ def plot_series(data, x_variable, y_variable, region_name, is_log):
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
         showline=True, linewidth=1, linecolor='black',
     )
-    st.plotly_chart(fig)
+    
+    return fig
+
+def add_series(fig, data, x_variable, y_variable, region_name, is_log):    
+    
+    if is_log:
+        data = data.copy()
+        log_y_variable = f"Log[{y_variable}]"
+        data[log_y_variable] = np.log(data[y_variable] + 1)
+        y_variable = log_y_variable
+    # Need to fix color 
+    
+    if region_name == 'Brasil':
+        fig.add_scatter(x=data[x_variable], y=data[y_variable], name=y_variable,
+                        hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
+                        )
+    else:        
+        for region in list(data[region_name].unique()):
+            plot_df = data.loc[data[region_name] == region]                        
+            fig.add_scatter(x=plot_df[x_variable], y=plot_df[y_variable], name='Mortes ' + region,
+                        hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
+                        )            
+    
+    fig.update_traces(mode='lines+markers')
+    fig.update_layout(        
+        xaxis_title="Data",
+        yaxis_title="Indivíduos",
+        plot_bgcolor='rgba(0,0,0,0)',
+        legend_orientation="h",        
+    )
+    fig.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
+    )
+    fig.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
+    )
+    return fig
 
 
 @st.cache(ttl=settings.CACHE_TTL)
