@@ -19,7 +19,7 @@ MODELS = "Modelos"
 DATA = "Probabilidade de Espalhamento"
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
-PAGE_CASE_NUMBER_BR = "Casos no Brasil"
+PAGE_CASE_DEATH_NUMBER_BR = "Casos e Mortes no Brasil"
 CUM_DEATH_COUNT_BR = "Mortes acumuladas no Brasil"
 CUM_DEATH_CART = "Mortes registradas em cartório"
 PAGE_GLOBAL_CASES = "Casos no Mundo"
@@ -53,7 +53,7 @@ def main():
     page = st.sidebar.selectbox(
         "Escolha uma Análise",
         [HOME, MODELS, DATA,
-         PAGE_CASE_NUMBER_BR, CUM_DEATH_COUNT_BR, CUM_DEATH_CART, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
+         PAGE_CASE_DEATH_NUMBER_BR, CUM_DEATH_CART, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
     if page == HOME:
         st.header("Analizando a pandemia")
         st.markdown("""Neste site buscamos trazer até você os números da epidemia, a medida que se revelam, 
@@ -98,8 +98,9 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         q = st.slider('Dia de início da Quarentena:', 0, 120, 50)
         r = st.slider('duração em dias da Quarentena:', 0, 200, 10)
         N = st.number_input('População em Risco:', value=97.3e6, max_value=200e6, step=1e6)
-        st.markdown(f"$R_0={-(beta*chi-beta)/delta:.2f}$, durante a quarentena.")
-        st.markdown(f"$R_0={-(beta * 0 - beta) / delta:.2f}$, fora da quarentena.")
+        st.markdown(f"""$R_0={-(beta*chi-beta)/delta:.2f}$, durante a quarentena. &nbsp 
+                    $R_0={-(beta * 0 - beta) / delta:.2f}$, fora da quarentena.""")
+        
 
         params = {
             'chi': chi,
@@ -115,6 +116,29 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         }
         traces = pd.DataFrame(data=seqiahr_model(params=params)).rename(columns=COLUMNS)
         final_traces = dashboard_models.prepare_model_data(traces, VARIABLES, COLUMNS, N)
+        
+        # Dataframes
+        Hospitalizacoes = final_traces[final_traces['Estado'] == 'Hospitalizações Acumuladas']
+        Infectados = final_traces[final_traces['Estado'] == 'Infectados']        
+        
+        # Valores
+        pico_infectados = Infectados.loc[Infectados['Indivíduos'].idxmax()]
+        pico_hosp = Hospitalizacoes[Hospitalizacoes['time'] == pico_infectados['time']]
+        pico_hosp = pico_hosp['Indivíduos'].values[0]
+        Hospitalizacoes_totais = Hospitalizacoes['Indivíduos'].iloc[-1]
+        
+        
+        st.markdown("""### Números importantes da simulação""")
+        st.markdown("""#### Relacionados ao pico""")
+        st.markdown(f""" * **Data**: {pico_infectados['time']:.0f} dias""")
+        st.markdown(f""" * **Número de pessoas infectadas**: 
+                    {pico_infectados['Indivíduos']:.0f} pessoas""")        
+        st.markdown(f""" * **Número de hospitalizações acumuladas**:
+                     {pico_hosp:.0f} pessoas""")            
+        
+        st.markdown("""#### Relacionados ao total""")
+        st.markdown(f""" * **Hospitalizações**: 
+                    {Hospitalizacoes_totais:.0f} pessoas""")
 
         dashboard_models.plot_model(final_traces, q, r)
         st.markdown('''### Comparando Projeções e Dados
@@ -127,22 +151,22 @@ de notificações oficiais.
         dashboard_models.plot_predictions(ofs, final_traces, dias=365)
         st.markdown('### Formulação do modelo')
         st.write(r"""
-$\frac{dS}{dt}=-\lambda[(1-\chi) S]$
+                $\frac{dS}{dt}=-\lambda[(1-\chi) S]$
 
-$\frac{dE}{dt}= \lambda [(1-\chi) S] -\alpha E$
+                $\frac{dE}{dt}= \lambda [(1-\chi) S] -\alpha E$
 
-$\frac{dI}{dt}= (1-p)\alpha E - \delta I$
+                $\frac{dI}{dt}= (1-p)\alpha E - \delta I$
 
-$\frac{dA}{dt}= p\alpha E -\delta A$
+                $\frac{dA}{dt}= p\alpha E -\delta A$
 
-$\frac{dH}{dt}= \phi \delta I -(\rho+\mu) H$
+                $\frac{dH}{dt}= \phi \delta I -(\rho+\mu) H$
 
-$\frac{dR}{dt}= (1-\phi)\delta I +\rho H + \delta A$
+                $\frac{dR}{dt}= (1-\phi)\delta I +\rho H + \delta A$
 
-$\lambda=\beta(I+A)$
+                $\lambda=\beta(I+A)$
 
-$R_0 = -\frac{\beta \chi -\beta}{\delta}$
-        """)
+                $R_0 = -\frac{\beta \chi -\beta}{\delta}$
+                """)
 
     elif page == DATA:
         st.title('Probabilidade de Epidemia por Município ao Longo do tempo')
@@ -154,36 +178,44 @@ $R_0 = -\frac{\beta \chi -\beta}{\delta}$
 
         st.video(read_video())
         st.markdown(r'''## Descrição da modelagem:
-Os municípios brasileiros são conectados por uma malha de transporte muito bem desenvolvida e através desta,
-cidadãs e cidadãos viajam diariamente entre as cidades para trabalhar, estudar e realizar outras atividades.
-Considerando o fluxo de indivíduos (infectados) que chega em um município em um determinado dia, caso este município
-ainda não estejam em transmissão comunitária, podemos calcular a probabilidade de uma epidemia se estabelecer.
-Esta probabilidade é dada por esta fórmula:
+        Os municípios brasileiros são conectados por uma malha de transporte muito bem desenvolvida e através desta,
+        cidadãs e cidadãos viajam diariamente entre as cidades para trabalhar, estudar e realizar outras atividades.
+        Considerando o fluxo de indivíduos (infectados) que chega em um município em um determinado dia, caso este município
+        ainda não estejam em transmissão comunitária, podemos calcular a probabilidade de uma epidemia se estabelecer.
+        Esta probabilidade é dada por esta fórmula:
 
-$$P_{epi}=1-\left(\frac{1}{R_0}\right)^{I_0}$$,
+        $$P_{epi}=1-\left(\frac{1}{R_0}\right)^{I_0}$$,
 
-onde $I_0$ é o número de infectados chegando diáriamente no município. Neste cenário usamos um $R_0=2.5$.
+        onde $I_0$ é o número de infectados chegando diáriamente no município. Neste cenário usamos um $R_0=2.5$.
         ''')
 
-    elif page == PAGE_CASE_NUMBER_BR:
-        st.title(PAGE_CASE_NUMBER_BR)
+    elif page == PAGE_CASE_DEATH_NUMBER_BR:
+        st.title(PAGE_CASE_DEATH_NUMBER_BR)
         x_variable = "date"
         y_variable = "Casos Confirmados"
+        y_variable2 = "Mortes Acumuladas"
+
         data = dashboard_data.get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.multiselect("Selecione o Estado", ufs)
 
         city_options = None
+        
         if uf_option:
             cities = dashboard_data.get_city_list(data, uf_option)
             city_options = st.multiselect("Selecione os Municípios", cities)
 
         is_log = st.checkbox('Escala Logarítmica', value=False)
-        region_name, data_uf = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable)
-
-        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+        region_name, data_uf_confirmed = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable)
+        region_name, data_uf_deaths = dashboard_data.get_data_uf(data, uf_option, city_options, y_variable2)
+        
+        figure = dashboard_data.plot_series(data_uf_confirmed, x_variable, y_variable, region_name, is_log)
+        figure = dashboard_data.add_series(figure, data_uf_deaths, x_variable, y_variable2, region_name, is_log)
+        
+        st.plotly_chart(figure)
+        
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
-    
+
     elif page == CUM_DEATH_COUNT_BR:
         st.title(CUM_DEATH_COUNT_BR)
         x_variable = "date"
@@ -218,7 +250,10 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
         is_log = st.checkbox('Escala Logarítmica', value=False)
         city_options=None
         region_name, data_uf = dashboard_data.get_data_cart(data, uf_option, y_variable)   
-        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+        fig = dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+        
+        st.plotly_chart(fig)
+        
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/obito_cartorio)")
 
     elif page == MAPA:
@@ -227,18 +262,16 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
         st.title("Distribuição Geográfica de Casos")
         cases = dashboard_data.get_data()
         estados = dashboard_data.load_lat_long()
-        estados['casos'] = 0
+        estados['casos'] = 0        
         cases = cases[cases.place_type != 'state'].groupby(['date', 'state']).sum()
         cases.reset_index(inplace=True)
 
         for i, row in estados.iterrows():
             if row.Estados in list(cases.state):
                 estados.loc[estados.Estados == row.Estados, 'casos'] += \
-                cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]
+                cases[(cases.state == row.Estados) & (cases.is_last)]['Casos Confirmados'].iloc[0]                
         
         midpoint = (np.average(estados["Latitude"]), np.average(estados["Longitude"]))
-                        
-        geojson_url = "https://data.brasil.io/dataset/shapefiles-brasil/0.01/BR-UF.geojson"
 
         layer = pdk.Layer(
             "ColumnLayer",
@@ -253,7 +286,7 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
             extruded=True,
             coverage=1
         )
-
+        
         view_state = pdk.ViewState(
                         longitude=midpoint[1],
                         latitude=midpoint[0],
@@ -298,7 +331,8 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
         )
         is_log = st.checkbox('Escala Logarítmica', value=False)
 
-        dashboard_data.plot_series(countries_data, x_variable, y_variable, region_name, is_log)
+        fig = dashboard_data.plot_series(countries_data, x_variable, y_variable, region_name, is_log)
+        st.plotly_chart(fig)
         st.markdown("**Fonte**: [Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)")
 
     elif page == CREDITOS:
