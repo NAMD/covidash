@@ -7,16 +7,26 @@ import streamlit as st
 
 import settings
 
+### data sources
+BRASIL_IO_COVID19 = "https://brasil.io/dataset/covid19/caso?format=csv"
+BRASIL_IO_CART = "https://brasil.io/dataset/covid19/obito_cartorio?format=csv"
 
 @st.cache(ttl=settings.CACHE_TTL)
 def get_data():
-    brasil_io_url = "https://brasil.io/dataset/covid19/caso?format=csv"
+    brasil_io_url = BRASIL_IO_COVID19
     cases = pd.read_csv(brasil_io_url).rename(
         columns={"confirmed": "Casos Confirmados", "deaths": "Mortes Acumuladas"})
     cases["date"] = pd.to_datetime(cases["date"])
 
     return cases
 
+@st.cache(ttl=settings.CACHE_TTL)
+def get_data_from_source(source,usecols=None,rename_cols=None):
+    df = pd.read_csv(source,usecols=usecols)
+    if rename_cols:
+        df.rename(columns=rename_cols)
+    df["date"] = pd.to_datetime(df["date"])    
+    return df
 
 @st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL, allow_output_mutation=True)
 def get_data_uf(data, uf, city_options, variable):
@@ -39,6 +49,34 @@ def get_data_uf(data, uf, city_options, variable):
     else:
         region_name = "Brasil"
         data = data.loc[data.place_type == "city"].groupby("date")[variable].sum().to_frame().reset_index()
+
+    melted_data = pd.melt(
+        data,
+        id_vars=['date'],
+        var_name=region_name,
+        value_name=variable,
+    )
+    return region_name, melted_data
+
+def get_data_cart(data, uf, variable):
+    if uf:
+        data = data.loc[data.state.isin(uf)]
+        #if city_options:
+        #    region_name = "Cidade"
+        #    city_options = [c.split(" - ")[1] for c in city_options]
+        #    data = data.loc[
+        #        (data.city.isin(city_options)) & (data.place_type == "city")
+        #    ][["date", "state", "city", variable]]
+        #    pivot_data = data.pivot_table(values=variable, index="date", columns="city")
+        #    data = pd.DataFrame(pivot_data.to_records())
+        #else:
+        region_name = "Estado"
+        data = data.loc[:,["date", "state", variable]]
+        pivot_data = data.pivot_table(values=variable, index="date", columns="state")
+        data = pd.DataFrame(pivot_data.to_records())
+    else:
+        region_name = "Brasil"
+        data = data.groupby("date")[variable].sum().to_frame().reset_index()
 
     melted_data = pd.melt(
         data,

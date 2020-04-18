@@ -21,6 +21,7 @@ MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
 PAGE_CASE_NUMBER_BR = "Casos no Brasil"
 CUM_DEATH_COUNT_BR = "Mortes acumuladas no Brasil"
+CUM_DEATH_CART = "Mortes registradas em cartório"
 PAGE_GLOBAL_CASES = "Casos no Mundo"
 
 COLUMNS = {
@@ -52,7 +53,7 @@ def main():
     page = st.sidebar.selectbox(
         "Escolha uma Análise",
         [HOME, MODELS, DATA,
-         PAGE_CASE_NUMBER_BR, CUM_DEATH_COUNT_BR, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
+         PAGE_CASE_NUMBER_BR, CUM_DEATH_COUNT_BR, CUM_DEATH_CART, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
     if page == HOME:
         st.header("Analizando a pandemia")
         st.markdown("""Neste site buscamos trazer até você os números da epidemia, a medida que se revelam, 
@@ -182,6 +183,7 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
 
         dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
+    
     elif page == CUM_DEATH_COUNT_BR:
         st.title(CUM_DEATH_COUNT_BR)
         x_variable = "date"
@@ -205,6 +207,19 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
 
         dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
+        
+    elif page ==CUM_DEATH_CART:
+        st.title(CUM_DEATH_CART)
+        x_variable = "date"
+        y_variable = "deaths_covid19"
+        data = dashboard_data.get_data_from_source(dashboard_data.BRASIL_IO_CART,usecols=None,rename_cols=None)
+        ufs = sorted(list(data.state.drop_duplicates().values))
+        uf_option = st.multiselect("Selecione o Estado", ufs)
+        is_log = st.checkbox('Escala Logarítmica', value=False)
+        city_options=None
+        region_name, data_uf = dashboard_data.get_data_cart(data, uf_option, y_variable)   
+        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+        st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/obito_cartorio)")
 
     elif page == MAPA:
 
