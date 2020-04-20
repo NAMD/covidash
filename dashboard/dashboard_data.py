@@ -1,5 +1,5 @@
 import json
-
+import datetime
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -211,3 +211,17 @@ def get_countries_data(data, countries):
 def load_lat_long():
     path_mapas = 'mapas/Estados.csv'
     return pd.read_csv(path_mapas)
+
+# @st.cache(persist=True, ttl=settings.CACHE_TTL)
+def plot_scatter_CFR(data):
+    df_states = data[data.place_type != 'state'].groupby(['date', 'state']).sum()
+    df_states.reset_index(inplace=True)
+    df_states.set_index('date', inplace=True)
+    df_states['Mortalidade'] = df_states['Mortes Acumuladas'] / df_states['Casos Confirmados']
+    df_states['data'] = [x.date() for x in df_states.index]
+    fig = px.scatter(df_states[df_states.data > datetime.date(2020, 3, 15)], x="Casos Confirmados",
+                     y="Mortalidade", size="Mortes Acumuladas",
+                     color="state",
+                     #                  animation_frame="data",
+                     hover_name="data", log_x=True, log_y=False, size_max=60)
+    st.plotly_chart(fig)
