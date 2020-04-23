@@ -216,32 +216,46 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
         st.plotly_chart(figure)
 
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
+        st.markdown(r"""## Evolução da Mortalidade por Estado Brasileiro
+No gráfico abaixo, podemos ver como a mortalidade(Fração dos casos confirmados que foi a óbito) está evoluindo 
+com o tempo em cada estado.
+
+É importante lembrar que estes números não representam todas as mortes por COVID-19 no país, pois apenas as mortes de 
+casos testados e confirmados são efetivamente contadas como mortes oficiais pela COVID-19. Devido à escassez de testes e 
+recomendações sobre quem deve ser testado, existe um viés nestas estimativas.
+
+Na figura abaixo o eixo vertical representa a mortalidade: $\frac{mortes}{casos}$, o eixo Horizontal representa o número 
+total de casos. O tamanho dos círculos representa o número total de mortes em cada estado. Este gráfico é mais fácil de 
+ser estudado em tela cheia. clicando na legenda é possível "ligar" e "desligar" a visualização dos estados individualmente,
+para facilitar a visualização dos demais. Passsndo o Mouse por sobre os circulos, podemos ler os valores da mortalidade e 
+da data a que corresponde.
+        """)
         dashboard_data.plot_scatter_CFR(data)
 
 
-    elif page == CUM_DEATH_COUNT_BR:
-        st.title(CUM_DEATH_COUNT_BR)
-        x_variable = "date"
-        y_variable = "Mortes Acumuladas"
-        data = dashboard_data.get_data()
-        ufs = sorted(list(data.state.drop_duplicates().values))
-        uf_option = st.multiselect("Selecione o Estado", ufs)
-
-        city_options = None
-        if uf_option:
-            cities = dashboard_data.get_city_list(data, uf_option)
-            city_options = st.multiselect("Selecione os Municípios", cities)
-
-        is_log = st.checkbox('Escala Logarítmica', value=False)
-        region_name, data_uf = dashboard_data.get_data_uf(
-            data,
-            uf_option,
-            city_options,
-            y_variable
-        )
-
-        dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
-        st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
+    # elif page == CUM_DEATH_COUNT_BR:
+    #     st.title(CUM_DEATH_COUNT_BR)
+    #     x_variable = "date"
+    #     y_variable = "Mortes Acumuladas"
+    #     data = dashboard_data.get_data()
+    #     ufs = sorted(list(data.state.drop_duplicates().values))
+    #     uf_option = st.multiselect("Selecione o Estado", ufs)
+    #
+    #     city_options = None
+    #     if uf_option:
+    #         cities = dashboard_data.get_city_list(data, uf_option)
+    #         city_options = st.multiselect("Selecione os Municípios", cities)
+    #
+    #     is_log = st.checkbox('Escala Logarítmica', value=False)
+    #     region_name, data_uf = dashboard_data.get_data_uf(
+    #         data,
+    #         uf_option,
+    #         city_options,
+    #         y_variable
+    #     )
+    #
+    #     dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+    #     st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
 
     elif page == CUM_DEATH_CART:
         st.title(CUM_DEATH_CART)

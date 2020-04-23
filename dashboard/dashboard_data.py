@@ -11,6 +11,7 @@ import settings
 BRASIL_IO_COVID19 = "https://brasil.io/dataset/covid19/caso?format=csv"
 BRASIL_IO_CART = "https://brasil.io/dataset/covid19/obito_cartorio?format=csv"
 
+
 @st.cache(ttl=settings.CACHE_TTL)
 def get_data():
     brasil_io_url = BRASIL_IO_COVID19
@@ -20,13 +21,15 @@ def get_data():
 
     return cases
 
+
 @st.cache(ttl=settings.CACHE_TTL)
-def get_data_from_source(source,usecols=None,rename_cols=None):
-    df = pd.read_csv(source,usecols=usecols)
+def get_data_from_source(source, usecols=None, rename_cols=None):
+    df = pd.read_csv(source, usecols=usecols)
     if rename_cols:
         df.rename(columns=rename_cols)
-    df["date"] = pd.to_datetime(df["date"])    
+    df["date"] = pd.to_datetime(df["date"])
     return df
+
 
 @st.cache(suppress_st_warning=True, ttl=settings.CACHE_TTL, allow_output_mutation=True)
 def get_data_uf(data, uf, city_options, variable):
@@ -37,7 +40,7 @@ def get_data_uf(data, uf, city_options, variable):
             city_options = [c.split(" - ")[1] for c in city_options]
             data = data.loc[
                 (data.city.isin(city_options)) & (data.place_type == "city")
-            ][["date", "state", "city", variable]]
+                ][["date", "state", "city", variable]]
             pivot_data = data.pivot_table(values=variable, index="date", columns="city")
             data = pd.DataFrame(pivot_data.to_records())
         else:
@@ -58,10 +61,11 @@ def get_data_uf(data, uf, city_options, variable):
     )
     return region_name, melted_data
 
+
 def get_data_cart(data, uf, variable):
     if uf:
         data = data.loc[data.state.isin(uf)]
-        #if city_options:
+        # if city_options:
         #    region_name = "Cidade"
         #    city_options = [c.split(" - ")[1] for c in city_options]
         #    data = data.loc[
@@ -69,9 +73,9 @@ def get_data_cart(data, uf, variable):
         #    ][["date", "state", "city", variable]]
         #    pivot_data = data.pivot_table(values=variable, index="date", columns="city")
         #    data = pd.DataFrame(pivot_data.to_records())
-        #else:
+        # else:
         region_name = "Estado"
-        data = data.loc[:,["date", "state", variable]]
+        data = data.loc[:, ["date", "state", variable]]
         pivot_data = data.pivot_table(values=variable, index="date", columns="state")
         data = pd.DataFrame(pivot_data.to_records())
     else:
@@ -94,14 +98,14 @@ def plot_series(data, x_variable, y_variable, region_name, is_log):
         data[log_y_variable] = np.log(data[y_variable] + 1)
         y_variable = log_y_variable
 
-    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)    
-    
+    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)
+
     fig.update_traces(mode='lines+markers')
     fig.update_layout(
         xaxis_title="Data",
         yaxis_title="Indivíduos",
         plot_bgcolor='rgba(0,0,0,0)',
-        legend_orientation="h",        
+        legend_orientation="h",
     )
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
@@ -111,35 +115,35 @@ def plot_series(data, x_variable, y_variable, region_name, is_log):
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
         showline=True, linewidth=1, linecolor='black',
     )
-    
+
     return fig
 
-def add_series(fig, data, x_variable, y_variable, region_name, is_log):    
-    
+
+def add_series(fig, data, x_variable, y_variable, region_name, is_log):
     if is_log:
         data = data.copy()
         log_y_variable = f"Log[{y_variable}]"
         data[log_y_variable] = np.log(data[y_variable] + 1)
         y_variable = log_y_variable
     # Need to fix color 
-    
+
     if region_name == 'Brasil':
         fig.add_scatter(x=data[x_variable], y=data[y_variable], name=y_variable,
                         hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
                         )
-    else:        
+    else:
         for region in list(data[region_name].unique()):
-            plot_df = data.loc[data[region_name] == region]                        
+            plot_df = data.loc[data[region_name] == region]
             fig.add_scatter(x=plot_df[x_variable], y=plot_df[y_variable], name='Mortes ' + region,
-                        hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
-                        )            
-    
+                            hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
+                            )
+
     fig.update_traces(mode='lines+markers')
-    fig.update_layout(        
+    fig.update_layout(
         xaxis_title="Data",
         yaxis_title="Indivíduos",
         plot_bgcolor='rgba(0,0,0,0)',
-        legend_orientation="h",        
+        legend_orientation="h",
     )
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
@@ -153,13 +157,14 @@ def add_series(fig, data, x_variable, y_variable, region_name, is_log):
 
 
 @st.cache(ttl=settings.CACHE_TTL)
-def get_aligned_data(df,align=100):
-    align_dfs = [df.loc[df[c]>=100,[c]].values.reshape(-1,) for c in df.columns]
+def get_aligned_data(df, align=100):
+    align_dfs = [df.loc[df[c] >= 100, [c]].values.reshape(-1, ) for c in df.columns]
     columns = [c for c in df.columns]
-    aligned_df = pd.DataFrame(align_dfs,index=columns).T
-    #align_dfs = [d.reset_index() for d in align_dfs]
-    #aligned = pd.concat([d for d in align_dfs],ignore_index=True)
+    aligned_df = pd.DataFrame(align_dfs, index=columns).T
+    # align_dfs = [d.reset_index() for d in align_dfs]
+    # aligned = pd.concat([d for d in align_dfs],ignore_index=True)
     return aligned_df
+
 
 @st.cache(ttl=settings.CACHE_TTL)
 def get_city_list(data, uf):
@@ -184,7 +189,7 @@ def get_global_cases():
     )
     country_names = json.load(open("dashboard/nomes-paises.json"))
     global_cases = pd.read_csv(url)
-    global_cases["Country/Region"] = global_cases["Country/Region"]\
+    global_cases["Country/Region"] = global_cases["Country/Region"] \
         .map(lambda x: _translate(x, country_names))
     global_cases = global_cases.rename(columns={"Country/Region": "País/Região"})
     return global_cases
@@ -199,7 +204,7 @@ def get_countries_list(data):
 def get_countries_data(data, countries):
     if countries:
         region_name = "País/Região"
-        result = data.loc[data[region_name].isin(countries)]\
+        result = data.loc[data[region_name].isin(countries)] \
             .groupby([region_name, "Data"]).sum().reset_index()
     else:
         region_name = None
@@ -211,6 +216,7 @@ def get_countries_data(data, countries):
 def load_lat_long():
     path_mapas = 'mapas/Estados.csv'
     return pd.read_csv(path_mapas)
+
 
 # @st.cache(persist=True, ttl=settings.CACHE_TTL)
 def plot_scatter_CFR(data):
