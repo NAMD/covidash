@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import episem
 
 import settings
 
@@ -230,4 +231,43 @@ def plot_scatter_CFR(data):
                      color="state",
                      #                  animation_frame="data",
                      hover_name="data", log_x=True, log_y=False, size_max=60)
+    st.plotly_chart(fig)
+
+
+def plot_excess_deaths(data):
+    obitos_SP = data[(data.state == 'SP') & (data.place_type == 'state')][
+        ['date', 'Casos Confirmados', 'Mortes Acumuladas']]
+    obitos_SP['data'] = pd.to_datetime(obitos_SP.date)
+    obitos_SP.set_index('data', inplace=True)
+    obitos_SP.sort_index(inplace=True)
+    obitos_SP['incidencia'] = obitos_SP['Mortes Acumuladas'].diff()
+    obitos_SP['ew'] = [int(episem.episem(x, out='W')) for x in obitos_SP.index]
+    covid = pd.read_csv('dashboard/obitosSP_baseline.csv.gz')
+    obitos_SP_W = obitos_SP.groupby('ew').sum().incidencia.iloc[:-1]
+    # obitos_SP_W.reset_index()
+    fig = px.line(covid, x=covid.index, y='median', line_shape='spline')
+    fig.add_scatter(x=covid.index, y=covid.p25, name='1⁰ quartil', fill='tonexty',
+                    hovertemplate="1⁰ quartil: %{y:.0f} SE: %{x}"
+                    )
+    fig.add_scatter(x=covid.index, y=covid.p75, name='3⁰ quartil', fill='tonexty',
+                    hovertemplate="3⁰ quartil: %{y:.0f} SE: %{x}"
+                    )
+    fig.add_scatter(x=obitos_SP_W.index.values, y=obitos_SP_W.values, fillcolor='red', marker_symbol=3,
+                    hovertemplate="Mortes Acumuladas: %{y:.0f} SE: %{x}", name='Mortes por COVID-19')
+
+    fig.update_traces(mode='lines+markers')
+    fig.update_layout(
+        xaxis_title="Semanas epidemiológicas",
+        yaxis_title="Mortes",
+        plot_bgcolor='rgba(0,0,0,0)',
+        legend_orientation="h",
+    )
+    fig.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
+    )
+    fig.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgb(211,211,211)',
+        showline=True, linewidth=1, linecolor='black',
+    )
     st.plotly_chart(fig)

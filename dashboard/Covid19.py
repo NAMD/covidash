@@ -232,6 +232,12 @@ da data a que corresponde.
         """)
         dashboard_data.plot_scatter_CFR(data)
 
+        st.markdown('''## Excesso de mortes em SP
+Abaixo, exploramos o excesso de mortalidade no estado de são que a COVID-19 representa, quando compara à média dos 
+últimos 10 anos de mortes por doenças respiratorias com causa viral.
+        ''')
+        dashboard_data.plot_excess_deaths(data)
+
 
     # elif page == CUM_DEATH_COUNT_BR:
     #     st.title(CUM_DEATH_COUNT_BR)
