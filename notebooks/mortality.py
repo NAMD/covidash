@@ -11,6 +11,7 @@ import seaborn as sns
 import episem
 import matplotlib
 from functools import lru_cache
+import os
 
 YEARS = range(2009, 2019)
 ### data sources
@@ -121,6 +122,16 @@ def filtra_obitos_SIM(estado):
     pneu_obitos = df[df.CAUSABAS.isin(pneu) | df.LINHAA.isin(pneu) | df.LINHAB.isin(pneu)]
     return pneu_obitos
 
+def df_baseline_estado(estado):
+    pneu_obitos = filtra_obitos_SIM(estado)
+    avg = pneu_obitos.resample('W').count()
+    avg['week'] = avg.index.week
+    mean = avg.groupby('week').median()
+    new_df = mean.drop(['CODMUNOCOR','IDADE','SEXO','LINHAA','LINHAB','idade'], axis=1)
+    new_df = new_df.rename(columns={"CAUSABAS": "mean"})
+    new_df['perc_75'] = avg.groupby('week').agg(lambda x: np.percentile(x, 75)).CAUSABAS
+    new_df['perc_25'] = avg.groupby('week').agg(lambda x: np.percentile(x, 25)).CAUSABAS
+    return new_df
 
 def plot_baseline_estado(estado):
     pneu_obitos = filtra_obitos_SIM(estado)
@@ -143,11 +154,16 @@ if __name__ == "__main__":
     estados = set(data_covid.state)
     ## Preenchendo o Cache
     ## Rode apenas uma vez
-    # for est in estados:
-    #     print(f"Baixando {est}...")
-    #     for ano in YEARS:
-    #         download_SIM(ano, est)
+    if not os.path.exists('baseline'):
+        os.makedirs('baseline')
 
     for est in estados:
-        # plot_obitos_covid(est, data_covid)
-        plot_baseline_estado(est)
+        print(f"Baixando {est}...")
+        for ano in YEARS:
+            download_SIM(ano, est)
+        base = df_baseline_estado(est)
+        base.to_csv(f'baseline/baseline_{est}.csv')    
+
+    #for est in estados:
+    #    plot_obitos_covid(est, data_covid)
+    #    plot_baseline_estado(est)
