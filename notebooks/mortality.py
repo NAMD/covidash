@@ -164,6 +164,14 @@ if __name__ == "__main__":
         base = df_baseline_estado(est)
         base.to_csv(f'baseline/baseline_{est}.csv')    
 
+    aux = []
+    for est in estados:
+        sta = pd.read_csv(f'baseline/baseline_{est}.csv'))
+        sta['state'] = est
+        aux.append(sta)
+    brasil_df = pd.concat(aux, axis=0, ignore_index=True)
+    brasil_df.to_csv('baseline_br.csv', index=False)
     #for est in estados:
     #    plot_obitos_covid(est, data_covid)
     #    plot_baseline_estado(est)
+        
