@@ -27,3 +27,4 @@ Doutorando no Centro Brasileiro de Pesquisas Físicas.
 ## Colaboradores
 
 * [MAVE](https://covid-19.procc.fiocruz.br) Grupo de Métodos analíticos em Vigilância Epidemiológica
+* Logo gentilmente doado por [Tinta Carmesim](https://www.instagram.com/tintacarmesim/).

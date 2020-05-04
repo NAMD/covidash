@@ -231,11 +231,13 @@ da data a que corresponde.
         """)
         dashboard_data.plot_scatter_CFR(data)
 
-        st.markdown('''## Excesso de mortes em SP
-Abaixo, exploramos o excesso de mortalidade no estado de são que a COVID-19 representa, quando compara à média dos 
-últimos 10 anos de mortes por doenças respiratorias com causa viral.
+        st.markdown('''## Excesso de mortes por estado
+Abaixo, exploramos o excesso de mortalidade nos estados que a COVID-19 representa, quando comparada à média dos 
+últimos 10 anos de mortes por doenças respiratórias.
         ''')
-        dashboard_data.plot_excess_deaths(data)
+        uf_option2 = st.selectbox("Selecione o Estado", ufs)
+        viral = st.checkbox("Apenas Mortalidade por pneumonia viral? Desmarque para comparar com o total de mortes respiratórias", value=True)
+        dashboard_data.plot_excess_deaths(data, uf_option2,viral)
 
 
     elif page == CUM_DEATH_CART:
@@ -253,7 +255,7 @@ Abaixo, exploramos o excesso de mortalidade no estado de são que a COVID-19 rep
         region_name, data_uf = dashboard_data.get_data_cart(data, uf_option, y_variable)
         region_name, data_uf_deaths = dashboard_data.get_data_uf(data2, uf_option, city_options, y_variable2)
         # Plota mortes dos cartorios
-        fig = dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+        fig = dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log, label='Mortes registradas em Cartório')
         fig = dashboard_data.add_series(fig, data_uf_deaths, x_variable, y_variable2, region_name, is_log, "Mortes Oficiais")
 
         st.plotly_chart(fig)

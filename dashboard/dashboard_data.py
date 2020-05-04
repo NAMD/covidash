@@ -92,14 +92,16 @@ def get_data_cart(data, uf, variable):
     return region_name, melted_data
 
 
-def plot_series(data, x_variable, y_variable, region_name, is_log):
+def plot_series(data, x_variable, y_variable, region_name, is_log, label=None):
     if is_log:
         data = data.copy()
         log_y_variable = f"Log[{y_variable}]"
         data[log_y_variable] = np.log(data[y_variable] + 1)
         y_variable = log_y_variable
+    if label is None:
+        label = y_variable
 
-    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name)
+    fig = px.scatter(data, x=x_variable, y=y_variable, color=region_name, labels={y_variable: label})
 
     fig.update_traces(mode='lines+markers')
     fig.update_layout(
@@ -234,26 +236,29 @@ def plot_scatter_CFR(data):
     st.plotly_chart(fig)
 
 
-def plot_excess_deaths(data):
-    obitos_SP = data[(data.state == 'SP') & (data.place_type == 'state')][
+def plot_excess_deaths(data, estado, only_viral=True):
+    obitos = data[(data.state == estado) & (data.place_type == 'state')][
         ['date', 'Casos Confirmados', 'Mortes Acumuladas']]
-    obitos_SP['data'] = pd.to_datetime(obitos_SP.date)
-    obitos_SP.set_index('data', inplace=True)
-    obitos_SP.sort_index(inplace=True)
-    obitos_SP['incidencia'] = obitos_SP['Mortes Acumuladas'].diff()
-    obitos_SP['ew'] = [int(episem.episem(x, out='W')) for x in obitos_SP.index]
-    covid = pd.read_csv('dashboard/obitosSP_baseline.csv.gz')
-    obitos_SP_W = obitos_SP.groupby('ew').sum().incidencia.iloc[:-1]
-    # obitos_SP_W.reset_index()
-    fig = px.line(covid, x=covid.index, y='median', line_shape='spline')
-    fig.add_scatter(x=covid.index, y=covid.p25, name='1⁰ quartil', fill='tonexty',
+    obitos['data'] = pd.to_datetime(obitos.date)
+    obitos.set_index('data', inplace=True)
+    obitos.sort_index(inplace=True)
+    obitos['incidencia'] = obitos['Mortes Acumuladas'].diff()
+    obitos['ew'] = [int(episem.episem(x, out='W')) for x in obitos.index]
+    if only_viral:
+        ob_sim = pd.read_csv(f'dashboard/dados/baseline_{estado}.csv.gz')
+    else:
+        ob_sim = pd.read_csv(f'dashboard/dados/baseline_{estado}_all_resp.csv.gz')
+    obitos_W = obitos.groupby('ew').sum().incidencia.iloc[:-1]
+    # obitos_W.reset_index()
+    fig = px.line(ob_sim, x=ob_sim.index, y='median', line_shape='spline')
+    fig.add_scatter(x=ob_sim.index, y=ob_sim.perc_25, name='1⁰ quartil', fill='tonexty',
                     hovertemplate="1⁰ quartil: %{y:.0f} SE: %{x}"
                     )
-    fig.add_scatter(x=covid.index, y=covid.p75, name='3⁰ quartil', fill='tonexty',
+    fig.add_scatter(x=ob_sim.index, y=ob_sim.perc_75, name='3⁰ quartil', fill='tonexty',
                     hovertemplate="3⁰ quartil: %{y:.0f} SE: %{x}"
                     )
-    fig.add_scatter(x=obitos_SP_W.index.values, y=obitos_SP_W.values, fillcolor='red', marker_symbol=3,
-                    hovertemplate="Mortes Acumuladas: %{y:.0f} SE: %{x}", name='Mortes por COVID-19')
+    fig.add_scatter(x=obitos_W.index.values, y=obitos_W.values, fillcolor='red', marker_symbol=3,
+                    hovertemplate="Mortes por semana: %{y:.0f} SE: %{x}", name='Mortes por COVID-19')
 
     fig.update_traces(mode='lines+markers')
     fig.update_layout(

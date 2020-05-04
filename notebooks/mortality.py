@@ -94,7 +94,7 @@ def plot_obitos_covid(estado, cases):
     obitos = filtra_obitos_covid(cases, estado)
     ax = obitos.incidencia.resample('W').sum().plot(style='r:+', figsize=(20, 8), grid=True)
     ax.set_title(f'Óbitos por semana para {estado}')
-    obitos.to_csv(f'obitos_covid_{estado}.csv')
+    obitos.to_csv(f'obitos_covid_{estado}.csv.gz')
     # ~ plt.show()
     return obitos
 
@@ -116,15 +116,17 @@ def plot_serie_SIM(estado):
     return
 
 
-def filtra_obitos_SIM(estado):
+def filtra_obitos_SIM(estado, only_viral=True):
     df = load_anos(estado)
-    pneu = ['J09', 'J090', 'J100', 'J108', 'J110', 'J111', 'J118', 'J120', 'J121', 'J122', 'J128', 'J129', 'J171']
-    # pneu = set([cid for cid in df_SP.CAUSABAS if cid.startswith('J1')])
+    if only_viral:
+        pneu = ['J09', 'J090', 'J100', 'J108', 'J110', 'J111', 'J118', 'J120', 'J121', 'J122', 'J128', 'J129', 'J171']
+    else:
+        pneu = set([cid for cid in df.CAUSABAS if cid.startswith('J1')]+['J09', 'J090'])
     pneu_obitos = df[df.CAUSABAS.isin(pneu) | df.LINHAA.isin(pneu) | df.LINHAB.isin(pneu)]
     return pneu_obitos
 
-def df_baseline_estado(estado):
-    pneu_obitos = filtra_obitos_SIM(estado)
+def df_baseline_estado(estado, viral=True):
+    pneu_obitos = filtra_obitos_SIM(estado, only_viral=viral)
     avg = pneu_obitos.resample('W').count()
     avg['week'] = avg.index.week
     median = avg.groupby('week').median()
@@ -153,6 +155,7 @@ def plot_baseline_estado(estado):
 if __name__ == "__main__":
     data_covid = fetch_brasilio_data()
     estados = set(data_covid.state)
+    viral = False
     ## Preenchendo o Cache
     ## Rode apenas uma vez
     if not os.path.exists('baseline'):
@@ -164,22 +167,26 @@ if __name__ == "__main__":
         print(f"Baixando {est}...")
         for ano in YEARS:
             download_SIM(ano, est)
-        base = df_baseline_estado(est)
-        base.to_csv(f'baseline/baseline_{est}.csv')    
+        base = df_baseline_estado(est, viral=viral)
+        if viral:
+            base.to_csv(f'baseline/baseline_{est}.csv.gz')  
+        else:
+            base.to_csv(f'baseline/baseline_{est}_all_resp.csv.gz')
+        # ~ plot_obitos_covid(est, data_covid)  
         
     excesso = pd.DataFrame(columns=['estado','mediana_historica', 'covid','diferença'])
 
-    for est in estados:
-        print(f'plotando {est}')
-        obitos = plot_obitos_covid(est, data_covid)
-        bldf = pd.read_csv(f'baseline/baseline_{est}.csv')
-        last_week = obitos.groupby('ew').sum().incidencia.iloc[-1]
-        base = bldf['median'].iloc[obitos.ew.iloc[-1]]
-        excesso = excesso.append({'estado': est,
-                        'mediana_historica': int(base),
-                        'covid':int(last_week),
-                        'diferença':int(last_week-base)
-                    },ignore_index=True)
+    # ~ for est in estados:
+        # ~ print(f'plotando {est}')
+        # ~ obitos = plot_obitos_covid(est, data_covid)
+        # ~ bldf = pd.read_csv(f'baseline/baseline_{est}.csv.gz')
+        # ~ last_week = obitos.groupby('ew').sum().incidencia.iloc[-1]
+        # ~ base = bldf['median'].iloc[obitos.ew.iloc[-1]]
+        # ~ excesso = excesso.append({'estado': est,
+                        # ~ 'mediana_historica': int(base),
+                        # ~ 'covid':int(last_week),
+                        # ~ 'diferença':int(last_week-base)
+                    # ~ },ignore_index=True)
                     
     #    plot_baseline_estado(est)
-    excesso.to_csv(f'Excesso_mortes_semana_{obitos.ew.iloc[-1]}.csv')
+    # ~ excesso.to_csv(f'Excesso_mortes_semana_{obitos.ew.iloc[-1]}.csv')
