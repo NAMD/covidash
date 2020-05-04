@@ -120,7 +120,7 @@ def plot_series(data, x_variable, y_variable, region_name, is_log):
     return fig
 
 
-def add_series(fig, data, x_variable, y_variable, region_name, is_log):
+def add_series(fig, data, x_variable, y_variable, region_name, is_log, label="Mortes Acumuladas"):
     if is_log:
         data = data.copy()
         log_y_variable = f"Log[{y_variable}]"
@@ -129,14 +129,14 @@ def add_series(fig, data, x_variable, y_variable, region_name, is_log):
     # Need to fix color 
 
     if region_name == 'Brasil':
-        fig.add_scatter(x=data[x_variable], y=data[y_variable], name=y_variable,
-                        hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
+        fig.add_scatter(x=data[x_variable], y=data[y_variable], name=label,
+                        hovertemplate=label+": %{y:.2f} Data: %{x}",
                         )
     else:
         for region in list(data[region_name].unique()):
             plot_df = data.loc[data[region_name] == region]
-            fig.add_scatter(x=plot_df[x_variable], y=plot_df[y_variable], name='Mortes ' + region,
-                            hovertemplate="Mortes Acumuladas: %{y:.2f} Data: %{x}",
+            fig.add_scatter(x=plot_df[x_variable], y=plot_df[y_variable], name=f'{label} ' + region,
+                            hovertemplate=label+": %{y:.2f} Data: %{x}",
                             )
 
     fig.update_traces(mode='lines+markers')

@@ -20,7 +20,6 @@ DATA = "Probabilidade de Espalhamento"
 MAPA = "Distribuição Geográfica"
 CREDITOS = "Equipe"
 PAGE_CASE_DEATH_NUMBER_BR = "Casos e Mortes no Brasil"
-CUM_DEATH_COUNT_BR = "Mortes acumuladas no Brasil"
 CUM_DEATH_CART = "Mortes registradas em cartório"
 PAGE_GLOBAL_CASES = "Casos no Mundo"
 
@@ -239,41 +238,23 @@ Abaixo, exploramos o excesso de mortalidade no estado de são que a COVID-19 rep
         dashboard_data.plot_excess_deaths(data)
 
 
-    # elif page == CUM_DEATH_COUNT_BR:
-    #     st.title(CUM_DEATH_COUNT_BR)
-    #     x_variable = "date"
-    #     y_variable = "Mortes Acumuladas"
-    #     data = dashboard_data.get_data()
-    #     ufs = sorted(list(data.state.drop_duplicates().values))
-    #     uf_option = st.multiselect("Selecione o Estado", ufs)
-    #
-    #     city_options = None
-    #     if uf_option:
-    #         cities = dashboard_data.get_city_list(data, uf_option)
-    #         city_options = st.multiselect("Selecione os Municípios", cities)
-    #
-    #     is_log = st.checkbox('Escala Logarítmica', value=False)
-    #     region_name, data_uf = dashboard_data.get_data_uf(
-    #         data,
-    #         uf_option,
-    #         city_options,
-    #         y_variable
-    #     )
-    #
-    #     dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
-    #     st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
-
     elif page == CUM_DEATH_CART:
         st.title(CUM_DEATH_CART)
         x_variable = "date"
         y_variable = "deaths_covid19"
+        y_variable2 = "Mortes Acumuladas"
         data = dashboard_data.get_data_from_source(dashboard_data.BRASIL_IO_CART, usecols=None, rename_cols=None)
+        data2 = dashboard_data.get_data()
         ufs = sorted(list(data.state.drop_duplicates().values))
         uf_option = st.multiselect("Selecione o Estado", ufs)
         is_log = st.checkbox('Escala Logarítmica', value=False)
         city_options = None
+        # get data
         region_name, data_uf = dashboard_data.get_data_cart(data, uf_option, y_variable)
+        region_name, data_uf_deaths = dashboard_data.get_data_uf(data2, uf_option, city_options, y_variable2)
+        # Plota mortes dos cartorios
         fig = dashboard_data.plot_series(data_uf, x_variable, y_variable, region_name, is_log)
+        fig = dashboard_data.add_series(fig, data_uf_deaths, x_variable, y_variable2, region_name, is_log, "Mortes Oficiais")
 
         st.plotly_chart(fig)
 
