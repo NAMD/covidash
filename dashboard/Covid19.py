@@ -53,7 +53,7 @@ def main():
         [HOME, MODELS, DATA,
          PAGE_CASE_DEATH_NUMBER_BR, CUM_DEATH_CART, PAGE_GLOBAL_CASES, MAPA, CREDITOS])
     if page == HOME:
-        st.header("Analizando a pandemia")
+        st.header("Analisando a Pandemia de COVID-19 no Brasil")
         st.markdown("""Neste site buscamos trazer até você os números da epidemia, a medida que se revelam, 
         mas também um olhar analítico, capaz de desvelar a dinâmica do processo de transmissão do vírus SARS-Cov-2
         por meio de modelos matemáticos, análises estatísticas e visualização de informação.
