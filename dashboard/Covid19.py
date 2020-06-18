@@ -97,8 +97,8 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         q = st.slider('Dia de início da Quarentena:', 1, 165, 35)
         r = st.slider('duração em dias da Quarentena:', 0, 200, 80)
         N = st.number_input('População em Risco:', value=102.3e6, max_value=200e6, step=1e6)
-        st.markdown(f"""$R_0={(beta * (1-chi)*(p*(phi+delta)+(1-p)*gamma)) / gamma*(delta+phi):.2f}$, durante a quarentena. &nbsp 
-                    $R_0={(beta * (1-0)*(p*(phi+delta)+(1-p)*gamma)) / gamma*(delta+phi):.2f}$, fora da quarentena.""")
+        st.markdown(f"""$R_0={(beta * (1-chi)*(p*(phi+delta)+(1-p)*gamma)) / (gamma*(delta+phi)):.2f}$, durante a quarentena. &nbsp 
+                    $R_0={(beta * (1-0)*(p*(phi+delta)+(1-p)*gamma)) / (gamma*(delta+phi)):.2f}$, fora da quarentena.""")
 
         params = {
             'chi': chi,
@@ -146,7 +146,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
 Podemos agora comparar nossa série simulada de Hospitalizações acumuladas com o número de casos acumulados 
 de notificações oficiais.
         ''')
-        ofs = st.number_input("Atraso no início da notificação (dias)", value=15, min_value=0, max_value=90, step=1)
+        ofs = st.number_input("Atraso no início da notificação (dias)", value=0, min_value=0, max_value=90, step=1)
         st.markdown('Na caixa acima, você pode mover lateralmente a curva, Assumindo que os primeiro caso '
                     'notificado não corresponde ao início da transmissão')
         dashboard_models.plot_predictions(ofs, final_traces, dias=365)
@@ -156,13 +156,13 @@ de notificações oficiais.
 
                 $\frac{dE}{dt}= \lambda [(1-\chi) S] -\alpha E$
 
-                $\frac{dI}{dt}&= (1-p)\alpha E - \delta I -\phi I$
+                $\frac{dI}{dt}= (1-p)\alpha E - \delta I -\phi I$
 
-                $\frac{dA}{dt}&= p\alpha E - \gamma A$
+                $\frac{dA}{dt}= p\alpha E - \gamma A$
 
-                $\frac{dH}{dt}&= \phi I -(\rho+\mu) H$
+                $\frac{dH}{dt}= \phi I -(\rho+\mu) H$
 
-                $\frac{dR}{dt}&= \delta I + \rho H+\gamma A$
+                $\frac{dR}{dt}= \delta I + \rho H+\gamma A$
 
                 $\lambda=\beta(I+A)$
 
