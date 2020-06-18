@@ -85,10 +85,11 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
         chi = st.sidebar.slider('χ, Fração de quarentenados', 0.0, 1.0, 0.7)
-        phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.01)
+        phi = st.sidebar.slider('φ, Taxa de Hospitalização', 0.0, 0.5, 0.005)
         beta = st.sidebar.slider('β, Taxa de transmissão', 0.0, 1.0, 0.5)
         rho = st.sidebar.slider('ρ, Taxa de alta dos hospitalizados:', 0.0, 1.0, 0.02)
-        delta = st.sidebar.slider('δ, Taxa de recuperação:', 0.0, 1.0, 0.1)
+        delta = st.sidebar.slider('δ, Taxa de recuperação de Sintomáticos:', 0.0, 1.0, 0.1)
+        gamma = st.sidebar.slider('γ, Taxa de recuperação de Assintomáticos:', 0.0, 1.0, 0.04)
         alpha = st.sidebar.slider('α, Taxa de incubação', 0.0, 10.0, .33)
         mu = st.sidebar.slider('μ, Taxa de mortalidade pela COVID-19', 0.0, 1.0, .01)
 
@@ -105,6 +106,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
             'beta': beta,
             'rho': rho,
             'delta': delta,
+            'gamma': gamma,
             'alpha': alpha,
             'mu': mu,
             'p': p,

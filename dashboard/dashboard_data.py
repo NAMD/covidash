@@ -5,19 +5,23 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 import episem
+import requests
+import io
 
 import settings
 
 ### data sources
-BRASIL_IO_COVID19 = "https://brasil.io/dataset/covid19/caso?format=csv"
+BRASIL_IO_COVID19 = "https://brasil.io/dataset/covid19/caso_full/?format=csv"
 BRASIL_IO_CART = "https://brasil.io/dataset/covid19/obito_cartorio?format=csv"
 
 
 @st.cache(ttl=settings.CACHE_TTL)
 def get_data():
     brasil_io_url = BRASIL_IO_COVID19
-    cases = pd.read_csv(brasil_io_url).rename(
-        columns={"confirmed": "Casos Confirmados", "deaths": "Mortes Acumuladas"})
+    res = requests.get(brasil_io_url)
+    file_object = io.StringIO(res.content.decode('utf-8'))
+    cases = pd.read_csv(file_object).rename(
+        columns={"last_available_confirmed": "Casos Confirmados", "last_available_deaths": "Mortes Acumuladas"})
     cases["date"] = pd.to_datetime(cases["date"])
 
     return cases
