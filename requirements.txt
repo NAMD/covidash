@@ -95,7 +95,7 @@ widgetsnbextension==3.5.1
 wrapt==1.12.1
 xarray==0.15.1
 zipp==3.1.0
-epimodels==0.3.12
+epimodels==0.3.13
 humanizer-portugues==1.2.2
 requests
 
