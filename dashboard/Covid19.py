@@ -76,7 +76,7 @@ As sguintes fontes de dados foram usadas neste projeto:
 ## Softwares opensource
 Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
 
-* [Streamlit](streamlit.io): Web framework voltada para ciência de dados.
+* [Streamlit](https://streamlit.io): Web framework voltada para ciência de dados.
 * [Epimodels](https://github.com/fccoelho/epimodels): Biblioteca de modelos matemáticos para simulação de epidemias.
 
         """)
