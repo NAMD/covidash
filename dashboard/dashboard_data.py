@@ -14,7 +14,7 @@ import settings
 
 ### data sources
 BRASIL_IO_COVID19 = "https://data.brasil.io/dataset/covid19/caso_full.csv.gz"
-BRASIL_IO_CART = "https://brasil.io/dataset/covid19/obito_cartorio?format=csv"
+BRASIL_IO_CART = "https://data.brasil.io/dataset/covid19/obito_cartorio.csv.gz"
 
 
 @st.cache(ttl=settings.CACHE_TTL)
@@ -33,9 +33,11 @@ def get_data():
 
 @st.cache(ttl=settings.CACHE_TTL)
 def get_data_from_source(source, usecols=None, rename_cols=None):
-    df = pd.read_csv(source, usecols=usecols)
+    request = Request(source, headers={"User-Agent": "python-urllib"})
+    response = urlopen(request)
+    df = pd.read_csv(io.StringIO(gzip.decompress(response.read()).decode("utf-8")), usecols=usecols)
     if rename_cols:
-        df.rename(columns=rename_cols)
+        df.rename(columns=rename_cols, inplace=True)
     df["date"] = pd.to_datetime(df["date"])
     return df
 
@@ -239,6 +241,7 @@ def plot_scatter_CFR(data):
     fig = px.scatter(df_states[df_states.data > datetime.date(2020, 3, 15)], x="Casos Confirmados",
                      y="Mortalidade", size="Mortes Acumuladas",
                      color="state",
+                     opacity=0.6,
                      #                  animation_frame="data",
                      hover_name="data", log_x=True, log_y=False, size_max=60)
     st.plotly_chart(fig)
