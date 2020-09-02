@@ -7,21 +7,25 @@ import streamlit as st
 import episem
 import requests
 import io
+import gzip
+from urllib.request import Request, urlopen
 
 import settings
 
 ### data sources
-BRASIL_IO_COVID19 = "https://brasil.io/dataset/covid19/caso_full/?format=csv"
+BRASIL_IO_COVID19 = "https://data.brasil.io/dataset/covid19/caso_full.csv.gz"
 BRASIL_IO_CART = "https://brasil.io/dataset/covid19/obito_cartorio?format=csv"
 
 
 @st.cache(ttl=settings.CACHE_TTL)
 def get_data():
-    brasil_io_url = BRASIL_IO_COVID19
-    res = requests.get(brasil_io_url)
-    file_object = io.StringIO(res.content.decode('utf-8'))
-    cases = pd.read_csv(file_object).rename(
-        columns={"last_available_confirmed": "Casos Confirmados", "last_available_deaths": "Mortes Acumuladas"})
+    request = Request(BRASIL_IO_COVID19, headers={"User-Agent": "python-urllib"})
+    response = urlopen(request)
+    cases = pd.read_csv(io.StringIO(gzip.decompress(response.read()).decode("utf-8")),
+                        low_memory=False).rename(columns={"last_available_confirmed": "Casos Confirmados",
+                          "last_available_deaths": "Mortes Acumuladas"})
+
+
     cases["date"] = pd.to_datetime(cases["date"])
 
     return cases
@@ -136,13 +140,13 @@ def add_series(fig, data, x_variable, y_variable, region_name, is_log, label="Mo
 
     if region_name == 'Brasil':
         fig.add_scatter(x=data[x_variable], y=data[y_variable], name=label,
-                        hovertemplate=label+": %{y:.2f} Data: %{x}",
+                        hovertemplate=label + ": %{y:.2f} Data: %{x}",
                         )
     else:
         for region in list(data[region_name].unique()):
             plot_df = data.loc[data[region_name] == region]
             fig.add_scatter(x=plot_df[x_variable], y=plot_df[y_variable], name=f'{label} ' + region,
-                            hovertemplate=label+": %{y:.2f} Data: %{x}",
+                            hovertemplate=label + ": %{y:.2f} Data: %{x}",
                             )
 
     fig.update_traces(mode='lines+markers')

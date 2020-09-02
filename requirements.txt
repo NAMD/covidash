@@ -60,6 +60,7 @@ plotly==4.6.0
 pluggy==0.13.1
 prometheus-client==0.7.1
 prompt-toolkit==3.0.5
+protobuf==3.13.0
 ptyprocess==0.6.0
 py==1.8.1
 Pygments==2.6.1
@@ -82,7 +83,7 @@ Send2Trash==1.5.0
 Shapely==1.7.0
 six==1.14.0
 snuggs==1.4.7
-streamlit==0.57.3
+streamlit==0.66.0
 terminado==0.8.3
 testpath==0.4.4
 tornado==6.0.4
