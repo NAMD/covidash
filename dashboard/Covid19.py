@@ -80,7 +80,7 @@ Várias bibliotecas opensource foram utilizadas na construção deste dashboard:
 * [Epimodels](https://github.com/fccoelho/epimodels): Biblioteca de modelos matemáticos para simulação de epidemias.
 
         """)
-        dashboard_data.get_data()
+        data = dashboard_data.get_data()
     elif page == MODELS:
         st.title("Explore a dinâmica da COVID-19")
         st.sidebar.markdown("### Parâmetros do modelo")
@@ -217,23 +217,23 @@ onde $I_0$ é o número de infectados chegando diáriamente no município. Neste
         st.plotly_chart(figure)
 
         st.markdown("**Fonte**: [brasil.io](https://brasil.io/dataset/covid19/caso)")
-        st.markdown(r"""## Evolução da Mortalidade por Estado Brasileiro
-No gráfico abaixo, podemos ver como a mortalidade(Fração dos casos confirmados que foi a óbito) está evoluindo 
+        st.markdown(r"""## Evolução da Letalidade por Estado Brasileiro
+No gráfico abaixo, podemos ver como a letalidade(Fração dos casos confirmados que foi a óbito) está evoluindo 
 com o tempo em cada estado.
 
 É importante lembrar que estes números não representam todas as mortes por COVID-19 no país, pois apenas as mortes de 
 casos testados e confirmados são efetivamente contadas como mortes oficiais pela COVID-19. Devido à escassez de testes e 
 recomendações sobre quem deve ser testado, existe um viés nestas estimativas.
 
-Na figura abaixo o eixo vertical representa a mortalidade: $\frac{mortes}{casos}$, o eixo Horizontal representa o número 
+Na figura abaixo o eixo vertical representa a letalidade: $\frac{mortes}{casos}$, o eixo Horizontal representa o número 
 total de casos. O tamanho dos círculos representa o número total de mortes em cada estado. Este gráfico é mais fácil de 
 ser estudado em tela cheia. clicando na legenda é possível "ligar" e "desligar" a visualização dos estados individualmente,
-para facilitar a visualização dos demais. Passsndo o Mouse por sobre os circulos, podemos ler os valores da mortalidade e 
+para facilitar a visualização dos demais. Passando o mouse por sobre os circulos, podemos ler os valores da letalidade e 
 da data a que corresponde.
         """)
         dashboard_data.plot_scatter_CFR(data)
 
-        st.markdown('''## Excesso de mortes por estado
+        st.markdown('''## Excesso de Mortes por Estado
 Abaixo, exploramos o excesso de mortalidade nos estados que a COVID-19 representa, quando comparada à média dos 
 últimos 10 anos de mortes por doenças respiratórias.
         ''')
